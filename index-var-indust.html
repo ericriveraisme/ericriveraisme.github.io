@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Delta Data Defense | Industrial Grade Security</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        delta: {
+                            neon: '#22c55e',
+                            mid: '#15803d',
+                            deep: '#14532d',
+                            black: '#0a0a0a', /* Darker, purer black */
+                            metal: '#262626', /* Dark Grey for panels */
+                            light: '#f5f5f5',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Teko', 'sans-serif'],
+                        mono: ['Courier Prime', 'monospace'], /* New mono font for logs */
+                    },
+                    backgroundImage: {
+                        'hazard-pattern': "repeating-linear-gradient(45deg, #15803d, #15803d 10px, #14532d 10px, #14532d 20px)",
+                    }
+                }
+            }
+        }
+    </script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Teko:wght@400;500;600;700&family=Inter:wght@400;600;800&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background-color: #0a0a0a; 
+            color: #f5f5f5; 
+        }
+
+        /* HEAVY INDUSTRIAL BORDERS */
+        .industrial-panel {
+            background-color: #171717;
+            border-left: 4px solid #22c55e; /* Heavy left accent */
+            border-bottom: 1px solid #262626;
+        }
+
+        /* NOISE TEXTURE (Grit) */
+        .grit-bg {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.05'/%3E%3C/svg%3E");
+            pointer-events: none;
+            z-index: 50;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 10px; }
+        ::-webkit-scrollbar-track { background: #0a0a0a; }
+        ::-webkit-scrollbar-thumb { background: #15803d; }
+        ::-webkit-scrollbar-thumb:hover { background: #22c55e; }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col">
+
+    <!-- NOISE OVERLAY -->
+    <div class="grit-bg"></div>
+
+    <!-- HEAVY TOP BAR -->
+    <nav class="sticky top-0 z-40 bg-delta-black border-b-2 border-delta-deep">
+        <!-- Hazard Strip Top -->
+        <div class="h-2 w-full bg-hazard-pattern opacity-50"></div>
+        
+        <div class="container mx-auto px-6 h-20 flex justify-between items-center">
+            <!-- Brand -->
+            <a href="#" class="flex items-center gap-4">
+                <div class="w-12 h-12 bg-delta-deep flex items-center justify-center font-display font-bold text-2xl text-white">
+                    D3
+                </div>
+                <div>
+                    <h1 class="font-display text-3xl font-bold uppercase leading-none tracking-wide">Delta Data</h1>
+                    <div class="flex items-center gap-2">
+                         <div class="h-1 w-1 bg-delta-neon rounded-full"></div>
+                         <p class="font-mono text-[10px] text-delta-neon uppercase tracking-widest">Industrial Defense</p>
+                    </div>
+                </div>
+            </a>
+
+            <!-- Desktop Nav (Button Style) -->
+            <div class="hidden md:flex gap-1">
+                <a href="#projects" class="px-6 py-3 font-display font-bold text-xl uppercase tracking-wide hover:bg-delta-metal transition-colors">Deployments</a>
+                <a href="#about" class="px-6 py-3 font-display font-bold text-xl uppercase tracking-wide hover:bg-delta-metal transition-colors">Profile</a>
+                <a href="#contact" class="px-6 py-3 bg-delta-neon text-delta-black font-display font-bold text-xl uppercase tracking-wide hover:bg-white transition-colors">
+                    Secure Now
+                </a>
+            </div>
+
+             <!-- Mobile Toggle -->
+             <button id="mobile-menu-btn" class="md:hidden p-2 border border-delta-mid text-delta-neon">
+                <i data-lucide="menu" class="w-8 h-8"></i>
+            </button>
+        </div>
+        
+        <!-- Improved Mobile Menu (Overlay) -->
+        <div id="mobile-menu" class="hidden absolute top-full left-0 w-full bg-delta-black border-b-4 border-delta-neon shadow-2xl z-50">
+            <div class="flex flex-col">
+                <a href="#projects" class="p-6 border-b border-delta-metal font-display text-2xl uppercase hover:bg-delta-metal hover:text-delta-neon">Deployments</a>
+                <a href="#about" class="p-6 border-b border-delta-metal font-display text-2xl uppercase hover:bg-delta-metal hover:text-delta-neon">Profile</a>
+                <a href="#contact" class="p-6 bg-delta-deep font-display text-2xl uppercase text-white hover:bg-delta-mid">Initiate Protocol</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- HERO: The "Control Panel" Layout -->
+    <header class="container mx-auto px-6 py-20 relative z-10">
+        <div class="flex flex-col lg:flex-row gap-12 items-start">
+            
+            <!-- Left: Heavy Text -->
+            <div class="lg:w-2/3">
+                <div class="mb-6 inline-block bg-delta-metal px-3 py-1 border-l-4 border-delta-neon">
+                    <span class="font-mono text-xs text-white uppercase tracking-widest">Sector: NE Arkansas // Status: Operational</span>
+                </div>
+                <h1 class="font-display text-7xl sm:text-8xl md:text-9xl font-bold uppercase leading-[0.85] text-white mb-8">
+                    Hardened<br>
+                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-delta-neon to-delta-deep">Security</span><br>
+                    Protocols.
+                </h1>
+                <p class="text-xl text-gray-400 max-w-2xl border-l-2 border-delta-mid pl-6 mb-10 leading-relaxed font-light">
+                    We don't just patch software. We build digital fortifications for the agriculture, medical, and manufacturing industries of the Delta.
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4">
+                    <a href="#projects" class="inline-flex justify-center items-center px-8 py-4 bg-delta-neon text-delta-black font-bold font-display text-2xl uppercase tracking-widest hover:bg-white transition-colors">
+                        Inspect Systems <i data-lucide="arrow-down" class="ml-2 w-5 h-5"></i>
+                    </a>
+                    <a href="#about" class="inline-flex justify-center items-center px-8 py-4 border-2 border-delta-mid text-delta-neon font-bold font-display text-2xl uppercase tracking-widest hover:bg-delta-mid hover:text-white transition-colors">
+                        Clearance Level
+                    </a>
+                </div>
+            </div>
+
+            <!-- Right: Status Readout Card -->
+            <div class="lg:w-1/3 w-full bg-delta-metal border border-delta-mid p-6 relative mt-8 lg:mt-0">
+                <div class="absolute -top-3 -right-3 w-6 h-6 bg-delta-neon"></div> <!-- Industrial Accent -->
+                <div class="absolute -bottom-3 -left-3 w-6 h-6 bg-delta-deep"></div>
+
+                <h3 class="font-display text-3xl text-white border-b border-delta-deep pb-2 mb-4">THREAT LEVEL</h3>
+                
+                <div class="space-y-4">
+                    <div class="flex justify-between items-center">
+                        <span class="font-mono text-xs text-gray-400 uppercase">Ransomware</span>
+                        <div class="w-32 h-2 bg-black rounded-full overflow-hidden">
+                            <div class="h-full bg-red-500 w-[85%]"></div>
+                        </div>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <span class="font-mono text-xs text-gray-400 uppercase">Phishing</span>
+                        <div class="w-32 h-2 bg-black rounded-full overflow-hidden">
+                            <div class="h-full bg-orange-500 w-[60%]"></div>
+                        </div>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <span class="font-mono text-xs text-gray-400 uppercase">Hardware Failure</span>
+                        <div class="w-32 h-2 bg-black rounded-full overflow-hidden">
+                            <div class="h-full bg-yellow-500 w-[40%]"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-8 pt-4 border-t border-delta-deep">
+                    <p class="font-display text-2xl text-delta-neon mb-1">D3 PROTOCOL</p>
+                    <p class="text-xs text-gray-400">Active countermeasures deployed across 15+ regional sites.</p>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- PROJECTS: THE MANIFEST LAYOUT -->
+    <main id="projects" class="bg-delta-metal py-24 border-y border-delta-deep">
+        <div class="container mx-auto px-6">
+            <div class="flex items-end gap-4 mb-12">
+                <h2 class="font-display text-5xl text-white">DEPLOYMENT LOG</h2>
+                <span class="font-mono text-delta-neon mb-3">/// ACCESSING DATABASE</span>
+            </div>
+
+            <div class="space-y-4">
+                
+                <!-- Project 1 (Row Style) -->
+                <div class="industrial-panel p-6 group hover:bg-[#202020] transition-colors cursor-pointer">
+                    <div class="flex flex-col md:flex-row gap-6 md:items-center justify-between">
+                        <div class="flex items-start gap-6">
+                            <div class="hidden md:flex flex-col items-center justify-center w-16 h-16 bg-delta-black border border-delta-deep text-delta-neon shrink-0">
+                                <span class="font-display text-2xl font-bold">01</span>
+                            </div>
+                            <div>
+                                <div class="flex items-center gap-3 mb-1">
+                                    <h3 class="font-display text-3xl text-white group-hover:text-delta-neon transition-colors">DATA FORTRESS AUDITOR</h3>
+                                    <span class="bg-delta-neon text-delta-black text-[10px] font-bold px-2 py-0.5 uppercase">Live</span>
+                                </div>
+                                <p class="text-gray-400 font-mono text-xs max-w-xl">
+                                    TARGET: Regulated Industries. <br>
+                                    PAYLOAD: Offline-first SQL integrity checks & air-gapped backup verification.
+                                </p>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-4 border-t md:border-t-0 border-delta-deep pt-4 md:pt-0">
+                             <span class="font-display text-xl text-gray-500 group-hover:text-white uppercase">View Specs</span>
+                             <i data-lucide="arrow-right" class="text-delta-neon"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 2 -->
+                <div class="industrial-panel p-6 group hover:bg-[#202020] transition-colors cursor-pointer">
+                    <div class="flex flex-col md:flex-row gap-6 md:items-center justify-between">
+                        <div class="flex items-start gap-6">
+                            <div class="hidden md:flex flex-col items-center justify-center w-16 h-16 bg-delta-black border border-delta-deep text-delta-neon shrink-0">
+                                <span class="font-display text-2xl font-bold">02</span>
+                            </div>
+                            <div>
+                                <div class="flex items-center gap-3 mb-1">
+                                    <h3 class="font-display text-3xl text-white group-hover:text-delta-neon transition-colors">AG-TECH RESILIENCE</h3>
+                                    <span class="bg-delta-deep text-white text-[10px] font-bold px-2 py-0.5 uppercase">Beta</span>
+                                </div>
+                                <p class="text-gray-400 font-mono text-xs max-w-xl">
+                                    TARGET: Grain Elevators / Weigh Scales. <br>
+                                    PAYLOAD: Hardware failover protocols for legacy serial port systems.
+                                </p>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-4 border-t md:border-t-0 border-delta-deep pt-4 md:pt-0">
+                             <span class="font-display text-xl text-gray-500 group-hover:text-white uppercase">View Specs</span>
+                             <i data-lucide="arrow-right" class="text-delta-neon"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 3 -->
+                <div class="industrial-panel p-6 group hover:bg-[#202020] transition-colors cursor-pointer">
+                    <div class="flex flex-col md:flex-row gap-6 md:items-center justify-between">
+                        <div class="flex items-start gap-6">
+                            <div class="hidden md:flex flex-col items-center justify-center w-16 h-16 bg-delta-black border border-delta-deep text-delta-neon shrink-0">
+                                <span class="font-display text-2xl font-bold">03</span>
+                            </div>
+                            <div>
+                                <div class="flex items-center gap-3 mb-1">
+                                    <h3 class="font-display text-3xl text-white group-hover:text-delta-neon transition-colors">INSURANCE ATTESTATION</h3>
+                                    <span class="bg-delta-neon text-delta-black text-[10px] font-bold px-2 py-0.5 uppercase">Service</span>
+                                </div>
+                                <p class="text-gray-400 font-mono text-xs max-w-xl">
+                                    TARGET: Corporate Liability. <br>
+                                    PAYLOAD: MFA verification & End-of-Life software remediation reporting.
+                                </p>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-4 border-t md:border-t-0 border-delta-deep pt-4 md:pt-0">
+                             <span class="font-display text-xl text-gray-500 group-hover:text-white uppercase">View Specs</span>
+                             <i data-lucide="arrow-right" class="text-delta-neon"></i>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </main>
+
+    <!-- PROFILE SECTION -->
+    <section id="about" class="container mx-auto px-6 py-24 relative z-10">
+        <div class="bg-delta-neon p-1 w-20 mb-8"></div> <!-- Accent Bar -->
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-16">
+            <div>
+                <h2 class="font-display text-6xl text-white mb-6">OPERATOR:<br>ERIC RIVERA</h2>
+                <div class="font-mono text-sm text-delta-neon mb-6">
+                    > SPECIALIZATION: HYBRID INFRASTRUCTURE<br>
+                    > REGION: NORTHEAST ARKANSAS
+                </div>
+                <div class="flex gap-4">
+                     <button class="bg-white text-black p-3 hover:bg-gray-200 transition-colors"><i data-lucide="github" class="w-6 h-6"></i></button>
+                     <button class="bg-white text-black p-3 hover:bg-gray-200 transition-colors"><i data-lucide="linkedin" class="w-6 h-6"></i></button>
+                     <button class="bg-white text-black p-3 hover:bg-gray-200 transition-colors"><i data-lucide="mail" class="w-6 h-6"></i></button>
+                </div>
+            </div>
+            <div>
+                <p class="text-xl text-gray-300 font-light leading-relaxed mb-6">
+                    "I don't sell antivirus. I build resilience."
+                </p>
+                <p class="text-gray-400 leading-relaxed mb-6">
+                    Specializing in the unglamorous but critical side of IT. While the world moves to the cloud, I focus on the "Hybrid" reality that powers local industry—from dental offices to grain elevators.
+                </p>
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="border border-delta-deep p-4">
+                        <span class="block font-display text-3xl text-white">10+ YEARS</span>
+                        <span class="text-xs text-gray-500 uppercase">Field Experience</span>
+                    </div>
+                    <div class="border border-delta-deep p-4">
+                        <span class="block font-display text-3xl text-white">100%</span>
+                        <span class="text-xs text-gray-500 uppercase">Audit Success</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="bg-black py-12 border-t border-delta-mid">
+        <div class="container mx-auto px-6 flex flex-col md:flex-row justify-between items-center">
+            <div class="flex items-center gap-3 mb-4 md:mb-0">
+                <div class="w-8 h-8 bg-delta-deep flex items-center justify-center font-display font-bold text-white text-lg">D3</div>
+                <span class="font-display text-2xl text-white tracking-widest uppercase">Delta Data Defense</span>
+            </div>
+            <div class="text-right">
+                <p class="text-gray-500 text-xs font-mono uppercase tracking-wider">
+                    &copy; 2025 Systems Integrity Division.<br>
+                    Jonesboro, Arkansas.
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        lucide.createIcons();
+        
+        // Improved Mobile Menu Toggle
+        const btn = document.getElementById('mobile-menu-btn');
+        const menu = document.getElementById('mobile-menu');
+        
+        btn.addEventListener('click', () => {
+            menu.classList.toggle('hidden');
+        });
+    </script>
+</body>
+</html>
