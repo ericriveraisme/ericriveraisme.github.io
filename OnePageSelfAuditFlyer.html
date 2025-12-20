@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Cyber Compliance Checklist - Delta Data Defense</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Teko:wght@400;600;700&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        @media print {
+            body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+            .no-print { display: none; }
+        }
+        body { font-family: 'Inter', sans-serif; background: #fff; color: #1e293b; }
+        .font-display { font-family: 'Teko', sans-serif; }
+        .check-box { width: 20px; height: 20px; border: 2px solid #cbd5e1; border-radius: 4px; display: inline-block; margin-right: 8px; }
+    </style>
+</head>
+<body class="p-8 max-w-[8.5in] mx-auto border-t-[20px] border-[#14532d]"> <!-- Forest Green Top Border -->
+
+    <!-- HEADER -->
+    <header class="flex justify-between items-end mb-8">
+        <div>
+            <h1 class="font-display text-6xl font-bold text-[#14532d] uppercase leading-none tracking-wide">
+                Cyber <span class="text-[#22c55e]">Compliance</span><br>Checklist
+            </h1>
+            <p class="text-slate-500 font-bold tracking-widest uppercase mt-2 text-xs">2025 Underwriting Standards Edition</p>
+        </div>
+        <div class="text-right">
+            <div class="text-3xl font-display font-bold text-slate-800">DELTA DATA DEFENSE</div>
+            <p class="text-xs text-slate-400">Risk & Audit Specialists | Northeast Arkansas</p>
+        </div>
+    </header>
+
+    <!-- INTRO -->
+    <div class="bg-slate-100 p-4 rounded-lg mb-8 border-l-8 border-[#22c55e]">
+        <p class="font-bold text-lg text-slate-800 mb-1">Will your claim be denied?</p>
+        <p class="text-slate-600 text-sm">Insurance carriers mandate these <strong>"Big 5" Controls</strong>. If you answer "Yes" on your application but can't prove it technically, your policy may be void. Use this 60-second self-audit.</p>
+    </div>
+
+    <!-- THE CHECKLIST -->
+    <div class="space-y-6">
+
+        <!-- ITEM 1 -->
+        <div class="flex items-start">
+            <div class="w-14 pt-1 text-center">
+                <span class="font-display text-3xl text-slate-300 font-bold">01</span>
+            </div>
+            <div class="flex-1">
+                <h3 class="font-bold text-lg text-slate-900 uppercase">The "Phone Buzz" Test (MFA)</h3>
+                <p class="text-sm text-slate-500 mb-2">Requirement: Multi-Factor Authentication on Email, VPN, & Admin access.</p>
+                <div class="flex gap-6 text-sm">
+                    <label class="flex items-center cursor-pointer"><div class="check-box"></div> <span class="font-bold text-slate-700">YES (Phone Prompts)</span></label>
+                    <label class="flex items-center cursor-pointer"><div class="check-box border-red-400"></div> <span class="font-bold text-red-600">NO (Password Only)</span></label>
+                </div>
+            </div>
+        </div>
+
+        <!-- ITEM 2 -->
+        <div class="flex items-start">
+            <div class="w-14 pt-1 text-center">
+                <span class="font-display text-3xl text-slate-300 font-bold">02</span>
+            </div>
+            <div class="flex-1">
+                <h3 class="font-bold text-lg text-slate-900 uppercase">The "Disconnect" Test (Backups)</h3>
+                <p class="text-sm text-slate-500 mb-2">Requirement: Backups must be Immutable (Cloud) or Air-Gapped (Offline).</p>
+                <div class="flex gap-6 text-sm">
+                    <label class="flex items-center cursor-pointer"><div class="check-box"></div> <span class="font-bold text-slate-700">YES (Cloud/Unplugged)</span></label>
+                    <label class="flex items-center cursor-pointer"><div class="check-box border-red-400"></div> <span class="font-bold text-red-600">NO (Plugged In)</span></label>
+                </div>
+            </div>
+        </div>
+
+        <!-- ITEM 3 -->
+        <div class="flex items-start">
+            <div class="w-14 pt-1 text-center">
+                <span class="font-display text-3xl text-slate-300 font-bold">03</span>
+            </div>
+            <div class="flex-1">
+                <h3 class="font-bold text-lg text-slate-900 uppercase">The "Ghost" Test (Privileged Access)</h3>
+                <p class="text-sm text-slate-500 mb-2">Requirement: No generic "Temp" or old "Vendor" accounts in Admin groups.</p>
+                <div class="flex gap-6 text-sm">
+                    <label class="flex items-center cursor-pointer"><div class="check-box"></div> <span class="font-bold text-slate-700">YES (Audited)</span></label>
+                    <label class="flex items-center cursor-pointer"><div class="check-box border-red-400"></div> <span class="font-bold text-red-600">UNSURE (Needs Scan)</span></label>
+                </div>
+            </div>
+        </div>
+
+        <!-- ITEM 4 -->
+        <div class="flex items-start">
+            <div class="w-14 pt-1 text-center">
+                <span class="font-display text-3xl text-slate-300 font-bold">04</span>
+            </div>
+            <div class="flex-1">
+                <h3 class="font-bold text-lg text-slate-900 uppercase">The "Legacy" Test (End of Life)</h3>
+                <p class="text-sm text-slate-500 mb-2">Requirement: No software past End-of-Life (e.g., Windows 2012 / SQL 2012).</p>
+                <div class="flex gap-6 text-sm">
+                    <label class="flex items-center cursor-pointer"><div class="check-box"></div> <span class="font-bold text-slate-700">NO (Fully Updated)</span></label>
+                    <label class="flex items-center cursor-pointer"><div class="check-box border-red-400"></div> <span class="font-bold text-red-600">YES (Uninsurable)</span></label>
+                </div>
+            </div>
+        </div>
+
+        <!-- ITEM 5 (NEW) -->
+        <div class="flex items-start">
+            <div class="w-14 pt-1 text-center">
+                <span class="font-display text-3xl text-slate-300 font-bold">05</span>
+            </div>
+            <div class="flex-1">
+                <h3 class="font-bold text-lg text-slate-900 uppercase">The "Shield" Test (EDR)</h3>
+                <p class="text-sm text-slate-500 mb-2">Requirement: Next-Gen Antivirus (EDR) required. Norton/McAfee is not enough.</p>
+                <div class="flex gap-6 text-sm">
+                    <label class="flex items-center cursor-pointer"><div class="check-box"></div> <span class="font-bold text-slate-700">YES (SentinelOne/Crowdstrike)</span></label>
+                    <label class="flex items-center cursor-pointer"><div class="check-box border-red-400"></div> <span class="font-bold text-red-600">NO (Basic AV)</span></label>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- FOOTER / CTA -->
+    <div class="mt-12 border-t-2 border-slate-200 pt-6 flex justify-between items-center">
+        <div>
+            <p class="font-bold text-slate-900 text-lg">Did you check "NO" or "UNSURE"?</p>
+            <p class="text-sm text-slate-500">I can verify these technically in 60 minutes so you can sign your renewal with confidence.</p>
+        </div>
+        <div class="bg-[#14532d] text-white px-6 py-3 rounded text-center shadow-lg">
+            <p class="text-xs font-bold uppercase tracking-wider text-[#22c55e] mb-1">Book Your Audit</p>
+            <p class="font-display text-3xl font-bold">(870) 555-0123</p>
+        </div>
+    </div>
+
+    <!-- PRINT BUTTON (Hidden on Print) -->
+    <div class="fixed bottom-10 right-10 no-print">
+        <button onclick="window.print()" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded shadow-xl flex items-center gap-2">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" /></svg>
+            Print Checklist
+        </button>
+    </div>
+
+</body>
+</html>
