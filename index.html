@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eric Rivera | Security & Risk Compliance</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #0f172a; color: #e2e8f0; }
+        .glass-panel { background: rgba(30, 41, 59, 0.7); backdrop-filter: blur(10px); border: 1px solid rgba(148, 163, 184, 0.1); }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col">
+
+    <!-- HERO SECTION -->
+    <header class="py-20 px-6 text-center relative overflow-hidden">
+        <div class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-10 z-0"></div>
+        <div class="absolute top-0 left-1/2 w-[800px] h-[500px] bg-blue-500 opacity-10 blur-[120px] rounded-full -translate-x-1/2 -translate-y-1/2 z-0"></div>
+        
+        <div class="relative z-10 max-w-4xl mx-auto">
+            <h1 class="text-5xl md:text-7xl font-bold tracking-tight text-white mb-6">
+                Security. Audit. <span class="text-blue-500">Compliance.</span>
+            </h1>
+            <p class="text-xl text-slate-400 max-w-2xl mx-auto leading-relaxed">
+                Developing tools and strategies to bridge the gap between legacy infrastructure and modern risk management.
+            </p>
+        </div>
+    </header>
+
+    <!-- MAIN PROJECTS GRID -->
+    <main class="flex-grow container mx-auto px-6 pb-20">
+        
+        <!-- SECTION TITLE -->
+        <div class="flex items-center gap-4 mb-10 max-w-5xl mx-auto">
+            <div class="h-px bg-slate-700 flex-grow"></div>
+            <span class="text-slate-500 text-sm font-bold tracking-widest uppercase">Current Initiatives</span>
+            <div class="h-px bg-slate-700 flex-grow"></div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+
+            <!-- PROJECT 1: DATA FORTRESS (The Flagship) -->
+            <div class="glass-panel p-8 rounded-2xl hover:border-blue-500/30 transition-all duration-300 group">
+                <div class="flex justify-between items-start mb-6">
+                    <div class="p-3 bg-blue-500/10 rounded-lg text-blue-400 group-hover:text-blue-300 transition-colors">
+                        <i data-lucide="shield-check" class="w-8 h-8"></i>
+                    </div>
+                    <span class="px-3 py-1 bg-green-500/10 text-green-400 text-xs font-bold rounded-full border border-green-500/20">LIVE / DEPLOYED</span>
+                </div>
+                <h3 class="text-2xl font-bold text-white mb-3">Data Fortress Auditor</h3>
+                <p class="text-slate-400 mb-6 leading-relaxed">
+                    An offline-first security auditing application designed for regulated industries (Healthcare, Legal, AgTech). 
+                    Automates the detection of "Silent Failures" in hybrid server environments, focusing on SQL integrity, Active Directory hygiene, and immutable backup verification.
+                </p>
+                <div class="flex flex-wrap gap-2 mb-6">
+                    <span class="px-2 py-1 bg-slate-800 text-slate-400 text-xs rounded border border-slate-700">React</span>
+                    <span class="px-2 py-1 bg-slate-800 text-slate-400 text-xs rounded border border-slate-700">Compliance Logic</span>
+                    <span class="px-2 py-1 bg-slate-800 text-slate-400 text-xs rounded border border-slate-700">Local Processing</span>
+                </div>
+                <a href="https://ericriveraisme.github.io/DataFortress/" class="inline-flex items-center text-blue-400 hover:text-blue-300 font-semibold transition-colors">
+                    View Deployment <i data-lucide="arrow-right" class="w-4 h-4 ml-2"></i>
+                </a>
+            </div>
+
+            <!-- PROJECT 2: CYBER INSURANCE READINESS (The Service) -->
+            <div class="glass-panel p-8 rounded-2xl hover:border-purple-500/30 transition-all duration-300 group">
+                <div class="flex justify-between items-start mb-6">
+                    <div class="p-3 bg-purple-500/10 rounded-lg text-purple-400 group-hover:text-purple-300 transition-colors">
+                        <i data-lucide="file-check" class="w-8 h-8"></i>
+                    </div>
+                    <span class="px-3 py-1 bg-purple-500/10 text-purple-400 text-xs font-bold rounded-full border border-purple-500/20">ACTIVE CONSULTING</span>
+                </div>
+                <h3 class="text-2xl font-bold text-white mb-3">Pre-Bind Assessment Protocol</h3>
+                <p class="text-slate-400 mb-6 leading-relaxed">
+                    A standardized audit framework for businesses seeking Cyber Liability Insurance. 
+                    Translates technical risk (MFA gaps, EOL software) into underwriting-ready "Attestation Letters" to prevent claim denial and reduce premiums.
+                </p>
+                <div class="flex flex-wrap gap-2">
+                    <span class="px-2 py-1 bg-slate-800 text-slate-400 text-xs rounded border border-slate-700">Risk Analysis</span>
+                    <span class="px-2 py-1 bg-slate-800 text-slate-400 text-xs rounded border border-slate-700">HIPAA / GLBA</span>
+                </div>
+            </div>
+
+            <!-- PROJECT 3: AG-TECH RESILIENCE (The Niche) -->
+            <div class="glass-panel p-8 rounded-2xl hover:border-yellow-500/30 transition-all duration-300 group md:col-span-2">
+                <div class="flex justify-between items-start mb-6">
+                    <div class="p-3 bg-yellow-500/10 rounded-lg text-yellow-400 group-hover:text-yellow-300 transition-colors">
+                        <i data-lucide="database" class="w-8 h-8"></i>
+                    </div>
+                    <span class="px-3 py-1 bg-slate-700 text-slate-300 text-xs font-bold rounded-full border border-slate-600">IN DEVELOPMENT</span>
+                </div>
+                <h3 class="text-2xl font-bold text-white mb-3">Agricultural Data Integrity ("Scale House" Ops)</h3>
+                <p class="text-slate-400 mb-4 leading-relaxed max-w-3xl">
+                    Focusing on the unique "Hybrid" needs of the Northeast Arkansas agriculture sector. 
+                    Ensuring harvest-critical systems (Grain Elevators, Weigh Scales, Yield Maps) are resilient against local hardware failure and ransomware during peak operational windows.
+                </p>
+            </div>
+
+        </div>
+
+        <!-- ABOUT SECTION -->
+        <div class="mt-20 max-w-4xl mx-auto">
+            <div class="flex items-center gap-4 mb-10">
+                <div class="h-px bg-slate-700 flex-grow"></div>
+                <span class="text-slate-500 text-sm font-bold tracking-widest uppercase">About The Developer</span>
+                <div class="h-px bg-slate-700 flex-grow"></div>
+            </div>
+
+            <div class="glass-panel p-10 rounded-2xl flex flex-col md:flex-row gap-10 items-center">
+                <div class="w-24 h-24 bg-slate-700 rounded-full flex-shrink-0 flex items-center justify-center text-slate-400 overflow-hidden">
+                    <!-- Placeholder for Avatar -->
+                    <i data-lucide="user" class="w-12 h-12"></i> 
+                </div>
+                <div>
+                    <h2 class="text-3xl font-bold text-white mb-4">Eric Rivera</h2>
+                    <p class="text-slate-400 leading-relaxed mb-4">
+                        With over a decade of hands-on experience in systems administration, I specialize in the unglamorous but critical side of IT: **Integrity & Resilience**. While the world moves to the cloud, I focus on the "Hybrid" reality that powers local industry—from dental offices to grain elevators.
+                    </p>
+                    <p class="text-slate-400 leading-relaxed">
+                        My goal is simple: To provide businesses in Northeast Arkansas with the sophisticated risk analysis usually reserved for Fortune 500 companies, packaged in a way that makes sense for an Office Manager. I don't just fix computers; I ensure your business is insurable, compliant, and ready for whatever comes next.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="border-t border-slate-800 py-10 text-center">
+        <p class="text-slate-500 text-sm">
+            &copy; 2025 Eric Rivera. All Rights Reserved. <br>
+            <span class="opacity-50">Deployed via GitHub Pages</span>
+        </p>
+        <div class="flex justify-center gap-6 mt-6">
+            <a href="#" class="text-slate-400 hover:text-white transition-colors"><i data-lucide="github" class="w-5 h-5"></i></a>
+            <a href="#" class="text-slate-400 hover:text-white transition-colors"><i data-lucide="linkedin" class="w-5 h-5"></i></a>
+            <a href="#" class="text-slate-400 hover:text-white transition-colors"><i data-lucide="mail" class="w-5 h-5"></i></a>
+        </div>
+    </footer>
+
+    <!-- Initialize Icons -->
+    <script>
+        lucide.createIcons();
+    </script>
+</body>
+</html>
