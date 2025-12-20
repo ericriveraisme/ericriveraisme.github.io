@@ -3,170 +3,345 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Eric Rivera | Security & Risk Compliance</title>
+    <title>Delta Data Defense | Systems Integrity</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        delta: {
+                            neon: '#22c55e',
+                            mid: '#15803d',
+                            deep: '#14532d',
+                            black: '#022c22',
+                            slate: '#94a3b8', /* Lightened for better contrast on dark */
+                            surface: '#03382c', /* Slightly lighter background for cards */
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Teko', 'sans-serif'],
+                    },
+                    backgroundImage: {
+                        'grid-pattern': "linear-gradient(to right, #14532d 1px, transparent 1px), linear-gradient(to bottom, #14532d 1px, transparent 1px)",
+                    }
+                }
+            }
+        }
+    </script>
     <script src="https://unpkg.com/lucide@latest"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Teko:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;800&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Inter', sans-serif; background-color: #0f172a; color: #e2e8f0; }
-        .glass-panel { background: rgba(30, 41, 59, 0.7); backdrop-filter: blur(10px); border: 1px solid rgba(148, 163, 184, 0.1); }
-        html { scroll-behavior: smooth; }
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background-color: #022c22; 
+            color: #e2e8f0; 
+        }
+        
+        /* TECHNICAL GRID BACKGROUND */
+        .tech-grid {
+            background-size: 40px 40px;
+            background-image: linear-gradient(to right, rgba(20, 83, 45, 0.1) 1px, transparent 1px), 
+                              linear-gradient(to bottom, rgba(20, 83, 45, 0.1) 1px, transparent 1px);
+            mask-image: linear-gradient(to bottom, black 40%, transparent 100%);
+        }
+
+        /* SHARP UI BORDER */
+        .hud-card {
+            background-color: rgba(2, 44, 34, 0.8);
+            border: 1px solid #14532d;
+            position: relative;
+        }
+        /* Corner Accents */
+        .hud-card::before {
+            content: '';
+            position: absolute;
+            top: -1px; left: -1px;
+            width: 10px; height: 10px;
+            border-top: 2px solid #22c55e;
+            border-left: 2px solid #22c55e;
+        }
+        .hud-card::after {
+            content: '';
+            position: absolute;
+            bottom: -1px; right: -1px;
+            width: 10px; height: 10px;
+            border-bottom: 2px solid #22c55e;
+            border-right: 2px solid #22c55e;
+        }
+
+        .text-glow {
+            text-shadow: 0 0 20px rgba(34, 197, 94, 0.3);
+        }
     </style>
 </head>
-<body class="min-h-screen flex flex-col">
+<body class="min-h-screen flex flex-col selection:bg-delta-neon selection:text-delta-black">
 
-    <!-- NAVIGATION BAR -->
-    <nav class="glass-panel sticky top-0 z-50 border-b border-slate-800">
-        <div class="container mx-auto px-6 py-4">
-            <div class="flex justify-between items-center">
-                <a href="#" class="text-xl font-bold text-white">Eric Rivera</a>
-                <div class="hidden md:flex gap-8">
-                    <a href="#home" class="text-slate-400 hover:text-white transition-colors">Home</a>
-                    <a href="#projects" class="text-slate-400 hover:text-white transition-colors">Projects</a>
-                    <a href="#about" class="text-slate-400 hover:text-white transition-colors">About</a>
-                    <a href="#contact" class="text-slate-400 hover:text-white transition-colors">Contact</a>
+    <!-- BACKGROUND GRID LAYER -->
+    <div class="fixed inset-0 tech-grid pointer-events-none z-0"></div>
+
+    <!-- NAVIGATION (Minimalist / Tech) -->
+    <nav class="sticky top-0 z-50 bg-delta-black/90 backdrop-blur-md border-b border-delta-deep">
+        <div class="container mx-auto px-6 h-20 flex justify-between items-center">
+            <!-- Brand -->
+            <a href="#" class="flex items-center gap-3 group">
+                <div class="relative w-12 h-12 flex items-center justify-center border border-delta-mid bg-delta-surface group-hover:border-delta-neon transition-colors">
+                    <span class="font-display font-bold text-2xl text-white pt-1">D3</span>
+                    <!-- Tiny decor dots -->
+                    <div class="absolute -top-1 -right-1 w-1 h-1 bg-delta-neon"></div>
+                    <div class="absolute -bottom-1 -left-1 w-1 h-1 bg-delta-neon"></div>
                 </div>
-                <button id="mobile-menu-btn" class="md:hidden text-slate-400 hover:text-white">
-                    <i data-lucide="menu" class="w-6 h-6"></i>
-                </button>
+                <div class="flex items-center gap-2 md:gap-3">
+                    <div class="flex flex-col">
+                        <span class="font-display text-xl md:text-2xl font-bold text-white leading-none tracking-wide uppercase">Delta Data</span>
+                        <span class="font-sans text-[9px] md:text-[10px] font-bold text-delta-mid uppercase tracking-[0.2em] group-hover:text-delta-neon transition-colors">Defense Systems</span>
+                    </div>
+                    <svg width="40" height="40" viewBox="0 0 200 160" fill="none" class="hidden sm:block md:w-12 md:h-12 flex-shrink-0">
+                        <path d="M100 20L40 130H85L115 70L100 20Z" fill="#15803d"/> 
+                        <path d="M115 20L175 130H130L100 70L115 20Z" fill="#14532d"/>
+                    </svg>
+                </div>
+            </a>
+
+            <!-- Desktop Nav -->
+            <div class="hidden md:flex items-center gap-8">
+                <a href="#services" class="text-sm font-medium text-delta-slate hover:text-white transition-colors uppercase tracking-wider">Services</a>
+                <a href="#projects" class="text-sm font-medium text-delta-slate hover:text-white transition-colors uppercase tracking-wider">Deployments</a>
+                <a href="#about" class="text-sm font-medium text-delta-slate hover:text-white transition-colors uppercase tracking-wider">Profile</a>
+                <a href="#contact" class="px-5 py-2 bg-delta-deep hover:bg-delta-mid text-white text-sm font-bold uppercase tracking-wider transition-all border border-delta-mid hover:border-delta-neon">
+                    Initiate Audit
+                </a>
             </div>
-            <!-- Mobile Menu -->
-            <div id="mobile-menu" class="hidden md:hidden mt-4 pb-2">
-                <a href="#home" class="block py-2 text-slate-400 hover:text-white transition-colors">Home</a>
-                <a href="#projects" class="block py-2 text-slate-400 hover:text-white transition-colors">Projects</a>
-                <a href="#about" class="block py-2 text-slate-400 hover:text-white transition-colors">About</a>
-                <a href="#contact" class="block py-2 text-slate-400 hover:text-white transition-colors">Contact</a>
+            
+             <!-- Mobile Menu Button -->
+            <button id="mobile-menu-btn" class="md:hidden text-delta-neon">
+                <i data-lucide="menu" class="w-8 h-8"></i>
+            </button>
+        </div>
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden border-t border-delta-deep bg-delta-black/95">
+            <div class="container mx-auto px-6 py-4 flex flex-col gap-4">
+                <a href="#services" class="text-sm font-medium text-delta-slate hover:text-white transition-colors uppercase tracking-wider py-2">Services</a>
+                <a href="#projects" class="text-sm font-medium text-delta-slate hover:text-white transition-colors uppercase tracking-wider py-2">Deployments</a>
+                <a href="#about" class="text-sm font-medium text-delta-slate hover:text-white transition-colors uppercase tracking-wider py-2">Profile</a>
+                <a href="#contact" class="px-5 py-3 bg-delta-deep hover:bg-delta-mid text-white text-sm font-bold uppercase tracking-wider transition-all border border-delta-mid hover:border-delta-neon text-center">Initiate Audit</a>
             </div>
         </div>
     </nav>
 
-    <!-- HERO SECTION -->
-    <header id="home" class="py-20 px-6 text-center relative overflow-hidden">
-        <div class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-10 z-0"></div>
-        <div class="absolute top-0 left-1/2 w-[800px] h-[500px] bg-blue-500 opacity-10 blur-[120px] rounded-full -translate-x-1/2 -translate-y-1/2 z-0"></div>
-        
-        <div class="relative z-10 max-w-4xl mx-auto">
-            <h1 class="text-5xl md:text-7xl font-bold tracking-tight text-white mb-6">
-                Security. Audit. <span class="text-blue-500">Compliance.</span>
-            </h1>
-            <p class="text-xl text-slate-400 max-w-2xl mx-auto leading-relaxed">
-                Developing tools and strategies to bridge the gap between legacy infrastructure and modern risk management.
-            </p>
+    <!-- HERO SECTION (Architectural Layout) -->
+    <header class="relative z-10 container mx-auto px-6 py-16 md:py-24 lg:py-32">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 md:gap-12 items-center">
+            
+            <!-- Text Content -->
+            <div class="lg:col-span-7">
+                <div class="inline-flex items-center gap-2 mb-6 px-3 py-1 border border-delta-deep bg-delta-black/50">
+                    <div class="w-2 h-2 bg-delta-neon rounded-full animate-pulse"></div>
+                    <span class="font-mono text-xs text-delta-neon tracking-widest uppercase">System Status: Active</span>
+                </div>
+                <h1 class="font-display text-6xl md:text-8xl font-bold text-white leading-[0.9] mb-8 text-glow">
+                    ARCHITECTURE<br>
+                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-delta-neon to-delta-deep">OF RESILIENCE</span>
+                </h1>
+                <p class="text-lg text-delta-slate max-w-xl leading-relaxed mb-10 border-l-2 border-delta-deep pl-6">
+                    We bridge the gap between legacy infrastructure and modern risk management. Specialized security protocols for Northeast Arkansas's Agriculture, Medical, and Legal sectors.
+                </p>
+                <div class="flex flex-wrap gap-4">
+                    <button class="group relative px-8 py-4 bg-delta-neon text-delta-black font-bold uppercase tracking-widest overflow-hidden">
+                        <span class="relative z-10">View Capabilities</span>
+                        <div class="absolute inset-0 bg-white transform -translate-x-full group-hover:translate-x-0 transition-transform duration-300"></div>
+                    </button>
+                    <button class="group relative px-8 py-4 border border-delta-mid text-white font-bold uppercase tracking-widest overflow-hidden">
+                        <span class="relative z-10">Documentation</span>
+                        <div class="absolute inset-0 bg-delta-mid transform -translate-x-full group-hover:translate-x-0 transition-transform duration-300"></div>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Visual Graphic (CSS Grid Visualization) -->
+            <div class="lg:col-span-5 relative hidden lg:block">
+                <div class="hud-card p-6 h-[400px] flex flex-col justify-between">
+                    <!-- Fake Data Viz -->
+                    <div class="flex justify-between items-end border-b border-delta-deep pb-4">
+                        <span class="font-display text-4xl text-white">D3-PROTOCOL</span>
+                        <span class="font-mono text-xs text-delta-neon">V2.4.0</span>
+                    </div>
+                    
+                    <div class="grid grid-cols-3 gap-2 my-auto">
+                        <div class="h-24 bg-delta-deep/20 border border-delta-deep/50 flex items-center justify-center">
+                            <i data-lucide="shield" class="text-delta-deep"></i>
+                        </div>
+                        <div class="h-24 bg-delta-deep/20 border border-delta-deep/50 flex items-center justify-center">
+                             <i data-lucide="server" class="text-delta-deep"></i>
+                        </div>
+                        <div class="h-24 bg-delta-deep/40 border border-delta-neon/50 flex items-center justify-center relative">
+                             <i data-lucide="lock" class="text-delta-neon"></i>
+                             <div class="absolute top-1 right-1 w-1.5 h-1.5 bg-delta-neon"></div>
+                        </div>
+                        <!-- More grid items -->
+                        <div class="h-24 bg-delta-deep/20 border border-delta-deep/50 col-span-2"></div>
+                        <div class="h-24 bg-delta-deep/20 border border-delta-deep/50"></div>
+                    </div>
+
+                    <div class="font-mono text-[10px] text-delta-slate uppercase flex justify-between">
+                        <span>Packets: Secure</span>
+                        <span>Latency: 12ms</span>
+                    </div>
+                </div>
+            </div>
         </div>
     </header>
 
-    <!-- MAIN PROJECTS GRID -->
-    <main class="flex-grow container mx-auto px-6 pb-20">
-        
-        <!-- SECTION TITLE -->
-        <div id="projects" class="flex items-center gap-4 mb-10 max-w-5xl mx-auto">
-            <div class="h-px bg-slate-700 flex-grow"></div>
-            <span class="text-slate-500 text-sm font-bold tracking-widest uppercase">Current Initiatives</span>
-            <div class="h-px bg-slate-700 flex-grow"></div>
+    <!-- BENTO GRID PROJECTS -->
+    <main id="projects" class="container mx-auto px-6 py-20 relative z-10">
+        <div class="flex items-end justify-between mb-12">
+            <div>
+                <h2 class="font-display text-4xl text-white mb-2">ACTIVE DEPLOYMENTS</h2>
+                <div class="h-1 w-20 bg-delta-neon"></div>
+            </div>
+            <span class="font-mono text-xs text-delta-slate hidden md:block">// SCROLL FOR DATA</span>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
-
-            <!-- PROJECT 1: DATA FORTRESS (The Flagship) -->
-            <div class="glass-panel p-8 rounded-2xl hover:border-blue-500/30 transition-all duration-300 group">
-                <div class="flex justify-between items-start mb-6">
-                    <div class="p-3 bg-blue-500/10 rounded-lg text-blue-400 group-hover:text-blue-300 transition-colors">
-                        <i data-lucide="shield-check" class="w-8 h-8"></i>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 auto-rows-[300px]">
+            
+            <!-- Project 1: Large Featured -->
+            <div class="md:col-span-2 hud-card p-8 group transition-all hover:bg-delta-surface relative">
+                <div class="flex justify-between items-start h-full flex-col">
+                    <div class="w-full flex justify-between">
+                        <div class="p-3 bg-delta-black border border-delta-deep">
+                            <i data-lucide="database" class="w-6 h-6 text-delta-neon"></i>
+                        </div>
+                        <span class="font-mono text-xs text-delta-slate">PROJECT 01</span>
                     </div>
-                    <span class="px-3 py-1 bg-green-500/10 text-green-400 text-xs font-bold rounded-full border border-green-500/20">LIVE / DEPLOYED</span>
-                </div>
-                <h3 class="text-2xl font-bold text-white mb-3">Data Fortress Auditor</h3>
-                <p class="text-slate-400 mb-6 leading-relaxed">
-                    An offline-first security auditing application designed for regulated industries (Healthcare, Legal, AgTech). 
-                    Automates the detection of "Silent Failures" in hybrid server environments, focusing on SQL integrity, Active Directory hygiene, and immutable backup verification.
-                </p>
-                <div class="flex flex-wrap gap-2 mb-6">
-                    <span class="px-2 py-1 bg-slate-800 text-slate-400 text-xs rounded border border-slate-700">React</span>
-                    <span class="px-2 py-1 bg-slate-800 text-slate-400 text-xs rounded border border-slate-700">Compliance Logic</span>
-                    <span class="px-2 py-1 bg-slate-800 text-slate-400 text-xs rounded border border-slate-700">Local Processing</span>
-                </div>
-                <a href="https://ericriveraisme.github.io/DataFortress/" class="inline-flex items-center text-blue-400 hover:text-blue-300 font-semibold transition-colors">
-                    View Deployment <i data-lucide="arrow-right" class="w-4 h-4 ml-2"></i>
-                </a>
-            </div>
-
-            <!-- PROJECT 2: CYBER INSURANCE READINESS (The Service) -->
-            <div class="glass-panel p-8 rounded-2xl hover:border-purple-500/30 transition-all duration-300 group">
-                <div class="flex justify-between items-start mb-6">
-                    <div class="p-3 bg-purple-500/10 rounded-lg text-purple-400 group-hover:text-purple-300 transition-colors">
-                        <i data-lucide="file-check" class="w-8 h-8"></i>
+                    <div class="mb-16 md:mb-20">
+                        <h3 class="font-display text-3xl text-white mb-2 group-hover:text-delta-neon transition-colors">Data Fortress Auditor</h3>
+                        <p class="text-delta-slate text-sm max-w-md">
+                            Offline-first security auditing for regulated industries. Automates SQL integrity checks and immutable backup verification for "Air-Gapped" environments.
+                        </p>
                     </div>
-                    <span class="px-3 py-1 bg-purple-500/10 text-purple-400 text-xs font-bold rounded-full border border-purple-500/20">ACTIVE CONSULTING</span>
-                </div>
-                <h3 class="text-2xl font-bold text-white mb-3">Pre-Bind Assessment Protocol</h3>
-                <p class="text-slate-400 mb-6 leading-relaxed">
-                    A standardized audit framework for businesses seeking Cyber Liability Insurance. 
-                    Translates technical risk (MFA gaps, EOL software) into underwriting-ready "Attestation Letters" to prevent claim denial and reduce premiums.
-                </p>
-                <div class="flex flex-wrap gap-2">
-                    <span class="px-2 py-1 bg-slate-800 text-slate-400 text-xs rounded border border-slate-700">Risk Analysis</span>
-                    <span class="px-2 py-1 bg-slate-800 text-slate-400 text-xs rounded border border-slate-700">HIPAA / GLBA</span>
+                    <a href="#" class="inline-flex items-center text-xs font-bold uppercase tracking-widest text-white border-b border-delta-neon pb-1 hover:text-delta-neon">
+                        Access Case Study <i data-lucide="arrow-up-right" class="w-3 h-3 ml-2"></i>
+                    </a>
+                    <div class="absolute bottom-4 sm:bottom-6 md:bottom-8 right-4 sm:right-6 md:right-8">
+                        <span class="text-[10px] md:text-xs font-mono text-delta-neon bg-delta-deep/20 px-2 py-1 inline-block border border-delta-deep/50">STATUS: LIVE</span>
+                    </div>
                 </div>
             </div>
 
-            <!-- PROJECT 3: AG-TECH RESILIENCE (The Niche) -->
-            <div class="glass-panel p-8 rounded-2xl hover:border-yellow-500/30 transition-all duration-300 group md:col-span-2">
-                <div class="flex justify-between items-start mb-6">
-                    <div class="p-3 bg-yellow-500/10 rounded-lg text-yellow-400 group-hover:text-yellow-300 transition-colors">
-                        <i data-lucide="database" class="w-8 h-8"></i>
+            <!-- Project 2: Vertical -->
+            <div class="md:row-span-2 hud-card p-6 md:p-8 group transition-all hover:bg-delta-surface relative">
+                <div class="flex flex-col h-full">
+                    <div class="flex-grow">
+                        <div class="w-full flex justify-between mb-4 md:mb-6">
+                            <div class="p-3 bg-delta-black border border-delta-deep">
+                                <i data-lucide="tractor" class="w-6 h-6 text-delta-neon"></i>
+                            </div>
+                            <span class="font-mono text-xs text-delta-slate">PROJECT 02</span>
+                        </div>
+                        <h3 class="font-display text-2xl md:text-3xl text-white mb-3 md:mb-4 group-hover:text-delta-neon transition-colors">Ag-Tech Resilience</h3>
+                        <p class="text-delta-slate text-sm mb-4 md:mb-6">
+                            Ensuring harvest-critical systems—Grain Elevators, Weigh Scales, Yield Maps—survive ransomware attacks during peak operational windows.
+                        </p>
+                        <ul class="space-y-2 md:space-y-3 mb-16 md:mb-20">
+                            <li class="flex items-center text-xs text-delta-slate font-mono">
+                                <span class="w-1.5 h-1.5 bg-delta-mid mr-2 flex-shrink-0"></span> 
+                                <span class="break-words">HARDWARE FAILOVER</span>
+                            </li>
+                            <li class="flex items-center text-xs text-delta-slate font-mono">
+                                <span class="w-1.5 h-1.5 bg-delta-mid mr-2 flex-shrink-0"></span> 
+                                <span class="break-words">LOCAL CACHING</span>
+                            </li>
+                            <li class="flex items-center text-xs text-delta-slate font-mono">
+                                <span class="w-1.5 h-1.5 bg-delta-mid mr-2 flex-shrink-0"></span> 
+                                <span class="break-words">LEGACY SERIAL PORTS</span>
+                            </li>
+                        </ul>
                     </div>
-                    <span class="px-3 py-1 bg-slate-700 text-slate-300 text-xs font-bold rounded-full border border-slate-600">IN DEVELOPMENT</span>
+                    <div class="absolute bottom-4 sm:bottom-6 md:bottom-8 right-4 sm:right-6 md:right-8">
+                        <span class="text-[10px] md:text-xs font-mono text-delta-neon bg-delta-deep/20 px-2 py-1 inline-block border border-delta-deep/50">STATUS: IN DEVELOPMENT</span>
+                    </div>
                 </div>
-                <h3 class="text-2xl font-bold text-white mb-3">Agricultural Data Integrity ("Scale House" Ops)</h3>
-                <p class="text-slate-400 mb-4 leading-relaxed max-w-3xl">
-                    Focusing on the unique "Hybrid" needs of the Northeast Arkansas agriculture sector. 
-                    Ensuring harvest-critical systems (Grain Elevators, Weigh Scales, Yield Maps) are resilient against local hardware failure and ransomware during peak operational windows.
-                </p>
+            </div>
+
+            <!-- Project 3: Compact -->
+            <div class="hud-card p-6 md:p-8 group transition-all hover:bg-delta-surface relative">
+                <div class="flex flex-col h-full justify-between">
+                    <div class="flex justify-between">
+                         <div class="p-3 bg-delta-black border border-delta-deep">
+                            <i data-lucide="file-check" class="w-6 h-6 text-delta-neon"></i>
+                        </div>
+                    </div>
+                    <div class="mb-12 md:mb-16">
+                        <h3 class="font-display text-2xl text-white mb-2 group-hover:text-delta-neon transition-colors">Cyber Insurance Readiness</h3>
+                        <p class="text-delta-slate text-xs">
+                            Translating technical risk (MFA, EOL) into underwriting-ready attestation letters.
+                        </p>
+                    </div>
+                    <div class="absolute bottom-4 sm:bottom-6 md:bottom-8 right-4 sm:right-6 md:right-8">
+                        <span class="text-[10px] md:text-xs font-mono text-delta-neon bg-delta-deep/20 px-2 py-1 inline-block border border-delta-deep/50">STATUS: LIVE</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Stat Card -->
+            <div class="hud-card p-8 relative overflow-hidden group bg-delta-deep/40 hover:bg-delta-surface transition-all">
+                <div class="flex flex-col h-full justify-center items-center text-center">
+                    <span class="font-display text-6xl font-bold text-delta-neon group-hover:text-white transition-colors">100%</span>
+                    <span class="font-mono text-xs font-bold text-delta-slate group-hover:text-delta-neon tracking-widest uppercase mt-2">Audit Compliance Rate</span>
+                </div>
             </div>
 
         </div>
-
-        <!-- ABOUT SECTION -->
-        <div id="about" class="mt-20 max-w-4xl mx-auto">
-            <div class="flex items-center gap-4 mb-10">
-                <div class="h-px bg-slate-700 flex-grow"></div>
-                <span class="text-slate-500 text-sm font-bold tracking-widest uppercase">About The Developer</span>
-                <div class="h-px bg-slate-700 flex-grow"></div>
-            </div>
-
-            <div class="glass-panel p-10 rounded-2xl flex flex-col md:flex-row gap-10 items-center">
-                <div class="w-24 h-24 bg-slate-700 rounded-full flex-shrink-0 flex items-center justify-center text-slate-400 overflow-hidden">
-                    <!-- Placeholder for Avatar -->
-                    <i data-lucide="user" class="w-12 h-12"></i> 
-                </div>
-                <div>
-                    <h2 class="text-3xl font-bold text-white mb-4">Eric Rivera</h2>
-                    <p class="text-slate-400 leading-relaxed mb-4">
-                        With over a decade of hands-on experience in systems administration, I specialize in the unglamorous but critical side of IT: **Integrity & Resilience**. While the world moves to the cloud, I focus on the "Hybrid" reality that powers local industry—from dental offices to grain elevators.
-                    </p>
-                    <p class="text-slate-400 leading-relaxed">
-                        My goal is simple: To provide businesses in Northeast Arkansas with the sophisticated risk analysis usually reserved for Fortune 500 companies, packaged in a way that makes sense for an Office Manager. I don't just fix computers; I ensure your business is insurable, compliant, and ready for whatever comes next.
-                    </p>
-                </div>
-            </div>
-        </div>
-
     </main>
 
+    <!-- ABOUT SECTION (Profile) -->
+    <section id="about" class="container mx-auto px-6 py-20 relative z-10">
+        <div class="border-t border-delta-deep pt-16 grid grid-cols-1 md:grid-cols-2 gap-12">
+            <div>
+                <span class="font-mono text-xs text-delta-neon tracking-widest mb-4 block">LEAD DEVELOPER</span>
+                <h2 class="font-display text-5xl text-white mb-6">ERIC RIVERA</h2>
+                <div class="flex gap-4">
+                     <a href="#" class="text-delta-slate hover:text-white"><i data-lucide="github" class="w-5 h-5"></i></a>
+                     <a href="#" class="text-delta-slate hover:text-white"><i data-lucide="linkedin" class="w-5 h-5"></i></a>
+                </div>
+            </div>
+            <div>
+                <p class="text-lg text-delta-slate leading-relaxed mb-6">
+                    Specializing in the unglamorous but critical side of IT: <strong class="text-white">Integrity & Resilience</strong>. While the world moves to the cloud, I focus on the "Hybrid" reality that powers local industry.
+                </p>
+                <div class="flex gap-8 border-t border-delta-deep/30 pt-6">
+                    <div>
+                        <span class="block font-display text-2xl text-white">10+</span>
+                        <span class="text-xs font-mono text-delta-slate">YEARS EXP</span>
+                    </div>
+                    <div>
+                        <span class="block font-display text-2xl text-white">NEA</span>
+                        <span class="text-xs font-mono text-delta-slate">REGION FOCUSED</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- FOOTER -->
-    <footer id="contact" class="border-t border-slate-800 py-10 text-center">
-        <p class="text-slate-500 text-sm">
-            &copy; 2025 Eric Rivera. All Rights Reserved. <br>
-            <span class="opacity-50">Deployed via GitHub Pages</span>
-        </p>
-        <div class="flex justify-center gap-6 mt-6">
-            <a href="#" class="text-slate-400 hover:text-white transition-colors"><i data-lucide="github" class="w-5 h-5"></i></a>
-            <a href="#" class="text-slate-400 hover:text-white transition-colors"><i data-lucide="linkedin" class="w-5 h-5"></i></a>
-            <a href="#" class="text-slate-400 hover:text-white transition-colors"><i data-lucide="mail" class="w-5 h-5"></i></a>
+    <footer class="bg-delta-black border-t border-delta-mid pt-16 pb-8">
+        <div class="container mx-auto px-6 text-center">
+            <div class="flex justify-center items-center gap-3 mb-8">
+                <svg width="30" height="30" viewBox="0 0 200 160" fill="none">
+                    <path d="M100 20L40 130H85L115 70L100 20Z" fill="#15803d"/> 
+                    <path d="M115 20L175 130H130L100 70L115 20Z" fill="#14532d"/>
+                </svg>
+                <span class="font-display text-2xl text-white tracking-widest uppercase">Delta Data Defense</span>
+            </div>
+            <p class="text-delta-slate text-sm font-mono uppercase tracking-wider">
+                &copy; 2025 Systems Integrity Division. Jonesboro, AR.
+            </p>
         </div>
     </footer>
 
-    <!-- Initialize Icons -->
     <script>
         lucide.createIcons();
         
