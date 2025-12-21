@@ -14,10 +14,9 @@
                             neon: '#22c55e',
                             mid: '#15803d',
                             deep: '#14532d',
-                            black: '#0f172a', /* True slate-900 for main bg */
+                            black: '#022c22',
                             slate: '#94a3b8', /* Lightened for better contrast on dark */
-                            surface: '#1e293b', /* Slate-800 for cards */
-                            charcoal: '#334155', /* Slate-700 for variation */
+                            surface: '#03382c', /* Slightly lighter background for cards */
                         }
                     },
                     fontFamily: {
@@ -38,22 +37,22 @@
     <style>
         body { 
             font-family: 'Inter', sans-serif; 
-            background-color: #0f172a; /* True dark slate instead of green-tinted */
+            background-color: #022c22; 
             color: #e2e8f0; 
         }
         
         /* TECHNICAL GRID BACKGROUND */
         .tech-grid {
             background-size: 40px 40px;
-            background-image: linear-gradient(to right, rgba(51, 65, 85, 0.3) 1px, transparent 1px), 
-                              linear-gradient(to bottom, rgba(51, 65, 85, 0.3) 1px, transparent 1px);
+            background-image: linear-gradient(to right, rgba(20, 83, 45, 0.1) 1px, transparent 1px), 
+                              linear-gradient(to bottom, rgba(20, 83, 45, 0.1) 1px, transparent 1px);
             mask-image: linear-gradient(to bottom, black 40%, transparent 100%);
         }
 
         /* SHARP UI BORDER */
         .hud-card {
-            background-color: rgba(30, 41, 59, 0.8); /* Slate-800 with opacity */
-            border: 1px solid #334155; /* Slate-700 border */
+            background-color: rgba(2, 44, 34, 0.8);
+            border: 1px solid #14532d;
             position: relative;
         }
         /* Corner Accents */
@@ -89,7 +88,7 @@
         <div class="container mx-auto px-6 h-20 flex justify-between items-center">
             <!-- Brand -->
             <a href="#" class="flex items-center gap-3 group">
-                <div class="relative w-12 h-12 flex items-center justify-center border border-slate-600 bg-slate-700 group-hover:border-delta-neon transition-colors">
+                <div class="relative w-12 h-12 flex items-center justify-center border border-delta-mid bg-delta-surface group-hover:border-delta-neon transition-colors">
                     <span class="font-display font-bold text-2xl text-white pt-1">D3</span>
                     <!-- Tiny decor dots -->
                     <div class="absolute -top-1 -right-1 w-1 h-1 bg-delta-neon"></div>
@@ -137,7 +136,7 @@
     <header class="relative z-10 container mx-auto px-6 py-16 md:py-24 lg:py-32">
         <div class="max-w-4xl mx-auto text-center">
             
-            <div class="inline-flex items-center gap-2 mb-6 px-3 py-1 border border-delta-charcoal bg-slate-800/50">
+            <div class="inline-flex items-center gap-2 mb-6 px-3 py-1 border border-delta-deep bg-delta-black/50">
                 <div class="w-2 h-2 bg-delta-neon rounded-full animate-pulse"></div>
                 <span class="font-mono text-xs text-delta-neon tracking-widest uppercase">System Status: Active</span>
             </div>
@@ -188,14 +187,14 @@
             <!-- PROTOCOL 1: IDENTITY -->
             <div class="hud-card p-8 group hover:bg-delta-surface transition-colors">
                 <div class="flex justify-between items-start mb-6">
-                    <div class="w-12 h-12 border border-slate-600 flex items-center justify-center bg-slate-900">
+                    <div class="w-12 h-12 border border-delta-deep flex items-center justify-center bg-delta-black">
                         <i data-lucide="user-check" class="w-6 h-6 text-delta-neon"></i>
                     </div>
-                    <span class="font-display text-4xl text-slate-700 group-hover:text-delta-neon/50 transition-colors">01</span>
+                    <span class="font-display text-4xl text-delta-deep group-hover:text-delta-neon/50 transition-colors">01</span>
                 </div>
                 
                 <h3 class="font-display text-3xl text-white mb-2">IDENTITY</h3>
-                <div class="h-px w-full bg-slate-600/50 mb-4"></div>
+                <div class="h-px w-full bg-delta-deep/50 mb-4"></div>
                 
                 <p class="font-mono text-xs text-delta-neon mb-2 uppercase tracking-wider">> ACCESS CONTROL</p>
                 <p class="text-delta-slate text-sm leading-relaxed mb-4">
@@ -209,14 +208,14 @@
             <!-- PROTOCOL 2: INFRASTRUCTURE -->
             <div class="hud-card p-8 group hover:bg-delta-surface transition-colors">
                 <div class="flex justify-between items-start mb-6">
-                    <div class="w-12 h-12 border border-slate-600 flex items-center justify-center bg-slate-900">
+                    <div class="w-12 h-12 border border-delta-deep flex items-center justify-center bg-delta-black">
                         <i data-lucide="server" class="w-6 h-6 text-delta-neon"></i>
                     </div>
-                    <span class="font-display text-4xl text-slate-700 group-hover:text-delta-neon/50 transition-colors">02</span>
+                    <span class="font-display text-4xl text-delta-deep group-hover:text-delta-neon/50 transition-colors">02</span>
                 </div>
                 
                 <h3 class="font-display text-3xl text-white mb-2">INFRASTRUCTURE</h3>
-                <div class="h-px w-full bg-slate-600/50 mb-4"></div>
+                <div class="h-px w-full bg-delta-deep/50 mb-4"></div>
                 
                 <p class="font-mono text-xs text-delta-neon mb-2 uppercase tracking-wider">> SYSTEM HYGIENE</p>
                 <p class="text-delta-slate text-sm leading-relaxed mb-4">
@@ -230,14 +229,14 @@
             <!-- PROTOCOL 3: DEFENSE -->
             <div class="hud-card p-8 group hover:bg-delta-surface transition-colors">
                 <div class="flex justify-between items-start mb-6">
-                    <div class="w-12 h-12 border border-slate-600 flex items-center justify-center bg-slate-900">
+                    <div class="w-12 h-12 border border-delta-deep flex items-center justify-center bg-delta-black">
                         <i data-lucide="shield-alert" class="w-6 h-6 text-delta-neon"></i>
                     </div>
-                    <span class="font-display text-4xl text-slate-700 group-hover:text-delta-neon/50 transition-colors">03</span>
+                    <span class="font-display text-4xl text-delta-deep group-hover:text-delta-neon/50 transition-colors">03</span>
                 </div>
                 
                 <h3 class="font-display text-3xl text-white mb-2">DEFENSE</h3>
-                <div class="h-px w-full bg-slate-600/50 mb-4"></div>
+                <div class="h-px w-full bg-delta-deep/50 mb-4"></div>
                 
                 <p class="font-mono text-xs text-delta-neon mb-2 uppercase tracking-wider">> RESILIENCE & RECOVERY</p>
                 <p class="text-delta-slate text-sm leading-relaxed mb-4">
@@ -267,7 +266,7 @@
             <div class="md:col-span-2 hud-card p-8 group transition-all hover:bg-delta-surface relative">
                 <div class="flex justify-between items-start h-full flex-col">
                     <div class="w-full flex justify-between">
-                        <div class="p-3 bg-slate-900 border border-slate-600">
+                        <div class="p-3 bg-delta-black border border-delta-deep">
                             <i data-lucide="database" class="w-6 h-6 text-delta-neon"></i>
                         </div>
                         <span class="font-mono text-xs text-delta-slate">PROJECT 01</span>
@@ -292,7 +291,7 @@
                 <div class="flex flex-col h-full">
                     <div class="flex-grow">
                         <div class="w-full flex justify-between mb-4 md:mb-6">
-                            <div class="p-3 bg-slate-900 border border-slate-600">
+                            <div class="p-3 bg-delta-black border border-delta-deep">
                                 <i data-lucide="tractor" class="w-6 h-6 text-delta-neon"></i>
                             </div>
                             <span class="font-mono text-xs text-delta-slate">PROJECT 02</span>
@@ -326,7 +325,7 @@
             <div class="hud-card p-6 md:p-8 group transition-all hover:bg-delta-surface relative">
                 <div class="flex flex-col h-full justify-between">
                     <div class="flex justify-between">
-                         <div class="p-3 bg-slate-900 border border-slate-600">
+                         <div class="p-3 bg-delta-black border border-delta-deep">
                             <i data-lucide="file-check" class="w-6 h-6 text-delta-neon"></i>
                         </div>
                     </div>
@@ -343,7 +342,7 @@
             </div>
 
             <!-- Stat Card -->
-            <div class="hud-card p-8 relative overflow-hidden group bg-slate-700/40 hover:bg-delta-surface transition-all">
+            <div class="hud-card p-8 relative overflow-hidden group bg-delta-deep/40 hover:bg-delta-surface transition-all">
                 <div class="flex flex-col h-full justify-center items-center text-center">
                     <span class="font-display text-6xl font-bold text-delta-neon group-hover:text-white transition-colors">100%</span>
                     <span class="font-mono text-xs font-bold text-delta-slate group-hover:text-delta-neon tracking-widest uppercase mt-2">Audit Compliance Rate</span>
@@ -367,7 +366,7 @@
 
     <!-- ABOUT SECTION (Profile) -->
     <section id="about" class="container mx-auto px-6 py-20 relative z-10">
-        <div class="border-t border-slate-700 pt-16 grid grid-cols-1 md:grid-cols-2 gap-12">
+        <div class="border-t border-delta-deep pt-16 grid grid-cols-1 md:grid-cols-2 gap-12">
             <div>
                 <span class="font-mono text-xs text-delta-neon tracking-widest mb-4 block">LEAD DEVELOPER</span>
                 <h2 class="font-display text-5xl text-white mb-6">ERIC RIVERA</h2>
@@ -380,7 +379,7 @@
                 <p class="text-lg text-delta-slate leading-relaxed mb-6">
                     Specializing in the unglamorous but critical side of IT: <strong class="text-white">Integrity & Resilience</strong>. While the world moves to the cloud, I focus on the "Hybrid" reality that powers local industry.
                 </p>
-                <div class="flex gap-8 border-t border-slate-600/30 pt-6">
+                <div class="flex gap-8 border-t border-delta-deep/30 pt-6">
                     <div>
                         <span class="block font-display text-2xl text-white">10+</span>
                         <span class="text-xs font-mono text-delta-slate">YEARS EXP</span>
