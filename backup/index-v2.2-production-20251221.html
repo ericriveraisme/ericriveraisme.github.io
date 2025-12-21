@@ -86,30 +86,34 @@
 
     <!-- NAVIGATION (Minimalist / Tech) -->
     <nav class="sticky top-0 z-50 bg-delta-black/90 backdrop-blur-md border-b border-delta-deep">
-        <div class="container mx-auto px-4 sm:px-6 h-20 flex justify-between items-center">
+        <div class="container mx-auto px-6 h-20 flex justify-between items-center">
             <!-- Brand -->
-            <a href="#" class="flex items-center gap-2 group">
-                <div class="relative w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center border border-slate-600 bg-slate-700 group-hover:border-delta-neon transition-colors flex-shrink-0">
-                    <span class="font-display font-bold text-xl sm:text-2xl text-white pt-1">D3</span>
+            <a href="#" class="flex items-center gap-3 group">
+                <div class="relative w-12 h-12 flex items-center justify-center border border-slate-600 bg-slate-700 group-hover:border-delta-neon transition-colors">
+                    <span class="font-display font-bold text-2xl text-white pt-1">D3</span>
                     <!-- Tiny decor dots -->
                     <div class="absolute -top-1 -right-1 w-1 h-1 bg-delta-neon"></div>
                     <div class="absolute -bottom-1 -left-1 w-1 h-1 bg-delta-neon"></div>
                 </div>
-                <div class="flex flex-col min-w-0">
-                    <span class="font-display text-base sm:text-lg md:text-xl lg:text-2xl font-bold text-white leading-none tracking-wide uppercase">Delta Data</span>
-                    <span class="hidden lg:block font-sans text-[9px] md:text-[10px] font-bold text-delta-mid uppercase tracking-[0.2em] group-hover:text-delta-neon transition-colors">Defense Systems</span>
+                <div class="flex items-center gap-2 md:gap-3">
+                    <div class="flex flex-col">
+                        <span class="font-display text-xl md:text-2xl font-bold text-white leading-none tracking-wide uppercase">Delta Data</span>
+                        <span class="font-sans text-[9px] md:text-[10px] font-bold text-delta-mid uppercase tracking-[0.2em] group-hover:text-delta-neon transition-colors">Defense Systems</span>
+                    </div>
+                    <svg width="40" height="40" viewBox="0 0 200 160" fill="none" class="hidden sm:block md:w-12 md:h-12 flex-shrink-0">
+                        <path d="M100 20L40 130H85L115 70L100 20Z" fill="#15803d"/> 
+                        <path d="M115 20L175 130H130L100 70L115 20Z" fill="#14532d"/>
+                    </svg>
                 </div>
             </a>
 
             <!-- Desktop Nav -->
-            <div class="hidden md:flex items-center gap-4 lg:gap-6 xl:gap-8">
+            <div class="hidden md:flex items-center gap-8">
                 <a href="#d3-protocol" class="text-sm font-medium text-delta-slate hover:text-white transition-colors uppercase tracking-wider">Services</a>
-                <a href="#technology" class="text-sm font-medium text-delta-slate hover:text-white transition-colors uppercase tracking-wider">Technology</a>
                 <a href="#projects" class="text-sm font-medium text-delta-slate hover:text-white transition-colors uppercase tracking-wider">Deployments</a>
                 <a href="#about" class="text-sm font-medium text-delta-slate hover:text-white transition-colors uppercase tracking-wider">Profile</a>
-                <a href="#contact" class="px-3 lg:px-5 py-2 bg-delta-deep hover:bg-delta-mid text-white text-xs lg:text-sm font-bold uppercase tracking-wider transition-all border border-delta-mid hover:border-delta-neon flex flex-col lg:flex-row items-center gap-0 lg:gap-1">
-                    <span>Initiate</span>
-                    <span>Audit</span>
+                <a href="#contact" class="px-5 py-2 bg-delta-deep hover:bg-delta-mid text-white text-sm font-bold uppercase tracking-wider transition-all border border-delta-mid hover:border-delta-neon">
+                    Initiate Audit
                 </a>
             </div>
             
@@ -122,7 +126,6 @@
         <div id="mobile-menu" class="hidden md:hidden absolute top-full left-0 right-0 border-t border-delta-deep bg-delta-black/95 backdrop-blur-md shadow-lg z-50">
             <div class="container mx-auto px-6 py-4 flex flex-col gap-2">
                 <a href="#d3-protocol" class="text-sm font-medium text-delta-slate hover:text-white transition-colors uppercase tracking-wider py-3 px-2 rounded hover:bg-delta-surface">Services</a>
-                <a href="#technology" class="text-sm font-medium text-delta-slate hover:text-white transition-colors uppercase tracking-wider py-3 px-2 rounded hover:bg-delta-surface">Technology</a>
                 <a href="#projects" class="text-sm font-medium text-delta-slate hover:text-white transition-colors uppercase tracking-wider py-3 px-2 rounded hover:bg-delta-surface">Deployments</a>
                 <a href="#about" class="text-sm font-medium text-delta-slate hover:text-white transition-colors uppercase tracking-wider py-3 px-2 rounded hover:bg-delta-surface">Profile</a>
                 <a href="#contact" class="px-5 py-3 bg-delta-deep hover:bg-delta-mid text-white text-sm font-bold uppercase tracking-wider transition-all border border-delta-mid hover:border-delta-neon text-center mt-2">Initiate Audit</a>
@@ -245,75 +248,6 @@
                 </div>
             </div>
 
-        </div>
-    </section>
-
-    <!-- PRIVACY TOOLS SPOTLIGHT -->
-    <section id="technology" class="container mx-auto px-6 py-12 sm:py-16 md:py-20 relative z-10">
-        <div class="hud-card p-6 sm:p-8 md:p-12 bg-delta-surface/50 border border-delta-mid">
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-                
-                <!-- Content -->
-                <div>
-                    <div class="inline-block bg-delta-deep text-white font-mono text-[10px] px-2 py-1 mb-4 uppercase tracking-widest border border-delta-neon">
-                        Proprietary Technology
-                    </div>
-                    <h2 class="font-display text-4xl md:text-5xl text-white mb-4 leading-none uppercase">
-                        Zero-Knowledge<br><span class="text-delta-neon">Extraction Engine</span>
-                    </h2>
-                    <p class="text-delta-slate text-sm md:text-base leading-relaxed mb-6">
-                        Standard auditing tools scrape everything, often exposing sensitive client data. We built our own. 
-                        Our proprietary extractor runs locally on your machine, cryptographically hashing PII (Personally Identifiable Information) 
-                        <strong>before</strong> it ever leaves your network.
-                    </p>
-                    
-                    <ul class="space-y-3 mb-8">
-                        <li class="flex items-center text-sm text-white font-mono">
-                            <i data-lucide="check-circle" class="w-4 h-4 text-delta-neon mr-3"></i> Local-Side Sanitization
-                        </li>
-                        <li class="flex items-center text-sm text-white font-mono">
-                            <i data-lucide="check-circle" class="w-4 h-4 text-delta-neon mr-3"></i> One-Way Cryptographic Hashing
-                        </li>
-                        <li class="flex items-center text-sm text-white font-mono">
-                            <i data-lucide="check-circle" class="w-4 h-4 text-delta-neon mr-3"></i> GDPR & HIPAA Compliant Output
-                        </li>
-                    </ul>
-
-                    <a href="#" class="text-delta-neon font-bold text-sm uppercase tracking-widest border-b border-delta-neon pb-1 hover:text-white hover:border-white transition-colors">
-                        Read the Technical Whitepaper
-                    </a>
-                </div>
-
-                <!-- Visual -->
-                <div class="relative h-64 lg:h-full min-h-[250px] bg-delta-black border border-delta-charcoal rounded flex items-center justify-center overflow-hidden">
-                    <!-- Background Code Effect -->
-                    <div class="absolute inset-0 opacity-10 p-2 sm:p-4 font-mono text-[8px] sm:text-[10px] text-delta-neon overflow-hidden leading-tight break-all">
-                        01010101010101010101010101010101010101010101010101010101
-                        HASH_SHA256(USER_DATA) >> OUTPUT_TOKEN_882910
-                        SANITIZING_STREAM... COMPLETE.
-                        01010101010101010101010101010101010101010101010101010101
-                    </div>
-                    
-                    <div class="relative z-10 flex items-center gap-3 sm:gap-4">
-                        <div class="text-center">
-                            <div class="w-12 h-12 sm:w-16 sm:h-16 border border-delta-charcoal bg-delta-surface flex items-center justify-center mb-2">
-                                <i data-lucide="file-text" class="w-6 h-6 sm:w-8 sm:h-8 text-delta-slate"></i>
-                            </div>
-                            <span class="text-[9px] sm:text-[10px] font-mono text-delta-slate uppercase">Raw Data</span>
-                        </div>
-                        
-                        <i data-lucide="arrow-right" class="w-5 h-5 sm:w-6 sm:h-6 text-delta-mid animate-pulse flex-shrink-0"></i>
-                        
-                        <div class="text-center">
-                            <div class="w-12 h-12 sm:w-16 sm:h-16 border-2 border-delta-neon bg-delta-black flex items-center justify-center mb-2 shadow-[0_0_15px_rgba(34,197,94,0.3)]">
-                                <i data-lucide="lock" class="w-6 h-6 sm:w-8 sm:h-8 text-delta-neon"></i>
-                            </div>
-                            <span class="text-[9px] sm:text-[10px] font-mono text-delta-neon uppercase">Secure Hash</span>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
         </div>
     </section>
 
@@ -446,7 +380,7 @@
                 <p class="text-lg text-delta-slate leading-relaxed mb-6">
                     Specializing in the unglamorous but critical side of IT: <strong class="text-white">Integrity & Resilience</strong>. While the world moves to the cloud, I focus on the "Hybrid" reality that powers local industry.
                 </p>
-                <div class="flex gap-8 border-t border-slate-600/30 pt-6 mb-8">
+                <div class="flex gap-8 border-t border-slate-600/30 pt-6">
                     <div>
                         <span class="block font-display text-2xl text-white">10+</span>
                         <span class="text-xs font-mono text-delta-slate">YEARS EXP</span>
@@ -456,12 +390,6 @@
                         <span class="text-xs font-mono text-delta-slate">REGION FOCUSED</span>
                     </div>
                 </div>
-                
-                <!-- PERSONAL PRIVACY STATEMENT -->
-                <p class="text-delta-slate italic font-serif text-base sm:text-lg text-left mt-8 pl-3 sm:pl-4 border-l-2 border-delta-deep">
-                    "Your privacy is my number one priority." <br>
-                    <span class="text-xs sm:text-sm font-sans not-italic text-delta-neon mt-2 block">- Eric Rivera</span>
-                </p>
             </div>
         </div>
     </section>
@@ -470,13 +398,11 @@
     <footer class="bg-delta-black border-t border-delta-mid pt-16 pb-8">
         <div class="container mx-auto px-6 text-center">
             <div class="flex justify-center items-center gap-3 mb-8">
-                <div class="relative w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center border border-slate-600 bg-slate-700 flex-shrink-0">
-                    <span class="font-display font-bold text-xl sm:text-2xl text-white pt-1">D3</span>
-                    <!-- Tiny decor dots -->
-                    <div class="absolute -top-1 -right-1 w-1 h-1 bg-delta-neon"></div>
-                    <div class="absolute -bottom-1 -left-1 w-1 h-1 bg-delta-neon"></div>
-                </div>
-                <span class="font-display text-xl sm:text-2xl text-white tracking-widest uppercase">Delta Data Defense Systems</span>
+                <svg width="30" height="30" viewBox="0 0 200 160" fill="none">
+                    <path d="M100 20L40 130H85L115 70L100 20Z" fill="#15803d"/> 
+                    <path d="M115 20L175 130H130L100 70L115 20Z" fill="#14532d"/>
+                </svg>
+                <span class="font-display text-2xl text-white tracking-widest uppercase">Delta Data Defense Systems</span>
             </div>
             <p class="text-delta-slate text-sm font-mono uppercase tracking-wider">
                 &copy; 2025 Systems Integrity Division. Jonesboro, AR.
