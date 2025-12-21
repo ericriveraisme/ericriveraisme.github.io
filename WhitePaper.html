@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>White Paper | D3 Zero-Knowledge Extraction</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        delta: {
+                            neon: '#22c55e',
+                            mid: '#15803d',
+                            deep: '#14532d',
+                            black: '#0f172a',
+                            slate: '#94a3b8',
+                            surface: '#1e293b',
+                            charcoal: '#334155',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Teko', 'sans-serif'],
+                    },
+                    backgroundImage: {
+                        'grid-pattern': "linear-gradient(to right, #14532d 1px, transparent 1px), linear-gradient(to bottom, #14532d 1px, transparent 1px)",
+                    }
+                }
+            }
+        }
+    </script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Teko:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;800&display=swap" rel="stylesheet">
+    <style>
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background-color: #0f172a;
+            color: #e2e8f0; 
+        }
+        
+        /* TECHNICAL GRID BACKGROUND */
+        .tech-grid {
+            background-size: 40px 40px;
+            background-image: linear-gradient(to right, rgba(51, 65, 85, 0.3) 1px, transparent 1px), 
+                              linear-gradient(to bottom, rgba(51, 65, 85, 0.3) 1px, transparent 1px);
+            mask-image: linear-gradient(to bottom, black 40%, transparent 100%);
+        }
+
+        /* SHARP UI BORDER */
+        .hud-card {
+            background-color: rgba(30, 41, 59, 0.8);
+            border: 1px solid #334155;
+            position: relative;
+        }
+        /* Corner Accents */
+        .hud-card::before {
+            content: '';
+            position: absolute;
+            top: -1px; left: -1px;
+            width: 10px; height: 10px;
+            border-top: 2px solid #22c55e;
+            border-left: 2px solid #22c55e;
+        }
+        .hud-card::after {
+            content: '';
+            position: absolute;
+            bottom: -1px; right: -1px;
+            width: 10px; height: 10px;
+            border-bottom: 2px solid #22c55e;
+            border-right: 2px solid #22c55e;
+        }
+
+        .text-glow {
+            text-shadow: 0 0 20px rgba(34, 197, 94, 0.3);
+        }
+        
+        @media print {
+            .no-print { display: none !important; }
+            body { background: white !important; color: black !important; }
+            .print-border { border: 1px solid #ccc !important; padding: 2rem !important; }
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col selection:bg-delta-neon selection:text-delta-black">
+
+    <!-- BACKGROUND GRID LAYER -->
+    <div class="fixed inset-0 tech-grid pointer-events-none z-0"></div>
+
+    <!-- NAVIGATION -->
+    <nav class="sticky top-0 z-50 bg-delta-black/90 backdrop-blur-md border-b border-delta-deep no-print">
+        <div class="container mx-auto px-4 sm:px-6 h-20 flex justify-between items-center">
+            <a href="index.html" class="flex items-center gap-2 group">
+                <div class="relative w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center border border-slate-600 bg-slate-700 group-hover:border-delta-neon transition-colors flex-shrink-0">
+                    <span class="font-display font-bold text-xl sm:text-2xl text-white pt-1">D3</span>
+                    <div class="absolute -top-1 -right-1 w-1 h-1 bg-delta-neon"></div>
+                    <div class="absolute -bottom-1 -left-1 w-1 h-1 bg-delta-neon"></div>
+                </div>
+                <div class="flex flex-col min-w-0">
+                    <span class="font-display text-base sm:text-lg md:text-xl lg:text-2xl font-bold text-white leading-none tracking-wide uppercase">Delta Data</span>
+                    <span class="hidden lg:block font-sans text-[9px] md:text-[10px] font-bold text-delta-mid uppercase tracking-[0.2em] group-hover:text-delta-neon transition-colors">Defense Systems</span>
+                </div>
+            </a>
+            <a href="index.html" class="text-xs sm:text-sm font-bold text-delta-neon hover:text-white transition-colors flex items-center gap-2 uppercase tracking-wider">
+                <i data-lucide="arrow-left" class="w-4 h-4"></i> <span class="hidden sm:inline">Back to Portfolio</span><span class="sm:hidden">Back</span>
+            </a>
+        </div>
+    </nav>
+
+    <!-- HERO SECTION -->
+    <header class="relative z-10 container mx-auto px-6 py-16 md:py-24 lg:py-32">
+        <div class="max-w-4xl mx-auto text-center">
+            <div class="inline-flex items-center gap-2 mb-6 px-3 py-1 border border-delta-charcoal bg-slate-800/50">
+                <div class="w-2 h-2 bg-delta-neon rounded-full animate-pulse"></div>
+                <span class="font-mono text-xs text-delta-neon tracking-widest uppercase">Technical White Paper v2.0</span>
+            </div>
+            <h1 class="font-display text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold text-white leading-[1.1] mb-8">
+                THE D3 <span class="text-delta-neon">ZERO-KNOWLEDGE</span><br>EXTRACTION PROTOCOL
+            </h1>
+            <div class="flex flex-wrap justify-center gap-6 sm:gap-8 text-xs sm:text-sm text-delta-slate font-mono">
+                <div class="flex items-center gap-2"><i data-lucide="user" class="w-4 h-4 text-delta-neon"></i> Eric Rivera, Founder</div>
+                <div class="flex items-center gap-2"><i data-lucide="calendar" class="w-4 h-4 text-delta-neon"></i> January 2026</div>
+                <div class="flex items-center gap-2"><i data-lucide="map-pin" class="w-4 h-4 text-delta-neon"></i> Jonesboro, AR</div>
+            </div>
+        </div>
+    </header>
+
+    <!-- MAIN CONTENT -->
+    <main class="relative z-10 container mx-auto px-6 pb-32">
+        
+        <div class="max-w-4xl mx-auto hud-card p-8 md:p-12 print-border">
+            
+            <!-- 1. EXECUTIVE SUMMARY -->
+            <section class="mb-16">
+                <h2 class="font-display text-3xl sm:text-4xl text-white uppercase mb-6 flex items-center gap-4">
+                    <span class="text-delta-neon">01</span> Executive Summary
+                </h2>
+                <p class="text-base sm:text-lg leading-relaxed text-delta-slate">
+                    In the current cyber insurance landscape, businesses are required to provide technical attestations regarding their security controls. Traditional audits often involve invasive access to sensitive Data/PII, creating a secondary liability for the business. The <span class="text-white font-semibold">D3 Zero-Knowledge Extraction Engine</span> solves this by utilizing a "Privacy-First" protocol that extracts system metadata while ensuring no Personally Identifiable Information (PII) ever leaves the client's network.
+                </p>
+            </section>
+
+            <!-- 2. THE PROBLEM -->
+            <section class="mb-16">
+                <h2 class="font-display text-3xl sm:text-4xl text-white uppercase mb-6 flex items-center gap-4">
+                    <span class="text-delta-neon">02</span> The Privacy-Liability Paradox
+                </h2>
+                <p class="mb-6 text-delta-slate">Standard IT audits often require full administrative access, exposing the auditor to sensitive records (HIPAA/ePHI, financial data, PII). This creates two primary risks:</p>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="p-6 bg-delta-surface/50 border border-delta-charcoal">
+                        <div class="w-10 h-10 bg-red-500/10 text-red-500 border border-red-500/20 flex items-center justify-center mb-4">
+                            <i data-lucide="alert-triangle"></i>
+                        </div>
+                        <h4 class="text-white font-bold mb-2">Compliance Breach</h4>
+                        <p class="text-sm text-delta-slate leading-relaxed">The act of auditing creates a new "data transfer" event that must be governed and logged under HIPAA/PIPA.</p>
+                    </div>
+                    <div class="p-6 bg-delta-surface/50 border border-delta-charcoal">
+                        <div class="w-10 h-10 bg-red-500/10 text-red-500 border border-red-500/20 flex items-center justify-center mb-4">
+                            <i data-lucide="shield-off"></i>
+                        </div>
+                        <h4 class="text-white font-bold mb-2">Theft Risk</h4>
+                        <p class="text-sm text-delta-slate leading-relaxed">If an auditor's device is compromised, the client's raw, unencrypted PII is exposed to the threat actor.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 3. THE SOLUTION (Visual Block) -->
+            <section class="mb-16">
+                <h2 class="font-display text-3xl sm:text-4xl text-white uppercase mb-6 flex items-center gap-4">
+                    <span class="text-delta-neon">03</span> The D3 Protocol
+                </h2>
+                <p class="mb-10 text-delta-slate italic">"Technical Proof of Control without Exposure of Content."</p>
+
+                <div class="space-y-8">
+                    <!-- Phase A -->
+                    <div class="flex flex-col md:flex-row gap-6 items-start">
+                        <div class="w-16 h-16 border-2 border-delta-neon bg-delta-deep flex-shrink-0 flex items-center justify-center text-white font-display text-2xl">A</div>
+                        <div>
+                            <h4 class="text-white font-bold text-xl mb-2 italic">Metadata Extraction</h4>
+                            <p class="text-sm leading-relaxed text-delta-slate">The engine utilizes the <span class="text-delta-neon font-semibold">D3 SQL Diagnostics Suite</span> to query server-level metadata. It ignores user-table content entirely, focusing on Database Integrity, Backup Consistency, and Encryption Status.</p>
+                        </div>
+                    </div>
+                    <!-- Phase B -->
+                    <div class="flex flex-col md:flex-row gap-6 items-start">
+                        <div class="w-16 h-16 border-2 border-delta-neon bg-delta-deep flex-shrink-0 flex items-center justify-center text-white font-display text-2xl">B</div>
+                        <div>
+                            <h4 class="text-white font-bold text-xl mb-2 italic">SHA256 Identity Anonymization</h4>
+                            <p class="text-sm leading-relaxed text-delta-slate">To audit Active Directory, the engine utilizes a proprietary PowerShell hashing function. Every username is passed through a SHA256 salted hash at the point of extraction, creating a "PrivacyID." Only the client onsite can re-map these IDs.</p>
+                        </div>
+                    </div>
+                    <!-- Phase C -->
+                    <div class="flex flex-col md:flex-row gap-6 items-start">
+                        <div class="w-16 h-16 border-2 border-delta-neon bg-delta-deep flex-shrink-0 flex items-center justify-center text-white font-display text-2xl">C</div>
+                        <div>
+                            <h4 class="text-white font-bold text-xl mb-2 italic">Air-Gapped Analysis</h4>
+                            <p class="text-sm leading-relaxed text-delta-slate">Data is extracted to a BitLocker-encrypted hardware token. The analysis is performed on a dedicated, air-gapped forensic workstation. No client data is ever uploaded to public cloud providers.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 4. COMPLIANCE -->
+            <section class="mb-16">
+                <h2 class="font-display text-3xl sm:text-4xl text-white uppercase mb-6 flex items-center gap-4">
+                    <span class="text-delta-neon">04</span> Compliance Alignment
+                </h2>
+                <ul class="space-y-4">
+                    <li class="flex gap-3">
+                        <i data-lucide="check-circle" class="w-5 h-5 text-delta-neon flex-shrink-0"></i>
+                        <span class="text-delta-slate"><strong class="text-white">Arkansas PIPA (Ark. Code § 4-110-101):</strong> Demonstrating "Reasonable Security" without increasing the data footprint.</span>
+                    </li>
+                    <li class="flex gap-3">
+                        <i data-lucide="check-circle" class="w-5 h-5 text-delta-neon flex-shrink-0"></i>
+                        <span class="text-delta-slate"><strong class="text-white">HIPAA Security Rule (45 CFR § 164.308):</strong> Adhering to the "Minimum Necessary" standard during periodic technical evaluations.</span>
+                    </li>
+                    <li class="flex gap-3">
+                        <i data-lucide="check-circle" class="w-5 h-5 text-delta-neon flex-shrink-0"></i>
+                        <span class="text-delta-slate"><strong class="text-white">FTC Safeguards Rule:</strong> Verifying service provider access controls.</span>
+                    </li>
+                </ul>
+            </section>
+
+            <!-- 5. CONCLUSION -->
+            <section class="pt-8 border-t border-delta-charcoal">
+                <h2 class="font-display text-3xl sm:text-4xl text-white uppercase mb-4">Conclusion</h2>
+                <p class="text-base sm:text-lg leading-relaxed mb-8 text-delta-slate">
+                    Delta Data Defense provides the "Missing Link" in cyber insurance. We provide the technical evidence underwriters demand, with the privacy protections the law requires. <span class="text-delta-neon font-bold italic">We prove you are safe, without ever putting your data at risk.</span>
+                </p>
+                
+                <div class="p-6 bg-delta-deep/20 border border-delta-neon text-center no-print">
+                    <p class="text-white font-bold mb-4">Ready to certify your compliance?</p>
+                    <a href="index.html#contact" class="group relative inline-block px-8 py-3 bg-delta-neon text-delta-black font-bold uppercase tracking-widest overflow-hidden hover:shadow-lg hover:shadow-delta-neon/20 transition-shadow">
+                        <span class="relative z-10">Contact Delta Data Defense</span>
+                        <div class="absolute inset-0 bg-white transform -translate-x-full group-hover:translate-x-0 transition-transform duration-300"></div>
+                    </a>
+                </div>
+            </section>
+
+        </div>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="bg-delta-black border-t border-delta-mid pt-12 pb-8 no-print relative z-10">
+        <div class="container mx-auto px-6 text-center">
+            <p class="text-delta-slate text-sm font-mono uppercase tracking-wider mb-4">&copy; 2026 Delta Data Defense LLC. Jonesboro, Arkansas.</p>
+            <div class="flex justify-center gap-4">
+                <button onclick="window.print()" class="text-xs text-delta-slate hover:text-delta-neon flex items-center gap-2 uppercase tracking-widest transition-colors">
+                    <i data-lucide="printer" class="w-4 h-4"></i> Download as PDF
+                </button>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        lucide.createIcons();
+    </script>
+</body>
+</html>
