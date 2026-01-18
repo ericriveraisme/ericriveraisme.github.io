@@ -1,5 +1,6 @@
 const username = 'ericriveraisme';
 const apiBase = 'https://api.github.com';
+const preferredFeatured = 'netdevops-complete'; // pinned featured repo
 
 async function fetchJSON(url){
   const res = await fetch(url);
@@ -11,17 +12,19 @@ function el(id){return document.getElementById(id)}
 
 async function loadRepos(){
   try{
-    const repos = await fetchJSON(`${apiBase}/users/${username}/repos?per_page=100&sort=updated`);
+    const repos = await fetchJSON(`${apiBase}/users/${username}/repos?per_page=200&sort=updated`);
     if(!Array.isArray(repos) || repos.length===0){
       el('featured-title').textContent = 'No public repositories found';
       return;
     }
 
-    // repos from API are already returned sorted by updated when requested that way; ensure fallback
     repos.sort((a,b)=> new Date(b.updated_at) - new Date(a.updated_at));
-    const featured = repos[0];
 
-    // fetch languages for the featured repo to display a composition
+    // prefer the pinned repo if present
+    let featured = repos.find(r=> r.name.toLowerCase() === preferredFeatured.toLowerCase());
+    if(!featured) featured = repos[0];
+
+    // fetch languages for the featured repo
     let langs = {};
     try{langs = await fetchJSON(featured.languages_url)}catch(e){console.warn('languages fetch failed', e)}
 
@@ -50,7 +53,7 @@ async function loadRepos(){
     // render repo list (exclude forks and archived for brevity)
     const list = el('repo-list');
     list.innerHTML = '';
-    repos.filter(r=>!r.fork && !r.archived).slice(0,12).forEach(r=>{
+    repos.filter(r=>!r.fork && !r.archived).slice(0,18).forEach(r=>{
       const li = document.createElement('li');
       li.className = 'repo-item';
       li.innerHTML = `<h4><a href="${r.html_url}" target="_blank" rel="noopener">${r.name}</a></h4>

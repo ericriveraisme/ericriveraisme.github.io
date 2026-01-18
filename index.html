@@ -9,13 +9,34 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/assets/styles.css">
-  <meta name="theme-color" content="#2f9d65">
+  <meta name="theme-color" content="#2f7f56">
 </head>
 <body>
+  <!-- Background fantasy scene (low opacity shadow box) -->
+  <svg id="bg-scene" aria-hidden="true" viewBox="0 0 1200 600" preserveAspectRatio="xMidYMid slice">
+    <defs>
+      <linearGradient id="skyGrad" x1="0" x2="1">
+        <stop offset="0%" stop-color="#ffffff" stop-opacity="0.06" />
+        <stop offset="100%" stop-color="#dfeee6" stop-opacity="0.02" />
+      </linearGradient>
+    </defs>
+    <rect width="1200" height="600" fill="url(#skyGrad)" />
+    <!-- mountains -->
+    <g fill="#06433a" opacity="0.08">
+      <path d="M0 430 L140 300 L260 360 L380 240 L540 400 L720 260 L900 420 L1200 260 L1200 600 L0 600 Z" />
+    </g>
+    <!-- castle silhouette -->
+    <g fill="#0b3f35" opacity="0.06">
+      <rect x="820" y="320" width="22" height="80" />
+      <rect x="860" y="300" width="36" height="100" />
+      <path d="M880 300 L900 270 L920 300 Z" />
+    </g>
+  </svg>
+
   <main class="container">
     <header class="hero">
       <div class="hero-inner">
-        <img src="https://scontent-dfw6-1.xx.fbcdn.net/v/t39.30808-6/582348369_10236122774803891_1722938050721291043_n.jpg?_nc_cat=103&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=FFJt1guluj0Q7kNvwEv4DoV&_nc_oc=Adm2gSiV-mLu_9n7DBLFFIDYD2NLMBS2JIJAguacdPPSBuCOOASKoLNPzffbsdrtX-c&_nc_zt=23&_nc_ht=scontent-dfw6-1.xx&_nc_gid=qj1uEjioe01uHQhWL8PibQ&oh=00_AfpT_6FTQapV5yvxjv8-m8jDo8WkoQ7mLyTU0tu7ERR2FQ&oe=69728D89" alt="Eric R. Rivera" class="avatar" />
+        <div class="avatar" aria-hidden="true">ER</div>
         <div>
           <h1 class="name">Eric R. Rivera</h1>
           <p class="tag">IT Support Specialist • NetDevOps Practitioner • Automation Enthusiast</p>
@@ -37,8 +58,8 @@
       <h2 id="featured-heading">Featured Project</h2>
       <div id="featured-card" class="card">
         <div class="card-left">
-          <h3 id="featured-title">Loading latest project…</h3>
-          <p id="featured-desc">Fetching your most recently updated repository from GitHub.</p>
+          <h3 id="featured-title">Loading featured project…</h3>
+          <p id="featured-desc">Fetching the pinned repository <strong>netdevops-complete</strong> (or falling back to the most recently updated repository).</p>
           <div id="featured-meta" class="meta"></div>
         </div>
         <div class="card-right">
@@ -50,7 +71,7 @@
 
     <section class="content projects" aria-labelledby="projects-heading">
       <h2 id="projects-heading">Projects</h2>
-      <p class="muted">A snapshot of public repositories. The featured project above highlights the most recently updated repository.</p>
+      <p class="muted">A snapshot of public repositories. The featured project above is pinned to <strong>netdevops-complete</strong> when available.</p>
       <ul id="repo-list" class="repo-list"></ul>
     </section>
 
@@ -88,9 +109,23 @@
     </section>
 
     <footer class="footer">
-      <div>
-        <p>When I'm not writing Terraform plans or configuring kernels, I'm a singer and an avid gamer. I enjoy strategy in all forms.</p>
-        <p class="small">© <span id="year"></span> Eric R. Rivera • <a href="https://github.com/ericriveraisme">GitHub</a></p>
+      <div class="footer-inner">
+        <div>
+          <p>When I'm not writing Terraform plans or configuring kernels, I'm a singer and an avid gamer. I enjoy strategy in all forms.</p>
+          <p class="small">© <span id="year"></span> Eric R. Rivera • <a href="https://github.com/ericriveraisme">GitHub</a></p>
+        </div>
+        <!-- D20 SVG asset -->
+        <div class="d20" aria-hidden="true">
+          <svg viewBox="0 0 100 100" width="64" height="64" xmlns="http://www.w3.org/2000/svg" role="img">
+            <defs>
+              <linearGradient id="g1" x1="0" x2="1"><stop offset="0" stop-color="#eef8f2" stop-opacity="0.6"/><stop offset="1" stop-color="#cdeee0" stop-opacity="0.6"/></linearGradient>
+            </defs>
+            <g transform="translate(50,50)">
+              <polygon points="-30,-34 30,-34 42,0 30,34 -30,34 -42,0" fill="url(#g1)" stroke="#2f7f56" stroke-width="2"/>
+              <text x="0" y="6" font-family="Cinzel, serif" font-size="20" text-anchor="middle" fill="#1e5d42">20</text>
+            </g>
+          </svg>
+        </div>
       </div>
     </footer>
   </main>
