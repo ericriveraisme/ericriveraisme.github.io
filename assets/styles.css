@@ -34,10 +34,10 @@ body{
 }
 .hero-inner{display:flex;gap:16px;align-items:center}
 .avatar{
-  width:84px;height:84px;border-radius:18px;display:flex;align-items:center;justify-content:center;
-  background: linear-gradient(135deg,var(--accent),var(--accent-2));
-  font-weight:700;font-family:Cinzel,serif;color:white;font-size:20px;
+  width:84px;height:84px;border-radius:50%;
+  object-fit:cover;
   box-shadow:0 6px 18px rgba(31,56,48,0.35);
+  border:3px solid var(--accent);
 }
 .name{margin:0;font-family:Cinzel,serif;font-size:28px}
 .tag{margin:4px 0 0;color:var(--muted)}
