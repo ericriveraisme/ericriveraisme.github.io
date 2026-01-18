@@ -1,497 +1,101 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Delta Data Defense | Systems Integrity</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        delta: {
-                            neon: '#22c55e',
-                            mid: '#15803d',
-                            deep: '#14532d',
-                            black: '#0f172a', /* True slate-900 for main bg */
-                            slate: '#94a3b8', /* Lightened for better contrast on dark */
-                            surface: '#1e293b', /* Slate-800 for cards */
-                            charcoal: '#334155', /* Slate-700 for variation */
-                        }
-                    },
-                    fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
-                        display: ['Teko', 'sans-serif'],
-                    },
-                    backgroundImage: {
-                        'grid-pattern': "linear-gradient(to right, #14532d 1px, transparent 1px), linear-gradient(to bottom, #14532d 1px, transparent 1px)",
-                    }
-                }
-            }
-        }
-    </script>
-    <script src="https://unpkg.com/lucide@latest"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Teko:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;800&display=swap" rel="stylesheet">
-    <style>
-        body { 
-            font-family: 'Inter', sans-serif; 
-            background-color: #0f172a; /* True dark slate instead of green-tinted */
-            color: #e2e8f0; 
-        }
-        
-        /* TECHNICAL GRID BACKGROUND */
-        .tech-grid {
-            background-size: 40px 40px;
-            background-image: linear-gradient(to right, rgba(51, 65, 85, 0.3) 1px, transparent 1px), 
-                              linear-gradient(to bottom, rgba(51, 65, 85, 0.3) 1px, transparent 1px);
-            mask-image: linear-gradient(to bottom, black 40%, transparent 100%);
-        }
-
-        /* SHARP UI BORDER */
-        .hud-card {
-            background-color: rgba(30, 41, 59, 0.8); /* Slate-800 with opacity */
-            border: 1px solid #334155; /* Slate-700 border */
-            position: relative;
-        }
-        /* Corner Accents */
-        .hud-card::before {
-            content: '';
-            position: absolute;
-            top: -1px; left: -1px;
-            width: 10px; height: 10px;
-            border-top: 2px solid #22c55e;
-            border-left: 2px solid #22c55e;
-        }
-        .hud-card::after {
-            content: '';
-            position: absolute;
-            bottom: -1px; right: -1px;
-            width: 10px; height: 10px;
-            border-bottom: 2px solid #22c55e;
-            border-right: 2px solid #22c55e;
-        }
-
-        .text-glow {
-            text-shadow: 0 0 20px rgba(34, 197, 94, 0.3);
-        }
-    </style>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Eric R. Rivera — Portfolio</title>
+  <meta name="description" content="Eric R. Rivera — IT Support Specialist | NetDevOps Practitioner | Automation Enthusiast" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/styles.css">
+  <meta name="theme-color" content="#2f9d65">
 </head>
-<body class="min-h-screen flex flex-col selection:bg-delta-neon selection:text-delta-black">
-
-    <!-- BACKGROUND GRID LAYER -->
-    <div class="fixed inset-0 tech-grid pointer-events-none z-0"></div>
-
-    <!-- NAVIGATION (Minimalist / Tech) -->
-    <nav class="sticky top-0 z-50 bg-delta-black/90 backdrop-blur-md border-b border-delta-deep">
-        <div class="container mx-auto px-4 sm:px-6 h-20 flex justify-between items-center">
-            <!-- Brand -->
-            <a href="#" class="flex items-center gap-2 group">
-                <div class="relative w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center border border-slate-600 bg-slate-700 group-hover:border-delta-neon transition-colors flex-shrink-0">
-                    <span class="font-display font-bold text-xl sm:text-2xl text-white pt-1">D3</span>
-                    <!-- Tiny decor dots -->
-                    <div class="absolute -top-1 -right-1 w-1 h-1 bg-delta-neon"></div>
-                    <div class="absolute -bottom-1 -left-1 w-1 h-1 bg-delta-neon"></div>
-                </div>
-                <div class="flex flex-col min-w-0">
-                    <span class="font-display text-base sm:text-lg md:text-xl lg:text-2xl font-bold text-white leading-none tracking-wide uppercase">Delta Data</span>
-                    <span class="hidden lg:block font-sans text-[9px] md:text-[10px] font-bold text-delta-mid uppercase tracking-[0.2em] group-hover:text-delta-neon transition-colors">Defense Systems</span>
-                </div>
-            </a>
-
-            <!-- Desktop Nav -->
-            <div class="hidden md:flex items-center gap-4 lg:gap-6 xl:gap-8">
-                <a href="#d3-protocol" class="text-sm font-medium text-delta-slate hover:text-white transition-colors uppercase tracking-wider">Services</a>
-                <a href="#technology" class="text-sm font-medium text-delta-slate hover:text-white transition-colors uppercase tracking-wider">Technology</a>
-                <a href="#projects" class="text-sm font-medium text-delta-slate hover:text-white transition-colors uppercase tracking-wider">Deployments</a>
-                <a href="#about" class="text-sm font-medium text-delta-slate hover:text-white transition-colors uppercase tracking-wider">Profile</a>
-                <a href="#contact" class="px-3 lg:px-5 py-2 bg-delta-deep hover:bg-delta-mid text-white text-xs lg:text-sm font-bold uppercase tracking-wider transition-all border border-delta-mid hover:border-delta-neon flex flex-col lg:flex-row items-center gap-0 lg:gap-1">
-                    <span>Initiate</span>
-                    <span>Audit</span>
-                </a>
-            </div>
-            
-             <!-- Mobile Menu Button -->
-            <button id="mobile-menu-btn" class="md:hidden text-delta-neon">
-                <i data-lucide="menu" class="w-8 h-8"></i>
-            </button>
+<body>
+  <main class="container">
+    <header class="hero">
+      <div class="hero-inner">
+        <img src="https://scontent-dfw6-1.xx.fbcdn.net/v/t39.30808-6/582348369_10236122774803891_1722938050721291043_n.jpg?_nc_cat=103&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=FFJt1guluj0Q7kNvwEv4DoV&_nc_oc=Adm2gSiV-mLu_9n7DBLFFIDYD2NLMBS2JIJAguacdPPSBuCOOASKoLNPzffbsdrtX-c&_nc_zt=23&_nc_ht=scontent-dfw6-1.xx&_nc_gid=qj1uEjioe01uHQhWL8PibQ&oh=00_AfpT_6FTQapV5yvxjv8-m8jDo8WkoQ7mLyTU0tu7ERR2FQ&oe=69728D89" alt="Eric R. Rivera" class="avatar" />
+        <div>
+          <h1 class="name">Eric R. Rivera</h1>
+          <p class="tag">IT Support Specialist • NetDevOps Practitioner • Automation Enthusiast</p>
+          <p class="location">📍 Paragould, Arkansas</p>
         </div>
-        <!-- Mobile Menu -->
-        <div id="mobile-menu" class="hidden md:hidden absolute top-full left-0 right-0 border-t border-delta-deep bg-delta-black/95 backdrop-blur-md shadow-lg z-50">
-            <div class="container mx-auto px-6 py-4 flex flex-col gap-2">
-                <a href="#d3-protocol" class="text-sm font-medium text-delta-slate hover:text-white transition-colors uppercase tracking-wider py-3 px-2 rounded hover:bg-delta-surface">Services</a>
-                <a href="#technology" class="text-sm font-medium text-delta-slate hover:text-white transition-colors uppercase tracking-wider py-3 px-2 rounded hover:bg-delta-surface">Technology</a>
-                <a href="#projects" class="text-sm font-medium text-delta-slate hover:text-white transition-colors uppercase tracking-wider py-3 px-2 rounded hover:bg-delta-surface">Deployments</a>
-                <a href="#about" class="text-sm font-medium text-delta-slate hover:text-white transition-colors uppercase tracking-wider py-3 px-2 rounded hover:bg-delta-surface">Profile</a>
-                <a href="#contact" class="px-5 py-3 bg-delta-deep hover:bg-delta-mid text-white text-sm font-bold uppercase tracking-wider transition-all border border-delta-mid hover:border-delta-neon text-center mt-2">Initiate Audit</a>
-            </div>
-        </div>
-    </nav>
-
-    <!-- HERO SECTION (Architectural Layout) -->
-    <header class="relative z-10 container mx-auto px-6 py-16 md:py-24 lg:py-32">
-        <div class="max-w-4xl mx-auto text-center">
-            
-            <div class="inline-flex items-center gap-2 mb-6 px-3 py-1 border border-delta-charcoal bg-slate-800/50">
-                <div class="w-2 h-2 bg-delta-neon rounded-full animate-pulse"></div>
-                <span class="font-mono text-xs text-delta-neon tracking-widest uppercase">System Status: Active</span>
-            </div>
-            
-            <h1 class="font-display text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold text-white leading-[1.1] mb-8">
-                ARCHITECTURE<br>
-                <span class="text-delta-neon">OF RESILIENCE</span>
-            </h1>
-            
-            <p class="text-base md:text-lg text-delta-slate max-w-2xl mx-auto leading-relaxed mb-10">
-                We bridge the gap between legacy infrastructure and modern risk management. Specialized security protocols for Northeast Arkansas's Agriculture, Medical, and Legal sectors.
-            </p>
-            
-            <div class="flex flex-wrap justify-center gap-4">
-                <button class="group relative px-8 py-4 bg-delta-neon text-delta-black font-bold uppercase tracking-widest overflow-hidden">
-                    <span class="relative z-10">View Capabilities</span>
-                    <div class="absolute inset-0 bg-white transform -translate-x-full group-hover:translate-x-0 transition-transform duration-300"></div>
-                </button>
-                <button class="group relative px-8 py-4 border border-delta-mid text-white font-bold uppercase tracking-widest overflow-hidden">
-                    <span class="relative z-10">Documentation</span>
-                    <div class="absolute inset-0 bg-delta-mid transform -translate-x-full group-hover:translate-x-0 transition-transform duration-300"></div>
-                </button>
-            </div>
-            
-        </div>
+      </div>
+      <p class="lead">I turn years of systems troubleshooting into scalable automation: Python, Docker, and Terraform. I believe in self-healing infrastructure and building production-grade observability stacks.</p>
     </header>
 
-    <!-- D3 PROTOCOL SECTION -->
-    <section id="d3-protocol" class="container mx-auto px-6 py-12 sm:py-16 md:py-20 relative z-10 border-t border-delta-deep/30">
-        
-        <!-- Section Header -->
-        <div class="flex flex-col md:flex-row md:items-end justify-between mb-8 md:mb-12 gap-4">
-            <div>
-                <div class="flex items-center gap-2 mb-2">
-                    <div class="w-1.5 h-1.5 bg-delta-neon rounded-full animate-pulse"></div>
-                    <span class="font-mono text-xs text-delta-neon tracking-widest uppercase">Methodology // Active</span>
-                </div>
-                <h2 class="font-display text-3xl sm:text-4xl md:text-5xl text-white leading-none">THE D3 PROTOCOL</h2>
-            </div>
-            <p class="text-delta-slate text-sm max-w-md md:text-right">
-                A three-tier integrity check designed to translate complex cybersecurity risks into plain business language.
-            </p>
-        </div>
-
-        <!-- The 3-Column Grid -->
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-
-            <!-- PROTOCOL 1: IDENTITY -->
-            <div class="hud-card p-8 group hover:bg-delta-surface transition-colors">
-                <div class="flex justify-between items-start mb-6">
-                    <div class="w-12 h-12 border border-slate-600 flex items-center justify-center bg-slate-900">
-                        <i data-lucide="user-check" class="w-6 h-6 text-delta-neon"></i>
-                    </div>
-                    <span class="font-display text-4xl text-slate-700 group-hover:text-delta-neon/50 transition-colors">01</span>
-                </div>
-                
-                <h3 class="font-display text-3xl text-white mb-2">IDENTITY</h3>
-                <div class="h-px w-full bg-slate-600/50 mb-4"></div>
-                
-                <p class="font-mono text-xs text-delta-neon mb-2 uppercase tracking-wider">> ACCESS CONTROL</p>
-                <p class="text-delta-slate text-sm leading-relaxed mb-4">
-                    We verify who has the keys. We enforce Multi-Factor Authentication (MFA) and purge "ghost" accounts from former employees to ensure only authorized personnel can enter.
-                </p>
-                <div class="bg-delta-deep/20 p-3 border-l-2 border-delta-neon">
-                    <p class="text-xs text-white italic">"Locking the digital doors."</p>
-                </div>
-            </div>
-
-            <!-- PROTOCOL 2: INFRASTRUCTURE -->
-            <div class="hud-card p-8 group hover:bg-delta-surface transition-colors">
-                <div class="flex justify-between items-start mb-6">
-                    <div class="w-12 h-12 border border-slate-600 flex items-center justify-center bg-slate-900">
-                        <i data-lucide="server" class="w-6 h-6 text-delta-neon"></i>
-                    </div>
-                    <span class="font-display text-4xl text-slate-700 group-hover:text-delta-neon/50 transition-colors">02</span>
-                </div>
-                
-                <h3 class="font-display text-3xl text-white mb-2">INFRASTRUCTURE</h3>
-                <div class="h-px w-full bg-slate-600/50 mb-4"></div>
-                
-                <p class="font-mono text-xs text-delta-neon mb-2 uppercase tracking-wider">> SYSTEM HYGIENE</p>
-                <p class="text-delta-slate text-sm leading-relaxed mb-4">
-                    Hardware fails and software rots. We map your critical machinery—servers, workstations, firewalls—and apply patches to close security holes before they are exploited.
-                </p>
-                <div class="bg-delta-deep/20 p-3 border-l-2 border-delta-neon">
-                    <p class="text-xs text-white italic">"Reinforcing the foundation."</p>
-                </div>
-            </div>
-
-            <!-- PROTOCOL 3: DEFENSE -->
-            <div class="hud-card p-8 group hover:bg-delta-surface transition-colors">
-                <div class="flex justify-between items-start mb-6">
-                    <div class="w-12 h-12 border border-slate-600 flex items-center justify-center bg-slate-900">
-                        <i data-lucide="shield-alert" class="w-6 h-6 text-delta-neon"></i>
-                    </div>
-                    <span class="font-display text-4xl text-slate-700 group-hover:text-delta-neon/50 transition-colors">03</span>
-                </div>
-                
-                <h3 class="font-display text-3xl text-white mb-2">DEFENSE</h3>
-                <div class="h-px w-full bg-slate-600/50 mb-4"></div>
-                
-                <p class="font-mono text-xs text-delta-neon mb-2 uppercase tracking-wider">> RESILIENCE & RECOVERY</p>
-                <p class="text-delta-slate text-sm leading-relaxed mb-4">
-                    When prevention fails, recovery is everything. We test your backups against ransomware simulation to guarantee you can restore operations without paying a ransom.
-                </p>
-                <div class="bg-delta-deep/20 p-3 border-l-2 border-delta-neon">
-                    <p class="text-xs text-white italic">"The unbreakable safety net."</p>
-                </div>
-            </div>
-
-        </div>
+    <section class="content bio">
+      <h2>About Me</h2>
+      <div class="bio-text">
+        <p>I am an IT professional with over <strong>10 years of experience</strong> in technical support and customer service. Currently, I am pivoting my deep background in systems troubleshooting into <strong>Network Automation</strong> and <strong>Infrastructure as Code (IaC)</strong>.</p>
+        <p>My career has been built on solving complex problems—whether that was handling Tier II support tickets, managing virtualization environments (VMware/Hyper-V), or troubleshooting TCP/IP and DNS protocols. Today, I am scaling those solutions using <strong>Python, Docker, and Terraform</strong>.</p>
+      </div>
     </section>
 
-    <!-- PRIVACY TOOLS SPOTLIGHT -->
-    <section id="technology" class="container mx-auto px-6 py-12 sm:py-16 md:py-20 relative z-10">
-        <div class="hud-card p-6 sm:p-8 md:p-12 bg-delta-surface/50 border border-delta-mid">
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-                
-                <!-- Content -->
-                <div>
-                    <div class="inline-block bg-delta-deep text-white font-mono text-[10px] px-2 py-1 mb-4 uppercase tracking-widest border border-delta-neon">
-                        Proprietary Technology
-                    </div>
-                    <h2 class="font-display text-4xl md:text-5xl text-white mb-4 leading-none uppercase">
-                        Zero-Knowledge<br><span class="text-delta-neon">Extraction Engine</span>
-                    </h2>
-                    <p class="text-delta-slate text-sm md:text-base leading-relaxed mb-6">
-                        Standard auditing tools scrape everything, often exposing sensitive client data. We built our own. 
-                        Our proprietary extractor runs locally on your machine, cryptographically hashing PII (Personally Identifiable Information) 
-                        <strong>before</strong> it ever leaves your network.
-                    </p>
-                    
-                    <ul class="space-y-3 mb-8">
-                        <li class="flex items-center text-sm text-white font-mono">
-                            <i data-lucide="check-circle" class="w-4 h-4 text-delta-neon mr-3"></i> Local-Side Sanitization
-                        </li>
-                        <li class="flex items-center text-sm text-white font-mono">
-                            <i data-lucide="check-circle" class="w-4 h-4 text-delta-neon mr-3"></i> One-Way Cryptographic Hashing
-                        </li>
-                        <li class="flex items-center text-sm text-white font-mono">
-                            <i data-lucide="check-circle" class="w-4 h-4 text-delta-neon mr-3"></i> GDPR & HIPAA Compliant Output
-                        </li>
-                    </ul>
-
-                    <a href="WhitePaper.html" class="inline-flex items-center text-xs font-bold uppercase tracking-widest text-white border-b border-delta-neon pb-1 hover:text-delta-neon transition-colors">
-                        Read Technical Whitepaper <i data-lucide="arrow-up-right" class="w-3 h-3 ml-2"></i>
-                    </a>
-                </div>
-
-                <!-- Visual -->
-                <div class="relative h-64 lg:h-full min-h-[250px] bg-delta-black border border-delta-charcoal rounded flex items-center justify-center overflow-hidden">
-                    <!-- Background Code Effect -->
-                    <div class="absolute inset-0 opacity-10 p-2 sm:p-4 font-mono text-[8px] sm:text-[10px] text-delta-neon overflow-hidden leading-tight break-all">
-                        01010101010101010101010101010101010101010101010101010101
-                        HASH_SHA256(USER_DATA) >> OUTPUT_TOKEN_882910
-                        SANITIZING_STREAM... COMPLETE.
-                        01010101010101010101010101010101010101010101010101010101
-                    </div>
-                    
-                    <div class="relative z-10 flex items-center gap-3 sm:gap-4">
-                        <div class="text-center">
-                            <div class="w-12 h-12 sm:w-16 sm:h-16 border border-delta-charcoal bg-delta-surface flex items-center justify-center mb-2">
-                                <i data-lucide="file-text" class="w-6 h-6 sm:w-8 sm:h-8 text-delta-slate"></i>
-                            </div>
-                            <span class="text-[9px] sm:text-[10px] font-mono text-delta-slate uppercase">Raw Data</span>
-                        </div>
-                        
-                        <i data-lucide="arrow-right" class="w-5 h-5 sm:w-6 sm:h-6 text-delta-mid animate-pulse flex-shrink-0"></i>
-                        
-                        <div class="text-center">
-                            <div class="w-12 h-12 sm:w-16 sm:h-16 border-2 border-delta-neon bg-delta-black flex items-center justify-center mb-2 shadow-[0_0_15px_rgba(34,197,94,0.3)]">
-                                <i data-lucide="lock" class="w-6 h-6 sm:w-8 sm:h-8 text-delta-neon"></i>
-                            </div>
-                            <span class="text-[9px] sm:text-[10px] font-mono text-delta-neon uppercase">Secure Hash</span>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
+    <section class="content featured" aria-labelledby="featured-heading">
+      <h2 id="featured-heading">Featured Project</h2>
+      <div id="featured-card" class="card">
+        <div class="card-left">
+          <h3 id="featured-title">Loading latest project…</h3>
+          <p id="featured-desc">Fetching your most recently updated repository from GitHub.</p>
+          <div id="featured-meta" class="meta"></div>
         </div>
+        <div class="card-right">
+          <ul id="featured-langs" class="langs" aria-hidden="false"></ul>
+          <div class="links" id="featured-links"></div>
+        </div>
+      </div>
     </section>
 
-    <!-- BENTO GRID PROJECTS -->
-    <main id="projects" class="container mx-auto px-6 py-20 relative z-10">
-        <div class="flex items-end justify-between mb-12">
-            <div>
-                <h2 class="font-display text-4xl text-white mb-2">ACTIVE DEPLOYMENTS</h2>
-                <div class="h-1 w-20 bg-delta-neon"></div>
-            </div>
-            <span class="font-mono text-xs text-delta-slate hidden md:block">// SCROLL FOR DATA</span>
-        </div>
-
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 auto-rows-[300px]">
-            
-            <!-- Project 1: Large Featured -->
-            <div class="md:col-span-2 hud-card p-8 group transition-all hover:bg-delta-surface relative">
-                <div class="flex justify-between items-start h-full flex-col">
-                    <div class="w-full flex justify-between">
-                        <div class="p-3 bg-slate-900 border border-slate-600">
-                            <i data-lucide="database" class="w-6 h-6 text-delta-neon"></i>
-                        </div>
-                        <span class="font-mono text-xs text-delta-slate">PROJECT 01</span>
-                    </div>
-                    <div class="mb-16 md:mb-20">
-                        <h3 class="font-display text-3xl text-white mb-2 group-hover:text-delta-neon transition-colors">Data Fortress Auditor</h3>
-                        <p class="text-delta-slate text-sm max-w-md">
-                            Offline-first security auditing for regulated industries. Automates SQL integrity checks and immutable backup verification for "Air-Gapped" environments.
-                        </p>
-                    </div>
-                    <a href="#" class="inline-flex items-center text-xs font-bold uppercase tracking-widest text-white border-b border-delta-neon pb-1 hover:text-delta-neon">
-                        Access Case Study <i data-lucide="arrow-up-right" class="w-3 h-3 ml-2"></i>
-                    </a>
-                    <div class="absolute bottom-4 sm:bottom-6 md:bottom-8 right-4 sm:right-6 md:right-8">
-                        <span class="text-[10px] md:text-xs font-mono text-delta-neon bg-delta-deep/20 px-2 py-1 inline-block border border-delta-deep/50">STATUS: LIVE</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Project 2: Vertical -->
-            <div class="md:row-span-2 hud-card p-6 md:p-8 group transition-all hover:bg-delta-surface relative">
-                <div class="flex flex-col h-full">
-                    <div class="flex-grow">
-                        <div class="w-full flex justify-between mb-4 md:mb-6">
-                            <div class="p-3 bg-slate-900 border border-slate-600">
-                                <i data-lucide="tractor" class="w-6 h-6 text-delta-neon"></i>
-                            </div>
-                            <span class="font-mono text-xs text-delta-slate">PROJECT 02</span>
-                        </div>
-                        <h3 class="font-display text-2xl md:text-3xl text-white mb-3 md:mb-4 group-hover:text-delta-neon transition-colors">Ag-Tech Resilience</h3>
-                        <p class="text-delta-slate text-sm mb-4 md:mb-6">
-                            Ensuring harvest-critical systems—Grain Elevators, Weigh Scales, Yield Maps—survive ransomware attacks during peak operational windows.
-                        </p>
-                        <ul class="space-y-2 md:space-y-3 mb-16 md:mb-20">
-                            <li class="flex items-center text-xs text-delta-slate font-mono">
-                                <span class="w-1.5 h-1.5 bg-delta-mid mr-2 flex-shrink-0"></span> 
-                                <span class="break-words">HARDWARE FAILOVER</span>
-                            </li>
-                            <li class="flex items-center text-xs text-delta-slate font-mono">
-                                <span class="w-1.5 h-1.5 bg-delta-mid mr-2 flex-shrink-0"></span> 
-                                <span class="break-words">LOCAL CACHING</span>
-                            </li>
-                            <li class="flex items-center text-xs text-delta-slate font-mono">
-                                <span class="w-1.5 h-1.5 bg-delta-mid mr-2 flex-shrink-0"></span> 
-                                <span class="break-words">LEGACY SERIAL PORTS</span>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="absolute bottom-4 sm:bottom-6 md:bottom-8 right-4 sm:right-6 md:right-8">
-                        <span class="text-[10px] md:text-xs font-mono text-delta-neon bg-delta-deep/20 px-2 py-1 inline-block border border-delta-deep/50">STATUS: IN DEVELOPMENT</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Project 3: Compact -->
-            <div class="hud-card p-6 md:p-8 group transition-all hover:bg-delta-surface relative">
-                <div class="flex flex-col h-full justify-between">
-                    <div class="flex justify-between">
-                         <div class="p-3 bg-slate-900 border border-slate-600">
-                            <i data-lucide="file-check" class="w-6 h-6 text-delta-neon"></i>
-                        </div>
-                    </div>
-                    <div class="mb-12 md:mb-16">
-                        <h3 class="font-display text-2xl text-white mb-2 group-hover:text-delta-neon transition-colors">Cyber Insurance Readiness</h3>
-                        <p class="text-delta-slate text-xs">
-                            Translating technical risk (MFA, EOL) into underwriting-ready attestation letters.
-                        </p>
-                    </div>
-                    <div class="absolute bottom-4 sm:bottom-6 md:bottom-8 right-4 sm:right-6 md:right-8">
-                        <span class="text-[10px] md:text-xs font-mono text-delta-neon bg-delta-deep/20 px-2 py-1 inline-block border border-delta-deep/50">STATUS: LIVE</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Stat Card -->
-            <div class="hud-card p-8 relative overflow-hidden group bg-slate-700/40 hover:bg-delta-surface transition-all">
-                <div class="flex flex-col h-full justify-center items-center text-center">
-                    <span class="font-display text-6xl font-bold text-delta-neon group-hover:text-white transition-colors">100%</span>
-                    <span class="font-mono text-xs font-bold text-delta-slate group-hover:text-delta-neon tracking-widest uppercase mt-2">Audit Compliance Rate</span>
-                </div>
-            </div>
-
-        </div>
-
-        <!-- CTA Button -->
-        <div class="mt-12 md:mt-16 flex flex-col items-center gap-3 md:gap-4">
-            <div class="text-center">
-                <h3 class="font-display text-2xl sm:text-3xl md:text-4xl text-white mb-2">ARE YOU READY?</h3>
-                <p class="text-delta-slate text-xs sm:text-sm font-mono uppercase tracking-wider">Click here to access our Self Assessment</p>
-            </div>
-            <a href="./OnePageSelfAuditFlyer.html" class="group relative px-6 sm:px-8 py-3 sm:py-4 bg-delta-neon text-delta-black font-bold text-sm sm:text-base uppercase tracking-widest overflow-hidden hover:shadow-lg hover:shadow-delta-neon/20 transition-shadow">
-                <span class="relative z-10">Begin Assessment</span>
-                <div class="absolute inset-0 bg-white transform -translate-x-full group-hover:translate-x-0 transition-transform duration-300"></div>
-            </a>
-        </div>
-    </main>
-
-    <!-- ABOUT SECTION (Profile) -->
-    <section id="about" class="container mx-auto px-6 py-20 relative z-10">
-        <div class="border-t border-slate-700 pt-16 grid grid-cols-1 md:grid-cols-2 gap-12">
-            <div>
-                <span class="font-mono text-xs text-delta-neon tracking-widest mb-4 block">LEAD DEVELOPER</span>
-                <h2 class="font-display text-5xl text-white mb-6">ERIC RIVERA</h2>
-                <div class="flex gap-4">
-                     <a href="#" class="text-delta-slate hover:text-white"><i data-lucide="github" class="w-5 h-5"></i></a>
-                     <a href="#" class="text-delta-slate hover:text-white"><i data-lucide="linkedin" class="w-5 h-5"></i></a>
-                </div>
-            </div>
-            <div>
-                <p class="text-lg text-delta-slate leading-relaxed mb-6">
-                    Specializing in the unglamorous but critical side of IT: <strong class="text-white">Integrity & Resilience</strong>. While the world moves to the cloud, I focus on the "Hybrid" reality that powers local industry.
-                </p>
-                <div class="flex gap-8 border-t border-slate-600/30 pt-6 mb-8">
-                    <div>
-                        <span class="block font-display text-2xl text-white">10+</span>
-                        <span class="text-xs font-mono text-delta-slate">YEARS EXP</span>
-                    </div>
-                    <div>
-                        <span class="block font-display text-2xl text-white">NEA</span>
-                        <span class="text-xs font-mono text-delta-slate">REGION FOCUSED</span>
-                    </div>
-                </div>
-                
-                <!-- PERSONAL PRIVACY STATEMENT -->
-                <p class="text-delta-slate italic font-serif text-base sm:text-lg text-left mt-8 pl-3 sm:pl-4 border-l-2 border-delta-deep">
-                    "Your privacy is my number one priority." <br>
-                    <span class="text-xs sm:text-sm font-sans not-italic text-delta-neon mt-2 block">- Eric Rivera</span>
-                </p>
-            </div>
-        </div>
+    <section class="content projects" aria-labelledby="projects-heading">
+      <h2 id="projects-heading">Projects</h2>
+      <p class="muted">A snapshot of public repositories. The featured project above highlights the most recently updated repository.</p>
+      <ul id="repo-list" class="repo-list"></ul>
     </section>
 
-    <!-- FOOTER -->
-    <footer class="bg-delta-black border-t border-delta-mid pt-16 pb-8">
-        <div class="container mx-auto px-6 text-center">
-            <div class="flex justify-center items-center gap-3 mb-8">
-                <div class="relative w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center border border-slate-600 bg-slate-700 flex-shrink-0">
-                    <span class="font-display font-bold text-xl sm:text-2xl text-white pt-1">D3</span>
-                    <!-- Tiny decor dots -->
-                    <div class="absolute -top-1 -right-1 w-1 h-1 bg-delta-neon"></div>
-                    <div class="absolute -bottom-1 -left-1 w-1 h-1 bg-delta-neon"></div>
-                </div>
-                <span class="font-display text-xl sm:text-2xl text-white tracking-widest uppercase">Delta Data Defense Systems</span>
-            </div>
-            <p class="text-delta-slate text-sm font-mono uppercase tracking-wider">
-                &copy; 2025 Systems Integrity Division. Jonesboro, AR.
-            </p>
+    <section class="content tech" aria-labelledby="tech-heading">
+      <h2 id="tech-heading">Technical Arsenal</h2>
+      <div class="grid tech-grid">
+        <div>
+          <h4>Core Infrastructure</h4>
+          <ul>
+            <li>Virtualization (VMware, Hyper-V)</li>
+            <li>Networking (TCP/IP, DNS, DHCP)</li>
+            <li>System Security</li>
+            <li>Linux Administration</li>
+          </ul>
         </div>
+        <div>
+          <h4>Automation & DevOps</h4>
+          <ul>
+            <li>Docker & Containerization</li>
+            <li>Terraform (IaC)</li>
+            <li>NetBox (Source of Truth)</li>
+            <li>Grafana & InfluxDB</li>
+          </ul>
+        </div>
+        <div>
+          <h4>Development & Scripting</h4>
+          <ul>
+            <li>Python (Automation & Polling)</li>
+            <li>Bash & PowerShell</li>
+            <li>SQL & Database Mgmt</li>
+            <li>HTML/CSS/JavaScript</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <div>
+        <p>When I'm not writing Terraform plans or configuring kernels, I'm a singer and an avid gamer. I enjoy strategy in all forms.</p>
+        <p class="small">© <span id="year"></span> Eric R. Rivera • <a href="https://github.com/ericriveraisme">GitHub</a></p>
+      </div>
     </footer>
+  </main>
 
-    <script>
-        lucide.createIcons();
-        
-        // Mobile menu toggle
-        document.getElementById('mobile-menu-btn').addEventListener('click', function() {
-            const menu = document.getElementById('mobile-menu');
-            menu.classList.toggle('hidden');
-        });
-    </script>
+  <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+  <script src="/assets/script.js" defer></script>
 </body>
 </html>
