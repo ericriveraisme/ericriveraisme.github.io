@@ -10,6 +10,8 @@ on:
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     
     steps:
       - name: Checkout repository
@@ -38,4 +40,3 @@ jobs:
           exclude_assets: 'node_modules,.git,.github'
           allow_empty_commit: true
           keep_files: false
-
