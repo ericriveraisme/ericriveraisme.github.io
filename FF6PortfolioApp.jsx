@@ -356,7 +356,7 @@ const App = () => {
 
       <canvas ref={canvasRef} className="fixed inset-0 w-full h-full z-0 pixelated" />
 
-      <div className={`fixed inset-0 bg-black transition-opacity duration-1000 z-1 pointer-events-none ${watchMode ? 'opacity-0' : 'opacity-60'}`}></div>
+      <div className={`fixed inset-0 bg-black transition-opacity duration-1000 z-[1] pointer-events-none ${watchMode ? 'opacity-0' : 'opacity-60'}`}></div>
 
       <button onClick={toggleWatchMode} className="fixed right-6 top-1/2 -translate-y-1/2 z-50 group flex flex-col items-center gap-2">
         <div className="w-12 h-12 bg-slate-900 border-2 border-cyan-400 rounded-full flex items-center justify-center shadow-[0_0_15px_rgba(34,211,238,0.5)] group-hover:scale-110 transition-transform">

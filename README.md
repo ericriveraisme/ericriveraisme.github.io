@@ -1,59 +1,148 @@
-# Eric R. Rivera — Portfolio
+# Eric R. Rivera — Portfolio (FF6 Edition)
 
-Personal portfolio website showcasing IT expertise, NetDevOps projects, and automation work.
+Final Fantasy 6-inspired interactive portfolio website showcasing NetDevOps expertise and automation work.
 
 **Live Site:** [https://ericriveraisme.github.io](https://ericriveraisme.github.io)
 
 ## Overview
 
-Responsive single-page portfolio with client-side GitHub API integration. Features a fantasy-inspired design with professional aesthetics, highlighting projects and technical skills.
+An immersive, retro gaming-inspired portfolio featuring:
+- **Animated Canvas Background**: FF6 party members (Terra, Locke, Edgar, Celes) walking through a snowy Narshe landscape
+- **RPG-Style UI**: Character sheets, skill bars, quest logs, and adventure timeline
+- **Interactive Elements**: Watch mode toggle with background music
+- **React + Webpack**: Modern build system with hot module replacement
 
 ## Features
 
-- **Featured Project Section**: Automatically highlights the `netdevops-complete` repository when available, otherwise displays the most recently updated repository
-- **Dynamic Repository List**: Fetches and displays up to 18 active public repositories with language composition percentages
-- **Responsive Design**: Mobile-first layout optimized for all screen sizes
-- **Fantasy-Inspired Aesthetics**: D20 SVG icon, background fantasy scene (mountains, castle silhouette), and Cinzel serif headings
+- **Animated Background Scene**
+  - Dark Magitek night sky with parallax mountains
+  - Four FF6 party members with walking animations
+  - Snow particle system (150 animated flakes)
+  - Atmospheric fog gradients
 
-## Design
+- **Portfolio Sections**
+  - Featured Project showcase (NetDevOps Complete)
+  - Character Sheet (Bio with RPG styling)
+  - Skills with level bars
+  - Active Quests
+  - Adventure Log (Work History timeline)
 
-**Color Palette:**
-- Background: `#f6fbf9` (light, approachable)
-- Accent: `#2f7f56` (deeper green)
-- Text: `#0b2a20` / `#5e766a` (dark/muted)
+- **Interactive Controls**
+  - Watch Mode toggle (play/pause background music)
+  - Smooth transitions and animations
+  - Responsive design for all screen sizes
 
-**Typography:**
-- Headings: Cinzel (Google Fonts)
-- Body: Inter (Google Fonts)
+## Tech Stack
 
-## Files
+- **React 18** - Component-based UI
+- **Webpack 5** - Module bundling
+- **Tailwind CSS** - Utility-first styling (via CDN)
+- **Canvas API** - 2D sprite rendering and animations
+- **Babel** - JavaScript transpilation
 
-- **index.html** - Portfolio structure with hero, bio, featured project, projects list, and skills sections
-- **assets/styles.css** - Light theme with responsive grid layouts
-- **assets/script.js** - GitHub API integration with featured repository preference
+## Project Structure
+
+```
+ericriveraisme.github.io/
+├── index.html              # Main entry point (FF6 version)
+├── FF6PortfolioApp.jsx     # Main React component
+├── index.jsx              # React entry point
+├── webpack.config.js      # Webpack configuration
+├── package.json           # Dependencies
+├── assets/
+│   ├── styles.css        # Legacy styles (for standard version backup)
+│   └── script.js         # GitHub API integration (legacy)
+├── backup/               # Version backups
+│   └── index-standard.html  # Original standard portfolio
+├── archive-delta-data/   # Archived Delta Data Defense files
+└── dist/                # Build output (generated)
+```
 
 ## Local Development
 
+### Prerequisites
+- Node.js 18+ and npm
+
+### Development Server
+
 ```bash
-# Serve locally
-python3 -m http.server 8000
+# Install dependencies
+npm install
+
+# Start development server with hot reload
+npm start
+
+# Server runs on http://localhost:3000
+# Automatically opens in browser
+```
+
+### Production Build
+
+```bash
+# Build for production
+npm run build
+
+# Output: dist/bundle.js
+
+# Serve locally to test production build
+python -m http.server 8000
 # Open http://localhost:8000
 ```
 
-**Note:** GitHub API integration works best when deployed. Local CORS restrictions may affect API calls during local testing.
+## Deployment
 
-## Technical Details
+### GitHub Pages (Automatic)
 
-The portfolio uses client-side JavaScript to fetch repository data from the GitHub API:
+The repository uses GitHub Actions to automatically build and deploy:
 
-```javascript
-const preferredFeatured = 'netdevops-complete';
-// Fetches repos, prefers netdevops-complete, falls back to most recent
+1. Push to `main` or `master` branch
+2. GitHub Actions builds the React app
+3. Deploys to GitHub Pages automatically
+
+**Workflow:** `.github/workflows/deploy.yml`
+
+### Manual Deployment
+
+```bash
+# Build the app
+npm run build
+
+# Commit and push dist/ folder
+git add dist/
+git commit -m "Build for production"
+git push
 ```
 
-- Fetches up to 200 repositories
-- Displays 18 active repositories (excludes forks and archived)
-- Computes language composition percentages
+## Design
+
+**Theme:** Final Fantasy 6 - Narshe Opening Scene
+
+**Color Palette:**
+- Background: `#02040a` (Dark Magitek Night)
+- Accent: `#06b6d4` (Cyan), `#3b82f6` (Blue)
+- Text: `#e2e8f0` (Slate-200)
+- Mountains: `#000000` (Black silhouette)
+
+**Typography:**
+- Headings: Cinzel (serif, fantasy style)
+- Body: Monospace (8-bit gaming aesthetic)
+
+## Archived Versions
+
+- **Standard Portfolio**: Available in `backup/index-standard.html`
+- **Delta Data Defense**: Archived in `archive-delta-data/` folder
+
+## Browser Support
+
+- Modern browsers (Chrome, Firefox, Safari, Edge)
+- Canvas API required for background animation
+- Web Audio API for background music (optional)
+
+## Performance
+
+- Canvas rendering optimized with `requestAnimationFrame`
+- Snow particles limited to 150 for smooth performance
+- Proper cleanup of event listeners and animation frames
 
 ## Contact
 

@@ -1,11 +1,11 @@
 const path = require('path');
 
 module.exports = {
-  entry: './FF6PortfolioApp.jsx',
+  entry: './index.jsx',
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename: 'bundle.js',
-    publicPath: '/',
+    publicPath: './',
   },
   resolve: {
     extensions: ['.js', '.jsx'],
@@ -34,6 +34,12 @@ module.exports = {
     hot: true,
     open: true,
     historyApiFallback: true,
+    client: {
+      overlay: {
+        errors: true,
+        warnings: false,
+      },
+    },
   },
-  mode: 'development',
+  mode: process.env.NODE_ENV || 'development',
 };
