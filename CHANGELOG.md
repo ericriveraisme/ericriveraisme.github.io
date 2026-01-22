@@ -1,91 +1,70 @@
-# Changelog - index2.html
+# Changelog
 
-## December 20, 2025
+All notable changes to the FF6 Portfolio project will be documented in this file.
 
-### Major Design Overhaul
-- Replaced entire layout with HUD/architectural cyberpunk design
-- Implemented technical grid background with fade effect
-- Added corner accent borders to all project cards (HUD-style)
-- Changed from scanline background to tech grid pattern
-- Updated navigation to minimalist tech style with D3 badge
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
+and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-### Navigation Updates
-- Added Delta triangle icon to header (right side of "Defense Systems")
-- Increased triangle icon size: 24px → 40px (final: 48px on desktop)
-- Increased D3 badge from 40x40px to 48x48px to match triangle
-- Implemented functional mobile menu with slide-down animation
-- Added mobile menu toggle button with click handler
+## [Unreleased]
 
-### Hero Section
-- Changed headline to "ARCHITECTURE OF RESILIENCE"
-- Added gradient text effect on "OF RESILIENCE"
-- Included "System Status: Active" indicator with pulsing dot
-- Added D3-PROTOCOL visualization panel (desktop only)
-- Improved mobile responsiveness with reduced padding (py-16 md:py-24 lg:py-32)
+### Added
+- 16-bit SNES style sprite assets in `assets/sprites/` folder
+  - Character sprites (Terra, Locke, Edgar, Celes) with front and back views
+  - Enemy sprites (Cactuar) with horizontal flipping support
+  - Sprite preview page (`sprite-preview.html`) for viewing all sprites
+- Cactuar enemy sprite bouncing horizontally across the screen
+- Horizontal sprite flipping when enemy changes direction
+- Twinkling city lights with intensity-based glow effects
+- Snow drift and wind effects using Bezier curves for smooth animation
+- Character staggering in zig-zag diagonal pattern across the roadway
+- City background improvements with more visible structures and lighting
 
-### Button Improvements
-- Matched hover effects for both CTA buttons
-- Added consistent slide-in animation (300ms duration)
-- "Documentation" button now has matching interaction style
+### Changed
+- Refactored sprite definitions from hardcoded arrays to separate asset files
+  - `assets/sprites/ff6-characters.js` - Character sprite definitions
+  - `assets/sprites/ff6-enemies.js` - Enemy sprite definitions
+- Character sprites redesigned to match actual FF6 game sprites
+  - Updated colors and designs based on reference images
+  - More accurate character appearances (Terra's purple top/red skirt, Locke's colorful bandana, etc.)
+- Cactuar sprite refined to match classic FF6 Cactuar/Cactrot design
+  - Compact rectangular body (12-14 pixels tall)
+  - Square head with two black dot eyes
+  - Horizontal arms and stubby legs
+  - Dark green shading on right side for depth
+- Characters now show only their backs as they walk toward city lights
+- City lights made more visible with lighter background
+- Snow drift effects smoothed and made more fluid with sectioned generation
+- Camera scrolling direction reversed (upward movement)
 
-### Project Cards - Layout Changes
-- Converted to Bento grid layout (varied card sizes)
-- Project 1: Large featured (2 columns)
-- Project 2: Vertical (2 rows)
-- Project 3: Compact (1 grid square)
-- Added 100% compliance stat card with HUD styling
+### Fixed
+- Sprite import/export compatibility (ES6 modules for webpack, CommonJS/global for direct HTML)
+- Character positioning to ensure all characters are on dark road tiles
+- Cactuar positioning to prevent overlap with characters
+- Port conflicts during development (automatic cleanup)
 
-### Project 1 (Data Fortress Auditor)
-- Added "STATUS: LIVE" badge in lower right corner
-- Badge positioned at bottom-4 sm:bottom-6 md:bottom-8
-- Made responsive with text sizing (text-[10px] md:text-xs)
-- Updated icon positioning to match Project 1 layout
+### Technical
+- Improved asset organization following web development best practices
+- Sprite files support both ES6 module imports and direct script tag usage
+- Webpack configuration handles sprite asset imports correctly
+- Build process optimized for GitHub Pages deployment
 
-### Project 2 (Ag-Tech Resilience)
-- Changed icon from scale to tractor (green/delta-neon color)
-- Fixed bullet point responsiveness with flex-shrink-0
-- Added break-words to prevent text overflow
-- Repositioned "PROJECT 02" label to upper right
-- Added "STATUS: IN DEVELOPMENT" badge in lower right
-- Made spacing responsive (p-6 md:p-8, space-y-2 md:space-y-3)
+## [1.0.0] - 2025-01-XX
 
-### Project 3 (Cyber Insurance Readiness)
-- Changed file-check icon from white to green (delta-neon)
-- Added "STATUS: LIVE" badge in lower right corner
-- Made card padding responsive (p-6 md:p-8)
-- Added bottom margin to content (mb-12 md:mb-16)
+### Added
+- Initial FF6-inspired portfolio website
+- Animated canvas background with FF6 party members
+- RPG-style UI elements (character sheets, skill bars, quest logs)
+- Watch mode toggle with background music
+- GitHub Actions workflow for automatic deployment
+- React + Webpack build system
+- Responsive design for all screen sizes
 
-### 100% Stat Card
-- Converted from bright green background to HUD-style card
-- Added corner accent borders matching other project cards
-- Changed from delta-neon background to delta-deep/40
-- Updated hover effect to match site aesthetic
-- Text colors: delta-neon (default) → white (hover)
-
-### Responsive Design Improvements
-- All status badges: responsive positioning (bottom-4 sm:bottom-6 md:bottom-8)
-- Mobile menu: full-width dropdown with proper spacing
-- Hero section: stacks properly on mobile devices
-- Icon sizes: consistent scaling across breakpoints
-- Typography: responsive text sizes throughout
-
-### Color & Typography Updates
-- Updated delta-slate color to #94a3b8 for better contrast
-- Added delta-surface color (#03382c) for card backgrounds
-- Maintained Teko font for display text
-- Maintained Inter font for body text
-- Added text-glow effect for hero headline
-
-### Technical Improvements
-- Added relative positioning to cards for absolute badge placement
-- Implemented proper z-index layering
-- Added flex-shrink-0 to prevent icon/bullet squashing
-- Improved spacing with responsive margin utilities
-- Added border styling to status badges for definition
+### Changed
+- Migrated from standard portfolio to FF6-themed design
+- Archived Delta Data Defense files to `archive-delta-data/` folder
 
 ---
 
-## File Status
-**Current Version**: index2.html (Competing Design - HUD/Architectural Style)  
-**Original Version**: index.html (Scanline Design - Available for comparison)  
-**Backup**: backup/index.html
+## Archive: Delta Data Defense (Pre-FF6)
+
+Previous changelog entries for the Delta Data Defense portfolio are archived in `archive-delta-data/VERSION_NOTES.md`.

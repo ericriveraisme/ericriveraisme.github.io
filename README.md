@@ -15,8 +15,11 @@ An immersive, retro gaming-inspired portfolio featuring:
 ## Features
 
 - **Animated Background Scene**
-  - Dark Magitek night sky with parallax mountains
-  - Four FF6 party members with walking animations
+  - Dark Magitek night sky with parallax mountains (Narshe cityscape)
+  - Four FF6 party members (Terra, Locke, Edgar, Celes) with walking animations
+  - Cactuar enemy sprite bouncing horizontally across the screen
+  - Twinkling city lights with glow effects
+  - Snow drift and wind effects obscuring the city
   - Snow particle system (150 animated flakes)
   - Atmospheric fog gradients
 
@@ -39,6 +42,7 @@ An immersive, retro gaming-inspired portfolio featuring:
 - **Tailwind CSS** - Utility-first styling (via CDN)
 - **Canvas API** - 2D sprite rendering and animations
 - **Babel** - JavaScript transpilation
+- **16-bit SNES Sprites** - Custom pixel art assets (characters and enemies)
 
 ## Project Structure
 
@@ -51,7 +55,12 @@ ericriveraisme.github.io/
 ├── package.json           # Dependencies
 ├── assets/
 │   ├── styles.css        # Legacy styles (for standard version backup)
-│   └── script.js         # GitHub API integration (legacy)
+│   ├── script.js         # GitHub API integration (legacy)
+│   └── sprites/          # 16-bit SNES style sprite assets
+│       ├── ff6-characters.js    # Character sprite definitions
+│       ├── ff6-enemies.js       # Enemy sprite definitions
+│       ├── sprite-preview.html  # Sprite preview page
+│       └── README.md            # Sprite documentation
 ├── backup/               # Version backups
 │   └── index-standard.html  # Original standard portfolio
 ├── archive-delta-data/   # Archived Delta Data Defense files
