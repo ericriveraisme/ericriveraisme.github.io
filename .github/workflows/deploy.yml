@@ -31,12 +31,17 @@ jobs:
         env:
           NODE_ENV: production
       
+      - name: Prepare deployment directory
+        run: |
+          mkdir -p deploy
+          cp index.html deploy/
+          cp -r dist deploy/
+      
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./
-          exclude_assets: 'node_modules,.git,.github'
+          publish_dir: ./deploy
           allow_empty_commit: true
           keep_files: false
