@@ -28,7 +28,15 @@ This document outlines optional improvements for the portfolio site that would e
   - Frames per second (FPS)
   - Animation frame time
   - Memory usage
-- **Notes:** Currently rendering 644 lines of complex canvas operations
+- **Known Issues:**
+  - ⚠️ **Wind effect shimmering on older devices and mobile** (reported Feb 12, 2026)
+    - Visible artifact on integrated graphics and mobile browsers
+    - Likely due to 30fps wind rendering vs 60fps base animation
+    - May need to reduce transparency, simplify curves, or cache wind frames
+    - Test on: iPhone Safari, Android Chrome, Intel HD Graphics laptops
+- **Notes:** v1.2.1 added frame rate limiting (60fps cap) and wind optimization (30fps)
+  - Current implementation: 150 snowflakes, alternating wind frames
+  - Previously 644 lines of complex canvas operations
 
 ### 3. Print Stylesheet (Priority: Low)
 **Description:** Add print-friendly CSS for users printing the portfolio
