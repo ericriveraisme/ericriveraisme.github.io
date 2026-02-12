@@ -7,24 +7,10 @@ const App = () => {
   const canvasRef = useRef(null);
   const [fps, setFps] = useState(0);
   const [watchMode, setWatchMode] = useState(false);
-  const audioRef = useRef(null);
 
-  // --- Toggle Audio/View ---
+  // --- Toggle Watch Mode ---
   const toggleWatchMode = () => {
-    const newMode = !watchMode;
-    setWatchMode(newMode);
-    
-    if (audioRef.current) {
-      if (newMode) {
-        audioRef.current.volume = 0.6;
-        const playPromise = audioRef.current.play();
-        if (playPromise !== undefined) {
-          playPromise.catch(error => console.log("Audio play blocked"));
-        }
-      } else {
-        audioRef.current.pause();
-      }
-    }
+    setWatchMode(!watchMode);
   };
 
   useEffect(() => {
@@ -461,8 +447,6 @@ const App = () => {
   return (
     <div className="font-mono min-h-screen text-slate-200 relative selection:bg-cyan-500 selection:text-white bg-slate-900">
       
-      <audio ref={audioRef} loop src="https://opengameart.org/sites/default/files/The%20Field%20of%20Dreams.mp3" />
-
       <canvas ref={canvasRef} className="fixed inset-0 w-full h-full z-0 pixelated" />
 
       <div className={`fixed inset-0 bg-black transition-opacity duration-1000 z-[1] pointer-events-none ${watchMode ? 'opacity-0' : 'opacity-60'}`}></div>
