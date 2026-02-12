@@ -9,7 +9,7 @@ export const resumeData = {
   personal: {
     name: "Eric Rivera",
     title: "IT Professional",
-    tagline: "&lt;IT Professional /&gt;",
+    tagline: "<IT Professional/Amatuer Vibe-Coder>",
     email: "ericriveraisme@gmail.com",
     github: "https://github.com/ericriveraisme",
     phone: "(870) 882-1926",
