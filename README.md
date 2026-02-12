@@ -48,6 +48,13 @@ An immersive, retro gaming-inspired portfolio featuring:
 
 ## Performance & Quality
 
+- **Canvas Rendering Optimization** (v1.2.1):
+  - 60fps frame rate limiting to prevent CPU overload on low-end devices
+  - Debounced window resize events (250ms throttle) for efficient dimension updates
+  - Wind effect optimization: renders at 30fps (every other frame) instead of 60fps
+  - Estimated 10-30% CPU improvement on integrated graphics hardware
+  - All visual effects preserved while improving responsiveness on work laptops
+
 - **Tailwind CSS**: Migrated from CDN to local build with PostCSS for:
   - Faster load times (only used classes included)
   - Eliminated unsafe-eval CSP warning

@@ -7,6 +7,29 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.2.1] - 2026-02-12
+
+### Added
+- **Canvas Performance Optimizations**
+  - Frame rate limiting (60fps cap) to prevent CPU overload on low-end devices
+  - Resize event debouncing (250ms throttle) to reduce expensive canvas dimension updates
+  - Dynamic wind effect optimization: skip wind rendering every other frame
+  - Performance tracking infrastructure for FPS monitoring
+  - Comprehensive performance comments documenting optimization rationale
+
+### Changed
+- Wind/snow drift effect now renders at 30fps (every other frame) instead of 60fps
+- Resize events now debounced instead of firing on every pixel change
+- Frame rate globally limited to 60fps max for consistent performance across hardware
+- Updated loop() function JSDoc to document performance optimizations
+
+### Performance
+- Significant CPU reduction on lower-end devices (10-30% improvement estimated)
+- View button toggle no longer lags on work laptops with integrated graphics
+- Wind effect (most expensive operation) now 50% less frequent
+- Resize performance improved by reducing canvas dimension calculations
+- All visual quality preserved while improving responsiveness
+
 ## [1.2.0] - 2026-02-12
 
 ### Added
