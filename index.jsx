@@ -10,7 +10,7 @@ import './assets/styles.css';
 // Initialize Sentry for error tracking in production
 if (process.env.NODE_ENV === 'production') {
   Sentry.init({
-    dsn: 'https://examplePublicKey@o0.ingest.sentry.io/0', // Replace with your Sentry DSN
+    dsn: 'https://24f9dcf084a6bdb298e927853664023b@o4510873013125120.ingest.us.sentry.io/4510873015287808',
     integrations: [
       new BrowserTracing(),
       new Sentry.Replay({
