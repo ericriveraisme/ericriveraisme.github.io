@@ -528,9 +528,9 @@ const App = () => {
                                     </span>
                                 ))}
                             </div>
-                            <button className="px-6 py-3 bg-indigo-600 hover:bg-indigo-500 text-white font-bold rounded shadow-lg transition-colors flex items-center gap-2">
+                            <a href={resumeData.featured.ctaLink} className="px-6 py-3 bg-indigo-600 hover:bg-indigo-500 text-white font-bold rounded shadow-lg transition-colors flex items-center gap-2 inline-block">
                                 <span>{resumeData.featured.ctaText}</span>
-                            </button>
+                            </a>
                         </div>
                         <div className="w-full md:w-auto flex justify-center">
                             <div className="w-48 h-48 rounded-full border-4 border-slate-700 bg-black/40 flex items-center justify-center relative">

@@ -23,7 +23,7 @@ export const resumeData = {
     description: "The ultimate grimoire for network automation. A comprehensive framework orchestrating the network infrastructure, one packet at a time.",
     skills: ["Python", "Ansible", "Docker", "CI/CD"],
     ctaText: "Enter The Portal",
-    ctaLink: "#"
+    ctaLink: "https://github.com/ericriveraisme/netdevops-complete"
   },
 
   // Character Sheet / About Section
