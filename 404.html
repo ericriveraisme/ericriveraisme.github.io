@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Page Not Found - Eric Rivera Portfolio</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 20px;
+        background: linear-gradient(180deg, #02040a 0%, #1a1f2e 100%);
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 100vh;
+        color: #e2e8f0;
+      }
+      .container {
+        text-align: center;
+        max-width: 600px;
+      }
+      h1 {
+        font-size: 3em;
+        margin: 0;
+        color: #60a5fa;
+        text-shadow: 0 0 10px rgba(96, 165, 250, 0.3);
+      }
+      p {
+        font-size: 1.2em;
+        margin: 20px 0;
+        color: #cbd5e1;
+      }
+      a {
+        display: inline-block;
+        margin-top: 30px;
+        padding: 12px 30px;
+        background: #2f7f56;
+        color: #f6fbf9;
+        text-decoration: none;
+        border-radius: 8px;
+        transition: all 0.3s ease;
+        border: 2px solid #2f7f56;
+      }
+      a:hover {
+        background: #1f5b3f;
+        box-shadow: 0 0 15px rgba(47, 127, 86, 0.5);
+      }
+      .error-code {
+        font-size: 5em;
+        font-weight: bold;
+        margin: 0;
+        background: linear-gradient(135deg, #60a5fa, #2f7f56);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <p class="error-code">404</p>
+      <h1>Quest Not Found</h1>
+      <p>The grimoire page you seek does not exist in this realm.</p>
+      <p>The dungeon layout has shifted. Let's send you back to the beginning.</p>
+      <a href="/">← Return to Portal</a>
+    </div>
+
+    <script>
+      // Single-page app redirect: GitHub Pages serves 404.html for all unknown routes
+      // This script redirects to the home page and preserves the requested path
+      // so the React app can handle client-side routing
+      if (window.location.pathname !== '/') {
+        // Store the intended path for the app to handle
+        sessionStorage.setItem('redirect', window.location.pathname);
+        // Redirect to home page
+        window.location.href = '/';
+      }
+    </script>
+  </body>
+</html>
