@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { FF6_CHARACTER_SPRITES, FF6_CHARACTER_SPRITES_BACK } from './assets/sprites/ff6-characters.js';
 import { FF6_ENEMY_SPRITES } from './assets/sprites/ff6-enemies.js';
+import { resumeData } from './src/data/resumeData.js';
 
 const App = () => {
   const canvasRef = useRef(null);
@@ -485,20 +486,20 @@ const App = () => {
         <header className="container mx-auto px-6 py-12 flex flex-col md:flex-row justify-between items-center gap-6">
             <div className="text-center md:text-left">
                 <h1 className="text-4xl md:text-6xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-200 to-blue-500 drop-shadow-lg mb-2" style={{ fontFamily: 'Cinzel, serif' }}>
-                    Eric Rivera
+                    {resumeData.personal.name}
                 </h1>
                 <div className="inline-block px-3 py-1 bg-slate-900/60 border border-slate-500/30 rounded backdrop-blur-sm">
                     <p className="font-8bit text-cyan-400 text-xs tracking-widest">
-                        &lt;NetDevOps Mage /&gt;
+                        {resumeData.personal.tagline}
                     </p>
                 </div>
             </div>
             
             <div className="flex gap-4">
-                <a href="https://github.com/ericriveraisme" className="flex items-center gap-2 px-4 py-2 bg-slate-900/80 hover:bg-slate-800 border border-slate-600 rounded text-slate-200 text-xs font-bold uppercase tracking-wider transition-all hover:scale-105">
+                <a href={resumeData.personal.github} className="flex items-center gap-2 px-4 py-2 bg-slate-900/80 hover:bg-slate-800 border border-slate-600 rounded text-slate-200 text-xs font-bold uppercase tracking-wider transition-all hover:scale-105">
                     <span>GitHub</span>
                 </a>
-                <a href="mailto:eric@example.com" className="flex items-center gap-2 px-4 py-2 bg-indigo-600/90 hover:bg-indigo-500 border border-indigo-500 rounded text-white text-xs font-bold uppercase tracking-wider shadow-lg transition-all hover:scale-105">
+                <a href={`mailto:${resumeData.personal.email}`} className="flex items-center gap-2 px-4 py-2 bg-indigo-600/90 hover:bg-indigo-500 border border-indigo-500 rounded text-white text-xs font-bold uppercase tracking-wider shadow-lg transition-all hover:scale-105">
                     <span>Summon</span>
                 </a>
             </div>
@@ -514,21 +515,21 @@ const App = () => {
                     <div className="relative z-10 flex flex-col md:flex-row gap-10 items-center">
                         <div className="flex-1">
                             <div className="flex items-center gap-3 mb-4">
-                                <span className="text-4xl">🔮</span>
-                                <h2 className="text-3xl md:text-4xl font-bold text-cyan-100" style={{ fontFamily: 'Cinzel, serif' }}>NetDevOps Complete</h2>
+                                <span className="text-4xl">{resumeData.featured.emoji}</span>
+                                <h2 className="text-3xl md:text-4xl font-bold text-cyan-100" style={{ fontFamily: 'Cinzel, serif' }}>{resumeData.featured.title}</h2>
                             </div>
                             <p className="text-slate-300 text-lg mb-6 leading-relaxed max-w-2xl">
-                                The ultimate grimoire for network automation. A comprehensive framework orchestrating the network infrastructure, one packet at a time.
+                                {resumeData.featured.description}
                             </p>
                             <div className="flex flex-wrap gap-3 mb-8">
-                                {['Python', 'Ansible', 'Docker', 'CI/CD'].map(tag => (
+                                {resumeData.featured.skills.map(tag => (
                                     <span key={tag} className="bg-slate-950/50 border border-cyan-500/30 text-cyan-300 px-3 py-1 rounded font-mono text-sm">
                                         {tag}
                                     </span>
                                 ))}
                             </div>
                             <button className="px-6 py-3 bg-indigo-600 hover:bg-indigo-500 text-white font-bold rounded shadow-lg transition-colors flex items-center gap-2">
-                                <span>Enter The Portal</span>
+                                <span>{resumeData.featured.ctaText}</span>
                             </button>
                         </div>
                         <div className="w-full md:w-auto flex justify-center">
@@ -549,21 +550,20 @@ const App = () => {
                     </h3>
                     <div className="flex flex-col md:flex-row gap-6">
                         <div className="w-24 h-24 bg-slate-950 border-2 border-slate-600 rounded-lg flex items-center justify-center shrink-0">
-                            <span className="text-4xl">🧙‍♂️</span>
+                            <span className="text-4xl">{resumeData.about.avatar}</span>
                         </div>
                         <div>
                             <p className="text-slate-300 leading-relaxed mb-4">
-                                Greetings, traveler. I am Eric Rivera, a Full Stack Developer specializing in Network Automation. 
-                                I bridge the gap between traditional networking hardware and modern software development practices.
+                                {resumeData.about.bio}
                             </p>
                             <div className="grid grid-cols-2 gap-4">
                                 <div className="bg-slate-950/50 p-3 rounded border border-slate-700/50">
                                     <span className="block text-[10px] text-cyan-500 uppercase font-bold tracking-wider">Class</span>
-                                    <span className="text-white font-bold" style={{ fontFamily: 'Cinzel, serif' }}>Technomancer</span>
+                                    <span className="text-white font-bold" style={{ fontFamily: 'Cinzel, serif' }}>{resumeData.about.class}</span>
                                 </div>
                                 <div className="bg-slate-950/50 p-3 rounded border border-slate-700/50">
                                     <span className="block text-[10px] text-cyan-500 uppercase font-bold tracking-wider">Guild</span>
-                                    <span className="text-white font-bold" style={{ fontFamily: 'Cinzel, serif' }}>NetDevOps</span>
+                                    <span className="text-white font-bold" style={{ fontFamily: 'Cinzel, serif' }}>{resumeData.about.guild}</span>
                                 </div>
                             </div>
                         </div>
@@ -575,19 +575,14 @@ const App = () => {
                         <span>🎒</span> Skills
                     </h3>
                     <div className="space-y-4">
-                        {[
-                            { name: "Network Engineering", lvl: 10, color: "bg-blue-500" },
-                            { name: "Python Automation", lvl: 9, color: "bg-cyan-500" },
-                            { name: "Ansible", lvl: 9, color: "bg-cyan-500" },
-                            { name: "Docker/K8s", lvl: 7, color: "bg-indigo-500" }
-                        ].map((skill) => (
+                        {resumeData.skills.map((skill) => (
                             <div key={skill.name}>
                                 <div className="flex justify-between text-xs font-bold text-slate-300 mb-1">
                                     <span>{skill.name}</span>
-                                    <span>LVL {skill.lvl}</span>
+                                    <span>LVL {skill.level}</span>
                                 </div>
                                 <div className="h-2 bg-slate-950 rounded-full overflow-hidden">
-                                    <div className={`h-full ${skill.color}`} style={{ width: `${skill.lvl * 10}%` }}></div>
+                                    <div className={`h-full ${skill.color}`} style={{ width: `${skill.level * 10}%` }}></div>
                                 </div>
                             </div>
                         ))}
@@ -599,18 +594,12 @@ const App = () => {
                         <span>⚔️</span> Active Quests
                     </h3>
                     <ul className="space-y-4">
-                        <li className="group">
-                            <h4 className="font-bold text-white group-hover:text-cyan-400 transition-colors">Physical Cultivation</h4>
-                            <p className="text-slate-400 text-sm">Increasing strength stats & endurance.</p>
-                        </li>
-                        <li className="border-t border-slate-800 pt-3 group">
-                            <h4 className="font-bold text-white group-hover:text-cyan-400 transition-colors">Arcane Studies</h4>
-                            <p className="text-slate-400 text-sm">Mastering NetDevOps & Python scripting.</p>
-                        </li>
-                        <li className="border-t border-slate-800 pt-3 group">
-                            <h4 className="font-bold text-white group-hover:text-cyan-400 transition-colors">Linguistic Decoding</h4>
-                            <p className="text-slate-400 text-sm">Learning Japanese (Nihongo).</p>
-                        </li>
+                        {resumeData.activeQuests.map((quest, index) => (
+                            <li key={index} className={`${index > 0 ? 'border-t border-slate-800 pt-3' : ''} group`}>
+                                <h4 className="font-bold text-white group-hover:text-cyan-400 transition-colors">{quest.title}</h4>
+                                <p className="text-slate-400 text-sm">{quest.description}</p>
+                            </li>
+                        ))}
                     </ul>
                 </div>
 
@@ -619,29 +608,23 @@ const App = () => {
                         <span>🗺️</span> Adventure Log
                     </h3>
                     <div className="space-y-8 pl-2">
-                        <div className="relative border-l-2 border-slate-600 pl-8 pb-2">
-                            <div className="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-indigo-500 border-2 border-slate-900 shadow-[0_0_10px_rgba(99,102,241,0.5)]"></div>
-                            <h4 className="text-lg font-bold text-white">Senior Network Engineer</h4>
-                            <div className="text-sm text-cyan-400 font-mono mb-2">TechCorp Citadel | 2020 - Present</div>
-                            <p className="text-slate-300 text-sm leading-relaxed mb-2">
-                                Led the modernization of legacy infrastructure into a software-defined network. Implemented CI/CD pipelines for network config changes using GitLab and Ansible, reducing deployment time by 80%.
-                            </p>
-                        </div>
-                        <div className="relative border-l-2 border-slate-600 pl-8">
-                            <div className="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-slate-600 border-2 border-slate-900"></div>
-                            <h4 className="text-lg font-bold text-white">Network Administrator</h4>
-                            <div className="text-sm text-cyan-400 font-mono mb-2">Regional ISP | 2017 - 2020</div>
-                            <p className="text-slate-300 text-sm leading-relaxed mb-2">
-                                Managed OSPF and BGP routing for a regional backbone serving 50k+ subscribers. Troubleshooting complex layer 2/3 issues.
-                            </p>
-                        </div>
+                        {resumeData.experience.map((job, index) => (
+                            <div key={index} className="relative border-l-2 border-slate-600 pl-8 pb-2">
+                                <div className={`absolute -left-[9px] top-0 w-4 h-4 rounded-full border-2 border-slate-900 shadow-[0_0_10px_rgba(99,102,241,0.5)] ${index === 0 ? 'bg-indigo-500' : 'bg-slate-600'}`}></div>
+                                <h4 className="text-lg font-bold text-white">{job.title}</h4>
+                                <div className="text-sm text-cyan-400 font-mono mb-2">{job.company} | {job.startDate} - {job.endDate}</div>
+                                <p className="text-slate-300 text-sm leading-relaxed mb-2">
+                                    {job.description}
+                                </p>
+                            </div>
+                        ))}
                     </div>
                 </div>
 
             </div>
 
             <footer className="text-center py-12 text-slate-500 text-xs font-mono">
-                <p>© {new Date().getFullYear()} Eric Rivera. Crafted with React & Tailwind.</p>
+                <p>© {new Date().getFullYear()} {resumeData.footer.copyright}. Crafted with {resumeData.footer.craftedWith}.</p>
             </footer>
 
         </main>
