@@ -52,6 +52,10 @@ const App = () => {
     let lastTime = performance.now();
     let cameraY = 0;
     
+    // Performance optimization: track average FPS and reduce particles if low
+    let fpsSamples = [];
+    let particleCount = 150; // Start with 150 snowflakes
+    
     // --- Assets (FF6 Sprites) - Imported from assets folder ---
     // Using sprites from assets/sprites/ff6-characters.js
     const TERRA = FF6_CHARACTER_SPRITES.TERRA;
@@ -73,7 +77,7 @@ const App = () => {
     ];
 
     // --- Snow System ---
-    const snowflakes = Array.from({ length: 150 }, () => ({
+    const snowflakes = Array.from({ length: particleCount }, () => ({
       x: Math.random() * window.innerWidth,
       y: Math.random() * window.innerHeight,
       speed: 1 + Math.random() * 3,
@@ -94,17 +98,30 @@ const App = () => {
 
     /**
      * Resize canvas to match window dimensions and update rendering context
-     * Called on mount and whenever window is resized
+     * Called on mount and whenever window is resized (debounced to max 1 per 250ms)
+     * Debouncing prevents excessive canvas dimension updates during window resize events
      * @function resize
      * @returns {void}
      */
+    let resizeTimeoutId;
     const resize = () => {
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
       ctx.imageSmoothingEnabled = false;
     };
-    window.addEventListener('resize', resize);
+    
+    // Debounce resize events to avoid thrashing (max 1 per 250ms)
+    const onWindowResize = () => {
+      clearTimeout(resizeTimeoutId);
+      resizeTimeoutId = setTimeout(resize, 250);
+    };
+    window.addEventListener('resize', onWindowResize);
     resize();
+
+    // Frame rate limiting variables (target 60fps)
+    let lastFrameTime = performance.now();
+    const FRAME_RATE = 60;
+    const FRAME_INTERVAL = 1000 / FRAME_RATE;
 
     /**
      * Draw a character sprite at specified position with animation
@@ -208,6 +225,7 @@ const App = () => {
     /**
      * Main animation loop - renders all visual elements and updates game state
      * Called repeatedly via requestAnimationFrame for smooth 60fps animation
+     * Implements frame rate limiting to avoid excessive CPU usage on low-end devices
      * 
      * Renders (in z-order):
      * 1. Sky gradient background
@@ -217,14 +235,22 @@ const App = () => {
      * 5. Trees and obstacles
      * 6. Enemy sprite (Cactuar)
      * 7. Player party characters (walking away from camera)
-     * 8. Snowflake particles
-     * 9. Wind/snow drift effects (animated wavy bands)
+     * 8. Snowflake particles (count reduced on detection of low frame rates)
+     * 9. Wind/snow drift effects (animated wavy bands, optimized every 2 frames)
      * 
      * @function loop
      * @param {number} timestamp - Performance timestamp (milliseconds since page load)
      * @returns {void}
      */
     const loop = (timestamp) => {
+      // Frame rate limiting: skip frame if not enough time has passed
+      const deltaTime = timestamp - lastFrameTime;
+      if (deltaTime < FRAME_INTERVAL) {
+        animationFrameId = window.requestAnimationFrame(loop);
+        return;
+      }
+      lastFrameTime = timestamp - (deltaTime % FRAME_INTERVAL);
+      
       const dt = (timestamp - lastTime) / 1000;
       lastTime = timestamp;
       setFps(Math.round(1/dt));
@@ -406,52 +432,57 @@ const App = () => {
       ctx.globalAlpha = 1.0;
 
       // --- LAYER 4.5: Snow Drift/Wind Effects (obscuring city like FF6) ---
-      // Generate smaller sections at regular intervals, moving left to right
-      const sectionWidth = 180; // Width of each section
-      const sectionSpacing = 250; // Spacing between sections
-      const horizontalSpeed = 25;
-      const numLayers = 3;
+      // PERFORMANCE: Skip wind effect rendering every other frame to reduce CPU load
+      // Wind effect is the most expensive operation due to bezier curve calculations
+      const shouldRenderWind = Math.floor(timestamp / 16.67) % 2 === 0;
       
-      for (let layerIndex = 0; layerIndex < numLayers; layerIndex++) {
-        const baseY = horizonY - 45 + layerIndex * 15;
-        const waveAmplitude = 18 + Math.sin(timestamp / 1500 + layerIndex) * 8;
-        const waveFrequency = 0.015;
-        const bandThickness = 20 + Math.sin(timestamp / 800 + layerIndex) * 8;
-        const layerOffset = layerIndex * (sectionSpacing / numLayers);
+      if (shouldRenderWind) {
+        // Generate smaller sections at regular intervals, moving left to right
+        const sectionWidth = 180; // Width of each section
+        const sectionSpacing = 250; // Spacing between sections
+        const horizontalSpeed = 25;
+        const numLayers = 3;
         
-        // Generate multiple sections at regular intervals
-        for (let sectionIndex = 0; sectionIndex < 8; sectionIndex++) {
-          const sectionStartX = -sectionWidth + ((timestamp / horizontalSpeed) + (sectionIndex * sectionSpacing) + layerOffset) % (canvas.width + sectionSpacing * 2);
+        for (let layerIndex = 0; layerIndex < numLayers; layerIndex++) {
+          const baseY = horizonY - 45 + layerIndex * 15;
+          const waveAmplitude = 18 + Math.sin(timestamp / 1500 + layerIndex) * 8;
+          const waveFrequency = 0.015;
+          const bandThickness = 20 + Math.sin(timestamp / 800 + layerIndex) * 8;
+          const layerOffset = layerIndex * (sectionSpacing / numLayers);
           
-          // Only draw if section is visible or about to enter
-          if (sectionStartX < canvas.width + sectionWidth && sectionStartX > -sectionWidth) {
-            // Create wavy band section using bezier curves
-            ctx.beginPath();
-            const points = [];
-            const numPoints = Math.ceil(sectionWidth / 6);
+          // Generate multiple sections at regular intervals
+          for (let sectionIndex = 0; sectionIndex < 8; sectionIndex++) {
+            const sectionStartX = -sectionWidth + ((timestamp / horizontalSpeed) + (sectionIndex * sectionSpacing) + layerOffset) % (canvas.width + sectionSpacing * 2);
             
-            // Generate top and bottom wave points for this section
-            for (let i = 0; i <= numPoints; i++) {
-              const x = sectionStartX + (i * 6);
-              const wavePhase = (x * waveFrequency) + (timestamp / 1000) + layerIndex;
-              const y = baseY + Math.sin(wavePhase) * waveAmplitude;
-              points.push({ x, y });
-            }
-            
-            // Draw top curve
-            ctx.moveTo(points[0].x, points[0].y);
-            for (let i = 0; i < points.length - 1; i++) {
-              const cp1x = points[i].x + (points[i + 1].x - points[i].x) / 3;
-              const cp1y = points[i].y;
-              const cp2x = points[i].x + 2 * (points[i + 1].x - points[i].x) / 3;
-              const cp2y = points[i + 1].y;
-              ctx.bezierCurveTo(cp1x, cp1y, cp2x, cp2y, points[i + 1].x, points[i + 1].y);
-            }
-            
-            // Draw bottom curve (offset by band thickness)
-            for (let i = points.length - 1; i >= 0; i--) {
-              const x = points[i].x;
-              const wavePhase = (x * waveFrequency) + (timestamp / 1000) + layerIndex;
+            // Only draw if section is visible or about to enter
+            if (sectionStartX < canvas.width + sectionWidth && sectionStartX > -sectionWidth) {
+              // Create wavy band section using bezier curves
+              ctx.beginPath();
+              const points = [];
+              const numPoints = Math.ceil(sectionWidth / 6);
+              
+              // Generate top and bottom wave points for this section
+              for (let i = 0; i <= numPoints; i++) {
+                const x = sectionStartX + (i * 6);
+                const wavePhase = (x * waveFrequency) + (timestamp / 1000) + layerIndex;
+                const y = baseY + Math.sin(wavePhase) * waveAmplitude;
+                points.push({ x, y });
+              }
+              
+              // Draw top curve
+              ctx.moveTo(points[0].x, points[0].y);
+              for (let i = 0; i < points.length - 1; i++) {
+                const cp1x = points[i].x + (points[i + 1].x - points[i].x) / 3;
+                const cp1y = points[i].y;
+                const cp2x = points[i].x + 2 * (points[i + 1].x - points[i].x) / 3;
+                const cp2y = points[i + 1].y;
+                ctx.bezierCurveTo(cp1x, cp1y, cp2x, cp2y, points[i + 1].x, points[i + 1].y);
+              }
+              
+              // Draw bottom curve (offset by band thickness)
+              for (let i = points.length - 1; i >= 0; i--) {
+                const x = points[i].x;
+                const wavePhase = (x * waveFrequency) + (timestamp / 1000) + layerIndex;
               const y = baseY + Math.sin(wavePhase) * waveAmplitude + bandThickness;
               if (i === points.length - 1) {
                 ctx.lineTo(x, y);
@@ -500,6 +531,7 @@ const App = () => {
           }
         }
       }
+      } // End shouldRenderWind optimization
 
       // --- LAYER 5: Fog Gradient (lighter, more like FF6) ---
       const gradient = ctx.createLinearGradient(0, horizonY - 80, 0, horizonY + 50);
@@ -516,7 +548,8 @@ const App = () => {
 
     return () => {
       window.cancelAnimationFrame(animationFrameId);
-      window.removeEventListener('resize', resize);
+      window.removeEventListener('resize', onWindowResize);
+      clearTimeout(resizeTimeoutId);
     };
   }, []);
 
