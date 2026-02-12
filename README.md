@@ -36,12 +36,35 @@ An immersive, retro gaming-inspired portfolio featuring:
 
 ## Tech Stack
 
-- **React 18** - Component-based UI
-- **Webpack 5** - Module bundling
-- **Tailwind CSS** - Utility-first styling (via CDN)
-- **Canvas API** - 2D sprite rendering and animations
-- **Babel** - JavaScript transpilation
+- **React 18** - Component-based UI library
+- **Webpack 5** - Modern module bundler with HMR
+- **Tailwind CSS v3** - Local build with PostCSS (migrated from CDN for better performance)
+- **Canvas API** - 2D sprite rendering, animations, and visual effects
+- **Babel** - JavaScript transpilation and JSX support
+- **Web Vitals** - Performance monitoring (CLS, INP, FCP, LCP, TTFB)
+- **PostCSS** - CSS processing with autoprefixer
 - **16-bit SNES Sprites** - Custom pixel art assets (characters and enemies)
+- **GitHub Pages** - Hosting and deployment
+
+## Performance & Quality
+
+- **Tailwind CSS**: Migrated from CDN to local build with PostCSS for:
+  - Faster load times (only used classes included)
+  - Eliminated unsafe-eval CSP warning
+  - Better tree-shaking of unused utilities
+
+- **Code Quality**:
+  - Comprehensive JSDoc comments for all major functions
+  - Zero npm security vulnerabilities
+  - Web Vitals monitoring for performance metrics
+  - Security headers configured (_headers file for GitHub Pages)
+
+- **Security**:
+  - No hardcoded personal information (removed phone, location)
+  - Verified certifications and credentials
+  - X-Frame-Options, X-Content-Type-Options headers
+  - Referrer-Policy and Permissions-Policy configured
+  - Open Graph meta tags for safe social sharing
 
 ## Project Structure
 

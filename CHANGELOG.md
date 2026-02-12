@@ -7,6 +7,45 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.2.0] - 2026-02-12
+
+### Added
+- **Code Quality & Documentation**
+  - Comprehensive JSDoc comments for main App component
+  - JSDoc documentation for `drawCharacter()` function (sprite rendering)
+  - JSDoc documentation for `drawEnemy()` function (enemy animation)
+  - JSDoc documentation for `loop()` function (main animation loop)
+  - Detailed component overview with rendering pipeline documentation
+  - Function signatures with parameter types and return values
+  - Created `docs/NICE_TO_HAVE.md` with 12 future enhancement suggestions
+  - Organized enhancements by priority and implementation effort
+  - Added `_headers` file for HTTPS security headers on GitHub Pages
+
+- **Security Headers** 
+  - X-Content-Type-Options: nosniff (prevent MIME-type sniffing)
+  - X-Frame-Options: DENY (prevent clickjacking)
+  - X-XSS-Protection: 1; mode=block
+  - Referrer-Policy: strict-origin-when-cross-origin
+  - Permissions-Policy: disabled camera, microphone, geolocation
+
+### Changed
+- Removed Sentry error monitoring (overkill for small portfolio)
+- Removed Sentry and @sentry/tracing npm packages
+- Simplified monitoring to Web Vitals only (lightweight)
+- Reduced bundle size by removing external dependencies
+
+### Fixed
+- Resolved Sentry initialization error ("t is not a function")
+- Removed BrowserTracing integration causing compatibility issues
+- Removed deprecated onFID Web Vitals API (replaced with onINP)
+
+### Security
+- Removed personal phone number from resumeData (prevent bot scraping)
+- Removed specific location info (keep to "USA" only)
+- Removed fake certifications (CKA, AWS) that didn't match work history
+- Added Open Graph meta tags for secure social sharing
+- Added security headers for HTTPS reinforcement
+
 ## [1.1.0] - 2026-02-12
 
 ### Changed

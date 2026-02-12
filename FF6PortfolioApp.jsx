@@ -3,12 +3,36 @@ import { FF6_CHARACTER_SPRITES, FF6_CHARACTER_SPRITES_BACK } from './assets/spri
 import { FF6_ENEMY_SPRITES } from './assets/sprites/ff6-enemies.js';
 import { resumeData } from './src/data/resumeData.js';
 
+/**
+ * FF6 Portfolio App
+ * 
+ * A retro Final Fantasy 6-inspired portfolio website featuring:
+ * - Canvas-based pixel art animation with FF6 character sprites
+ * - Parallax scrolling landscape (Narshe ice caves theme)
+ * - Falling snowflakes and wind effects
+ * - Interactive enemy sprite (Cactuar) walking across screen
+ * - Professional resume/portfolio data display
+ * - Responsive canvas that adapts to window resize
+ * 
+ * @component
+ * @returns {JSX.Element} Rendered portfolio app with canvas and controls
+ * 
+ * @example
+ * // In your main entry point:
+ * import App from './FF6PortfolioApp.jsx';
+ * 
+ * // Component renders full-screen canvas with portfolio content
+ */
 const App = () => {
   const canvasRef = useRef(null);
   const [fps, setFps] = useState(0);
   const [watchMode, setWatchMode] = useState(false);
 
-  // --- Toggle Watch Mode ---
+  /**
+   * Toggle watch mode (currently unused but available for future features)
+   * @function toggleWatchMode
+   * @returns {void}
+   */
   const toggleWatchMode = () => {
     setWatchMode(!watchMode);
   };
@@ -68,6 +92,12 @@ const App = () => {
 
     // --- Renderer ---
 
+    /**
+     * Resize canvas to match window dimensions and update rendering context
+     * Called on mount and whenever window is resized
+     * @function resize
+     * @returns {void}
+     */
     const resize = () => {
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
@@ -76,6 +106,19 @@ const App = () => {
     window.addEventListener('resize', resize);
     resize();
 
+    /**
+     * Draw a character sprite at specified position with animation
+     * Handles pixel-art scaling, horizontal flipping, and walking animation
+     * Includes shadow effect on snow surface
+     * 
+     * @function drawCharacter
+     * @param {Object} char - Character object with sprite property
+     * @param {number} cx - Canvas X coordinate for character center
+     * @param {number} cy - Canvas Y coordinate for character base position
+     * @param {number} frame - Animation frame counter (0+, increments each loop)
+     * @param {boolean} [flipHorizontal=false] - Whether to flip sprite horizontally
+     * @returns {void}
+     */
     const drawCharacter = (char, cx, cy, frame, flipHorizontal = false) => {
       const pixelSize = SCALE;
       const palette = char.sprite.palette;
@@ -117,6 +160,20 @@ const App = () => {
       });
     };
 
+    /**
+     * Draw an enemy sprite (Cactuar) at specified position with animation
+     * Handles bouncing animation and horizontal flipping
+     * Includes shadow effect beneath the sprite
+     * 
+     * @function drawEnemy
+     * @param {Object} enemy - Enemy sprite object with palette and pixels
+     * @param {number} x - Canvas X coordinate
+     * @param {number} y - Canvas Y coordinate
+     * @param {number} frame - Animation frame counter (0+)
+     * @param {number} [scale=1.0] - Scale multiplier for sprite size
+     * @param {boolean} [flipHorizontal=false] - Whether to flip sprite horizontally
+     * @returns {void}
+     */
     const drawEnemy = (enemy, x, y, frame, scale = 1.0, flipHorizontal = false) => {
       const pixelSize = SCALE * scale; // Smaller scale for Cactuar
       const palette = enemy.palette;
@@ -148,6 +205,25 @@ const App = () => {
       });
     };
 
+    /**
+     * Main animation loop - renders all visual elements and updates game state
+     * Called repeatedly via requestAnimationFrame for smooth 60fps animation
+     * 
+     * Renders (in z-order):
+     * 1. Sky gradient background
+     * 2. Parallax cloud layer
+     * 3. Mountain silhouettes with city lights
+     * 4. Snow/ground tiles (checkerboard pattern)
+     * 5. Trees and obstacles
+     * 6. Enemy sprite (Cactuar)
+     * 7. Player party characters (walking away from camera)
+     * 8. Snowflake particles
+     * 9. Wind/snow drift effects (animated wavy bands)
+     * 
+     * @function loop
+     * @param {number} timestamp - Performance timestamp (milliseconds since page load)
+     * @returns {void}
+     */
     const loop = (timestamp) => {
       const dt = (timestamp - lastTime) / 1000;
       lastTime = timestamp;
