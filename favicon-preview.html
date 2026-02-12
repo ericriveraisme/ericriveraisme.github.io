@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Favicon Preview</title>
+    <style>
+        body {
+            background: linear-gradient(135deg, #02040a 0%, #0f1419 100%);
+            color: #e2e8f0;
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            display: flex;
+            gap: 60px;
+            flex-wrap: wrap;
+            justify-content: center;
+            max-width: 1200px;
+        }
+        .favicon-option {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 30px;
+            border-radius: 12px;
+            border: 2px solid rgba(99, 102, 241, 0.3);
+            transition: all 0.3s ease;
+        }
+        .favicon-option:hover {
+            border-color: rgba(6, 182, 212, 0.6);
+            background: rgba(6, 182, 212, 0.1);
+            transform: scale(1.05);
+        }
+        .favicon-box {
+            width: 200px;
+            height: 200px;
+            background: white;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            box-shadow: 0 0 20px rgba(99, 102, 241, 0.2);
+        }
+        .favicon-box svg {
+            width: 180px;
+            height: 180px;
+        }
+        .label {
+            font-size: 24px;
+            font-weight: bold;
+            color: #06b6d4;
+            margin-bottom: 10px;
+        }
+        .description {
+            font-size: 14px;
+            color: #cbd5e1;
+            line-height: 1.5;
+        }
+        h1 {
+            text-align: center;
+            width: 100%;
+            margin-bottom: 40px;
+            font-size: 32px;
+            background: linear-gradient(to right, #06b6d4, #8b5cf6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+    </style>
+</head>
+<body>
+    <div style="width: 100%;">
+        <h1>🎨 Favicon Preview</h1>
+        <div class="container">
+            <!-- Castle Favicon -->
+            <div class="favicon-option">
+                <div class="favicon-box">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+                        <defs>
+                            <linearGradient id="nightSky" x1="0%" y1="0%" x2="0%" y2="100%">
+                                <stop offset="0%" style="stop-color:#09090b;stop-opacity:1" /> <!-- Deep Black/Blue -->
+                                <stop offset="60%" style="stop-color:#2d1b4e;stop-opacity:1" /> <!-- Gothic Purple -->
+                            </linearGradient>
+                            <radialGradient id="moonGlow" cx="75%" cy="25%" r="20%">
+                                <stop offset="0%" style="stop-color:#fff176;stop-opacity:1" />
+                                <stop offset="100%" style="stop-color:#fff176;stop-opacity:0" />
+                            </radialGradient>
+                        </defs>
+                        
+                        <!-- Sky Background -->
+                        <rect width="100" height="100" fill="url(#nightSky)"/>
+                        
+                        <!-- The Moon -->
+                        <circle cx="75" cy="25" r="14" fill="#ffeb3b" opacity="0.9"/>
+                        <circle cx="72" cy="22" r="3" fill="#fdd835" opacity="0.4"/> <!-- Crater -->
+                        <circle cx="80" cy="28" r="2" fill="#fdd835" opacity="0.4"/> <!-- Crater -->
+                        
+                        <!-- Background Mountains (Distant) -->
+                        <path d="M 0 100 L 0 65 L 15 55 L 30 70 L 50 60 L 70 75 L 90 65 L 100 70 L 100 100 Z" 
+                              fill="#1a1a2e" opacity="0.8"/>
+                        
+                        <!-- The Cliff/Crag (Foreground) -->
+                        <path d="M 0 100 L 0 85 Q 10 80 20 85 T 40 80 L 60 85 L 80 80 L 100 90 L 100 100 Z" 
+                              fill="#000000"/>
+                              
+                        <!-- The Castle Structure -->
+                        <g fill="#121212" stroke="#000" stroke-width="0.5">
+                            <!-- Main Keep -->
+                            <path d="M 35 80 L 35 45 L 30 40 L 35 40 L 40 25 L 45 40 L 50 40 L 45 45 L 45 80" />
+                            
+                            <!-- Right Tower (Tallest) -->
+                            <path d="M 50 80 L 50 35 L 45 30 L 50 30 L 55 10 L 60 30 L 65 30 L 60 35 L 60 80" />
+                            
+                            <!-- Left Outpost -->
+                            <path d="M 20 85 L 20 60 L 15 55 L 20 55 L 25 45 L 30 55 L 35 55 L 30 60 L 30 85" />
+                            
+                            <!-- Bridge -->
+                            <rect x="30" y="65" width="20" height="5" fill="#121212"/>
+                            <rect x="30" y="75" width="5" height="10" fill="#121212"/> <!-- Support -->
+                        </g>
+                        
+                        <!-- Castle Windows (Glowing ominous red/orange) -->
+                        <rect x="53" y="20" width="2" height="3" fill="#ff5722"/>
+                        <rect x="53" y="45" width="2" height="3" fill="#ff5722"/>
+                        <rect x="53" y="60" width="2" height="3" fill="#ff5722"/>
+                        
+                        <rect x="38" y="32" width="2" height="3" fill="#ff5722"/>
+                        <rect x="38" y="55" width="2" height="3" fill="#ff5722"/>
+                        
+                        <rect x="23" y="52" width="2" height="2" fill="#ff5722"/>
+                        
+                        <!-- Bats (Silhouette) -->
+                        <path d="M 10 25 Q 13 22 16 25 Q 19 22 22 25 L 16 28 Z" fill="#000"/>
+                        <path d="M 85 15 Q 88 12 91 15 Q 94 12 97 15 L 91 18 Z" fill="#000"/>
+                        <path d="M 60 10 Q 62 8 64 10 Q 66 8 68 10 L 64 12 Z" fill="#000"/>
+                        
+                        <!-- Winding Staircase/Path hint -->
+                        <path d="M 40 80 Q 45 85 50 80" fill="none" stroke="#333" stroke-width="1"/>
+                        
+                        <!-- Moon Haze/Glow behind castle -->
+                       <circle cx="75" cy="25" r="20" fill="url(#moonGlow)" opacity="0.3"/>
+
+                    </svg>
+                </div>
+                <div class="label">🏰 Vampire Killer</div>
+                <div class="description">
+                    A dark, gothic castle perched on a cliff against a full moon. Inspired by classic 8-bit vampire hunting aesthetics and box art.
+                </div>
+            </div>
+
+            <!-- Vortex Favicon -->
+            <div class="favicon-option">
+                <div class="favicon-box">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+                      <defs>
+                        <!-- Chrono Vortex Gradients -->
+                        <radialGradient id="voidCore" cx="50%" cy="50%" r="50%">
+                        <stop offset="0%" style="stop-color:#ffffff;stop-opacity:1" /> <!-- Singularity -->
+                        <stop offset="15%" style="stop-color:#a855f7;stop-opacity:1" /> <!-- Violet Halo -->
+                        <stop offset="40%" style="stop-color:#3b82f6;stop-opacity:0.9" /> <!-- Time Blue -->
+                        <stop offset="80%" style="stop-color:#1e1b4b;stop-opacity:1" /> <!-- Deep Space -->
+                        <stop offset="100%" style="stop-color:#020617;stop-opacity:1" /> <!-- Void Edge -->
+                        </radialGradient>
+                        
+                        <!-- Ice Cliff Gradient (Pale Blue/Grey) -->
+                        <linearGradient id="iceCliff" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" style="stop-color:#e0f7ff;stop-opacity:1" /> <!-- Bright frost -->
+                        <stop offset="40%" style="stop-color:#b3e5fc;stop-opacity:1" /> <!-- Mid ice -->
+                        <stop offset="100%" style="stop-color:#475569;stop-opacity:1" /> <!-- Deep shadow crevice -->
+                        </linearGradient>
+
+                        <!-- Deep Ice Texture -->
+                        <linearGradient id="deepIce" x1="50%" y1="0%" x2="50%" y2="100%">
+                            <stop offset="0%" style="stop-color:#cbd5e1;stop-opacity:1" />
+                            <stop offset="100%" style="stop-color:#334155;stop-opacity:1" />
+                        </linearGradient>
+
+                        <!-- Time Ripple Gradient -->
+                        <linearGradient id="rippleGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" style="stop-color:#e879f9;stop-opacity:0.8" />
+                            <stop offset="100%" style="stop-color:#22d3ee;stop-opacity:0.6" />
+                        </linearGradient>
+                      </defs>
+                      
+                      <!-- Background/Cave Interior Shadow -->
+                      <circle cx="50" cy="50" r="50" fill="#0f172a"/>
+
+                      <!-- Main Ice Structure (Jagged, crystalline walls) -->
+                      <!-- Replaces the smooth stone rim with sharp angular shards -->
+                      <path d="M 50 0 
+                              L 60 5 L 70 2 L 80 10 L 90 8 L 98 20 
+                              L 92 30 L 98 40 L 95 50 L 99 60 L 92 70 
+                              L 98 85 L 85 95 L 75 90 L 65 98 L 50 92 
+                              L 35 98 L 25 90 L 15 95 L 2 85 
+                              L 8 70 L 1 60 L 5 50 L 2 40 L 8 30 
+                              L 2 20 L 10 8 L 20 10 L 30 2 L 40 5 Z" 
+                            fill="url(#iceCliff)" stroke="#e0f7ff" stroke-width="0.5"/>
+                      
+                      <!-- Inner "Cliff Face" Depth -->
+                      <!-- Sharp geometric cutouts suggesting depth into the ice tunnels -->
+                      <path d="M 15 50 L 35 35 L 50 15 L 65 35 L 85 50 L 65 65 L 50 85 L 35 65 Z" 
+                            fill="none" stroke="#64748b" stroke-width="0" opacity="0.5"/>
+
+                      <!-- Inner Shards (Pointing to center) -->
+                      <!-- Top Left Shard -->
+                      <path d="M 25 25 L 35 35 L 40 20 Z" fill="url(#deepIce)" stroke="#ffffff" stroke-width="0.5"/>
+                      <!-- Top Right Shard -->
+                      <path d="M 75 25 L 65 35 L 60 20 Z" fill="url(#deepIce)" stroke="#ffffff" stroke-width="0.5"/>
+                      <!-- Bottom Left Shard -->
+                      <path d="M 25 75 L 35 65 L 40 80 Z" fill="url(#deepIce)" stroke="#ffffff" stroke-width="0.5"/>
+                      <!-- Bottom Right Shard -->
+                      <path d="M 75 75 L 65 65 L 60 80 Z" fill="url(#deepIce)" stroke="#ffffff" stroke-width="0.5"/>
+                      
+                      <!-- Massive Ice Pillars (Reference to image pillars) -->
+                      <rect x="45" y="5" width="10" height="25" fill="url(#iceCliff)" opacity="0.9" rx="2" clip-path="polygon(0 0, 100% 0, 50% 100%)"/>
+
+
+                      <!-- *** CHRONO TRIGGER STYLE VORTEX (Preserved) *** -->
+                      <!-- Base Void -->
+                      <circle cx="50" cy="50" r="30" fill="url(#voidCore)"/>
+
+                      <!-- Time Distortion Rings -->
+                      <g fill="none" stroke-width="0.5">
+                          <!-- Spiral Arm 1 -->
+                          <path d="M 50 50 Q 60 40 65 30 T 70 15" stroke="url(#rippleGrad)" opacity="0.6"/>
+                          <path d="M 50 50 Q 40 60 35 70 T 30 85" stroke="url(#rippleGrad)" opacity="0.6"/>
+                          
+                          <!-- Spiral Arm 2 (Rotated) -->
+                          <path d="M 50 50 Q 60 60 70 65 T 85 70" stroke="url(#rippleGrad)" opacity="0.6"/>
+                          <path d="M 50 50 Q 40 40 30 35 T 15 30" stroke="url(#rippleGrad)" opacity="0.6"/>
+                      </g>
+
+                      <!-- Concentric Time Ripples (Distorted) -->
+                      <ellipse cx="50" cy="50" rx="26" ry="24" stroke="#8b5cf6" stroke-width="0.3" opacity="0.4" transform="rotate(45 50 50)"/>
+                      <ellipse cx="50" cy="50" rx="20" ry="18" stroke="#3b82f6" stroke-width="0.4" opacity="0.5" transform="rotate(-30 50 50)"/>
+                      <ellipse cx="50" cy="50" rx="12" ry="10" stroke="#e879f9" stroke-width="0.6" opacity="0.6" transform="rotate(15 50 50)"/>
+                      <ellipse cx="50" cy="50" rx="6" ry="4" stroke="#ffffff" stroke-width="0.8" opacity="0.8"/>
+
+                      <!-- Particles / Stars in the rift -->
+                      <circle cx="38" cy="42" r="0.5" fill="#fff" opacity="0.8"/>
+                      <circle cx="62" cy="58" r="0.5" fill="#fff" opacity="0.8"/>
+                      
+                      <!-- Frost overlay for integration -->
+                      <circle cx="50" cy="50" r="48" fill="none" stroke="#e0f7ff" stroke-width="1" opacity="0.2"/>
+                    </svg>
+                </div>
+                <div class="label">❄️ Frozen Chrono Gate</div>
+                <div class="description">
+                    A temporal vortex framed by a jagged wall of translucent glacial ice. Inspired by frozen cavern landscapes with sharp crystalline structures.
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
