@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FF6 Character Sprites Preview - 16-bit SNES Style</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Courier New', monospace;
+            background: #1a1a2e;
+            color: #eee;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        h1 {
+            text-align: center;
+            color: #4ade80;
+            margin-bottom: 30px;
+            font-size: 2em;
+        }
+        
+        .sprite-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+        
+        .sprite-card {
+            background: #16213e;
+            border: 2px solid #0f3460;
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .sprite-card h2 {
+            color: #4ade80;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+        }
+        
+        .sprite-canvas {
+            background: #0a0a1a;
+            border: 2px solid #4ade80;
+            border-radius: 4px;
+            image-rendering: pixelated;
+            image-rendering: -moz-crisp-edges;
+            image-rendering: crisp-edges;
+            margin: 10px auto;
+            display: block;
+        }
+        
+        .sprite-info {
+            margin-top: 15px;
+            font-size: 0.9em;
+            color: #aaa;
+        }
+        
+        .palette {
+            display: flex;
+            justify-content: center;
+            gap: 5px;
+            margin-top: 10px;
+            flex-wrap: wrap;
+        }
+        
+        .color-swatch {
+            width: 30px;
+            height: 30px;
+            border: 1px solid #444;
+            border-radius: 3px;
+        }
+        
+        .back-view {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #0f3460;
+        }
+        
+        h3 {
+            color: #fde68a;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Final Fantasy 6 Character Sprites - 16-bit SNES Style</h1>
+        <div id="sprite-container"></div>
+    </div>
+    
+    <script src="ff6-characters.js"></script>
+    <script src="ff6-enemies.js"></script>
+    <script>
+        const SCALE = 8; // Larger scale for preview
+        
+        function drawSprite(canvas, sprite, scale) {
+            const ctx = canvas.getContext('2d');
+            const pixelSize = scale;
+            const palette = sprite.palette;
+            const rows = sprite.pixels;
+            
+            const width = rows[0].length * pixelSize;
+            const height = rows.length * pixelSize;
+            
+            canvas.width = width;
+            canvas.height = height;
+            ctx.imageSmoothingEnabled = false;
+            
+            rows.forEach((row, r) => {
+                for (let c = 0; c < row.length; c++) {
+                    const colorCode = row[c];
+                    if (colorCode !== ' ') {
+                        const drawY = r * pixelSize;
+                        const drawX = c * pixelSize;
+                        ctx.fillStyle = palette[colorCode];
+                        ctx.fillRect(drawX, drawY, pixelSize, pixelSize);
+                    }
+                }
+            });
+        }
+        
+        function createSpriteCard(sprite, spriteBack, key) {
+            const card = document.createElement('div');
+            card.className = 'sprite-card';
+            
+            const title = document.createElement('h2');
+            title.textContent = sprite.name;
+            card.appendChild(title);
+            
+            // Front view
+            const canvasFront = document.createElement('canvas');
+            canvasFront.className = 'sprite-canvas';
+            drawSprite(canvasFront, sprite, SCALE);
+            card.appendChild(canvasFront);
+            
+            // Palette
+            const paletteDiv = document.createElement('div');
+            paletteDiv.className = 'palette';
+            Object.entries(sprite.palette).forEach(([code, color]) => {
+                const swatch = document.createElement('div');
+                swatch.className = 'color-swatch';
+                swatch.style.backgroundColor = color;
+                swatch.title = `${code}: ${color}`;
+                paletteDiv.appendChild(swatch);
+            });
+            card.appendChild(paletteDiv);
+            
+            // Back view
+            if (spriteBack) {
+                const backDiv = document.createElement('div');
+                backDiv.className = 'back-view';
+                const backTitle = document.createElement('h3');
+                backTitle.textContent = 'Back View';
+                backDiv.appendChild(backTitle);
+                
+                const canvasBack = document.createElement('canvas');
+                canvasBack.className = 'sprite-canvas';
+                drawSprite(canvasBack, spriteBack, SCALE);
+                backDiv.appendChild(canvasBack);
+                
+                card.appendChild(backDiv);
+            }
+            
+            const info = document.createElement('div');
+            info.className = 'sprite-info';
+            info.textContent = `${sprite.pixels[0].length}x${sprite.pixels.length} pixels`;
+            card.appendChild(info);
+            
+            return card;
+        }
+        
+        // Create grid
+        const grid = document.createElement('div');
+        grid.className = 'sprite-grid';
+        
+        // Terra
+        grid.appendChild(createSpriteCard(
+            FF6_CHARACTER_SPRITES.TERRA,
+            FF6_CHARACTER_SPRITES_BACK.TERRA_BACK,
+            'TERRA'
+        ));
+        
+        // Locke
+        grid.appendChild(createSpriteCard(
+            FF6_CHARACTER_SPRITES.LOCKE,
+            FF6_CHARACTER_SPRITES_BACK.LOCKE_BACK,
+            'LOCKE'
+        ));
+        
+        // Edgar
+        grid.appendChild(createSpriteCard(
+            FF6_CHARACTER_SPRITES.EDGAR,
+            FF6_CHARACTER_SPRITES_BACK.EDGAR_BACK,
+            'EDGAR'
+        ));
+        
+        // Celes
+        grid.appendChild(createSpriteCard(
+            FF6_CHARACTER_SPRITES.CELES,
+            FF6_CHARACTER_SPRITES_BACK.CELES_BACK,
+            'CELES'
+        ));
+        
+        // Cactuar (Enemy)
+        grid.appendChild(createSpriteCard(
+            FF6_ENEMY_SPRITES.CACTUAR,
+            null, // No back view for enemy
+            'CACTUAR'
+        ));
+        
+        document.getElementById('sprite-container').appendChild(grid);
+    </script>
+</body>
+</html>

@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- Dark background -->
+  <rect width="100" height="100" fill="#0a0a0a"/>
+  
+  <!-- Starfield -->
+  <circle cx="15" cy="10" r="1" fill="#6366f1"/>
+  <circle cx="35" cy="8" r="1" fill="#6366f1"/>
+  <circle cx="70" cy="12" r="1" fill="#6366f1"/>
+  <circle cx="85" cy="15" r="1" fill="#6366f1"/>
+  
+  <!-- Castle towers -->
+  <!-- Left tower -->
+  <rect x="20" y="40" width="12" height="45" fill="#1a1a2e"/>
+  <polygon points="20,40 26,30 32,40" fill="#0f0f1e"/>
+  
+  <!-- Center tower (tallest) -->
+  <rect x="44" y="25" width="12" height="60" fill="#1a1a2e"/>
+  <polygon points="44,25 50,12 56,25" fill="#0f0f1e"/>
+  
+  <!-- Right tower -->
+  <rect x="68" y="40" width="12" height="45" fill="#1a1a2e"/>
+  <polygon points="68,40 74,30 80,40" fill="#0f0f1e"/>
+  
+  <!-- Castle walls -->
+  <rect x="18" y="50" width="64" height="35" fill="#2a2a3e"/>
+  
+  <!-- Crenellations (castle teeth) -->
+  <rect x="20" y="48" width="5" height="4" fill="#1a1a2e"/>
+  <rect x="30" y="48" width="5" height="4" fill="#1a1a2e"/>
+  <rect x="40" y="48" width="5" height="4" fill="#1a1a2e"/>
+  <rect x="55" y="48" width="5" height="4" fill="#1a1a2e"/>
+  <rect x="65" y="48" width="5" height="4" fill="#1a1a2e"/>
+  <rect x="75" y="48" width="5" height="4" fill="#1a1a2e"/>
+  
+  <!-- Gate -->
+  <rect x="45" y="65" width="10" height="20" fill="#0a0a0a"/>
+  
+  <!-- Windows (glowing purple) -->
+  <rect x="24" y="55" width="3" height="3" fill="#a78bfa" opacity="0.8"/>
+  <rect x="24" y="63" width="3" height="3" fill="#a78bfa" opacity="0.8"/>
+  <rect x="48" y="38" width="3" height="3" fill="#a78bfa" opacity="0.8"/>
+  <rect x="48" y="50" width="3" height="3" fill="#a78bfa" opacity="0.8"/>
+  <rect x="72" y="55" width="3" height="3" fill="#a78bfa" opacity="0.8"/>
+  <rect x="72" y="63" width="3" height="3" fill="#a78bfa" opacity="0.8"/>
+  
+  <!-- Spooky mist at base -->
+  <ellipse cx="30" cy="85" rx="15" ry="8" fill="#4a4a5e" opacity="0.6"/>
+  <ellipse cx="70" cy="85" rx="15" ry="8" fill="#4a4a5e" opacity="0.6"/>
+</svg>
