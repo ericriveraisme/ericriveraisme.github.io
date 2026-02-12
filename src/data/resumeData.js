@@ -12,8 +12,8 @@ export const resumeData = {
     tagline: "<IT Professional/Amatuer Vibe-Coder>",
     email: "ericriveraisme@gmail.com",
     github: "https://github.com/ericriveraisme",
-    phone: "(870) 882-1926",
-    location: "Paragould, AR"
+    phone: null, // Available upon request
+    location: "USA"
   },
 
   // Hero/Featured Section
@@ -144,16 +144,8 @@ export const resumeData = {
 
   // Certifications (optional)
   certifications: [
-    {
-      title: "Certified Kubernetes Administrator (CKA)",
-      issuer: "Linux Foundation",
-      year: "2023"
-    },
-    {
-      title: "AWS Certified Solutions Architect",
-      issuer: "Amazon Web Services",
-      year: "2022"
-    }
+    // Add your actual certifications here
+    // Ensure certifications match your work history and are verifiable
   ],
 
   // Footer
