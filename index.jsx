@@ -1,6 +1,7 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
 import App from './FF6PortfolioApp.jsx';
+import './src/tailwind.css';
 import './assets/styles.css';
 
 const container = document.getElementById('root');
