@@ -1,0 +1,92 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <defs>
+    <!-- Chrono Vortex Gradients -->
+    <radialGradient id="voidCore" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" style="stop-color:#ffffff;stop-opacity:1" /> <!-- Singularity -->
+      <stop offset="15%" style="stop-color:#a855f7;stop-opacity:1" /> <!-- Violet Halo -->
+      <stop offset="40%" style="stop-color:#3b82f6;stop-opacity:0.9" /> <!-- Time Blue -->
+      <stop offset="80%" style="stop-color:#1e1b4b;stop-opacity:1" /> <!-- Deep Space -->
+      <stop offset="100%" style="stop-color:#020617;stop-opacity:1" /> <!-- Void Edge -->
+    </radialGradient>
+    
+    <!-- Ice Cliff Gradient (Pale Blue/Grey) -->
+    <linearGradient id="iceCliff" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#e0f7ff;stop-opacity:1" /> <!-- Bright frost -->
+      <stop offset="40%" style="stop-color:#b3e5fc;stop-opacity:1" /> <!-- Mid ice -->
+      <stop offset="100%" style="stop-color:#475569;stop-opacity:1" /> <!-- Deep shadow crevice -->
+    </linearGradient>
+
+    <!-- Deep Ice Texture -->
+    <linearGradient id="deepIce" x1="50%" y1="0%" x2="50%" y2="100%">
+        <stop offset="0%" style="stop-color:#cbd5e1;stop-opacity:1" />
+        <stop offset="100%" style="stop-color:#334155;stop-opacity:1" />
+    </linearGradient>
+
+    <!-- Time Ripple Gradient -->
+    <linearGradient id="rippleGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" style="stop-color:#e879f9;stop-opacity:0.8" />
+        <stop offset="100%" style="stop-color:#22d3ee;stop-opacity:0.6" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Background/Cave Interior Shadow -->
+  <circle cx="50" cy="50" r="50" fill="#0f172a"/>
+
+  <!-- Main Ice Structure (Jagged, crystalline walls) -->
+  <!-- Replaces the smooth stone rim with sharp angular shards -->
+  <path d="M 50 0 
+           L 60 5 L 70 2 L 80 10 L 90 8 L 98 20 
+           L 92 30 L 98 40 L 95 50 L 99 60 L 92 70 
+           L 98 85 L 85 95 L 75 90 L 65 98 L 50 92 
+           L 35 98 L 25 90 L 15 95 L 2 85 
+           L 8 70 L 1 60 L 5 50 L 2 40 L 8 30 
+           L 2 20 L 10 8 L 20 10 L 30 2 L 40 5 Z" 
+        fill="url(#iceCliff)" stroke="#e0f7ff" stroke-width="0.5"/>
+  
+  <!-- Inner "Cliff Face" Depth -->
+  <!-- Sharp geometric cutouts suggesting depth into the ice tunnels -->
+  <path d="M 15 50 L 35 35 L 50 15 L 65 35 L 85 50 L 65 65 L 50 85 L 35 65 Z" 
+        fill="none" stroke="#64748b" stroke-width="0" opacity="0.5"/>
+
+  <!-- Inner Shards (Pointing to center) -->
+  <!-- Top Left Shard -->
+  <path d="M 25 25 L 35 35 L 40 20 Z" fill="url(#deepIce)" stroke="#ffffff" stroke-width="0.5"/>
+  <!-- Top Right Shard -->
+  <path d="M 75 25 L 65 35 L 60 20 Z" fill="url(#deepIce)" stroke="#ffffff" stroke-width="0.5"/>
+  <!-- Bottom Left Shard -->
+  <path d="M 25 75 L 35 65 L 40 80 Z" fill="url(#deepIce)" stroke="#ffffff" stroke-width="0.5"/>
+  <!-- Bottom Right Shard -->
+  <path d="M 75 75 L 65 65 L 60 80 Z" fill="url(#deepIce)" stroke="#ffffff" stroke-width="0.5"/>
+  
+  <!-- Massive Ice Pillars (Reference to image pillars) -->
+  <rect x="45" y="5" width="10" height="25" fill="url(#iceCliff)" opacity="0.9" rx="2" clip-path="polygon(0 0, 100% 0, 50% 100%)"/>
+
+
+  <!-- *** CHRONO TRIGGER STYLE VORTEX (Preserved) *** -->
+  <!-- Base Void -->
+  <circle cx="50" cy="50" r="30" fill="url(#voidCore)"/>
+
+  <!-- Time Distortion Rings -->
+  <g fill="none" stroke-width="0.5">
+      <!-- Spiral Arm 1 -->
+      <path d="M 50 50 Q 60 40 65 30 T 70 15" stroke="url(#rippleGrad)" opacity="0.6"/>
+      <path d="M 50 50 Q 40 60 35 70 T 30 85" stroke="url(#rippleGrad)" opacity="0.6"/>
+      
+      <!-- Spiral Arm 2 (Rotated) -->
+      <path d="M 50 50 Q 60 60 70 65 T 85 70" stroke="url(#rippleGrad)" opacity="0.6"/>
+      <path d="M 50 50 Q 40 40 30 35 T 15 30" stroke="url(#rippleGrad)" opacity="0.6"/>
+  </g>
+
+  <!-- Concentric Time Ripples (Distorted) -->
+  <ellipse cx="50" cy="50" rx="26" ry="24" stroke="#8b5cf6" stroke-width="0.3" opacity="0.4" transform="rotate(45 50 50)"/>
+  <ellipse cx="50" cy="50" rx="20" ry="18" stroke="#3b82f6" stroke-width="0.4" opacity="0.5" transform="rotate(-30 50 50)"/>
+  <ellipse cx="50" cy="50" rx="12" ry="10" stroke="#e879f9" stroke-width="0.6" opacity="0.6" transform="rotate(15 50 50)"/>
+  <ellipse cx="50" cy="50" rx="6" ry="4" stroke="#ffffff" stroke-width="0.8" opacity="0.8"/>
+
+  <!-- Particles / Stars in the rift -->
+  <circle cx="38" cy="42" r="0.5" fill="#fff" opacity="0.8"/>
+  <circle cx="62" cy="58" r="0.5" fill="#fff" opacity="0.8"/>
+  
+  <!-- Frost overlay for integration -->
+  <circle cx="50" cy="50" r="48" fill="none" stroke="#e0f7ff" stroke-width="1" opacity="0.2"/>
+</svg>
