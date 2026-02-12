@@ -23,12 +23,11 @@ An immersive, retro gaming-inspired portfolio featuring:
   - Snow particle system (150 animated flakes)
   - Atmospheric fog gradients
 
-- **Portfolio Sections**
-  - Featured Project showcase (NetDevOps Complete)
-  - Character Sheet (Bio with RPG styling)
-  - Skills with level bars
-  - Active Quests
-  - Adventure Log (Work History timeline)
+- **Portfolio Sections** (2x2 Grid Layout)
+  - **Row 1:** Character Sheet (bio) | Active Quests (current projects)
+  - **Row 2:** Skills (with level progression bars) | (spacer)
+  - **Below:** Adventure Log (full-width work history with achievements)
+  - Featured Project showcase (NetDevOps Complete) above grid
 
 - **Interactive Controls**
   - Watch Mode toggle (play/pause background music)
@@ -48,23 +47,30 @@ An immersive, retro gaming-inspired portfolio featuring:
 
 ```
 ericriveraisme.github.io/
-├── index.html              # Main entry point (FF6 version)
+├── index.html              # Main entry point
 ├── FF6PortfolioApp.jsx     # Main React component
-├── index.jsx              # React entry point
-├── webpack.config.js      # Webpack configuration
-├── package.json           # Dependencies
+├── index.jsx               # React entry point
+├── webpack.config.js       # Webpack configuration
+├── package.json            # Dependencies
+├── .babelrc               # Babel configuration
+├── src/
+│   └── data/
+│       └── resumeData.js   # Centralized resume/portfolio data
 ├── assets/
-│   ├── styles.css        # Legacy styles (for standard version backup)
-│   ├── script.js         # GitHub API integration (legacy)
-│   └── sprites/          # 16-bit SNES style sprite assets
+│   ├── styles.css         # Global styles
+│   ├── script.js          # Utility scripts
+│   └── sprites/           # 16-bit SNES style sprite assets
 │       ├── ff6-characters.js    # Character sprite definitions
 │       ├── ff6-enemies.js       # Enemy sprite definitions
 │       ├── sprite-preview.html  # Sprite preview page
 │       └── README.md            # Sprite documentation
-├── backup/               # Version backups
-│   └── index-standard.html  # Original standard portfolio
-├── archive-delta-data/   # Archived Delta Data Defense files
-└── dist/                # Build output (generated)
+├── archive-delta-data/    # Archived versions and old files
+├── docs/                  # Project documentation
+│   ├── README.md         # Documentation index
+│   ├── DEV_SERVER_GUIDE.md
+│   ├── CODE_REVIEW.md
+│   └── [other docs]
+└── dist/                 # Build output (generated, gitignored)
 ```
 
 ## Local Development
@@ -82,7 +88,6 @@ npm install
 npm start
 
 # Server runs on http://localhost:3000
-# Automatically opens in browser
 ```
 
 ### Production Build
@@ -138,8 +143,11 @@ git push
 
 ## Archived Versions
 
-- **Standard Portfolio**: Available in `backup/index-standard.html`
-- **Delta Data Defense**: Archived in `archive-delta-data/` folder
+Previous portfolio versions and archived projects are located in `archive-delta-data/` folder:
+- **FF6 React HTML version**: ff6-react.html
+- **Standard Portfolio**: index-standard.html  
+- **Original Portfolio**: index-og.html
+- **Delta Data Defense**: Historical project files
 
 ## Browser Support
 

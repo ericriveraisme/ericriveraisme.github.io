@@ -7,47 +7,39 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-### Added
-- 16-bit SNES style sprite assets in `assets/sprites/` folder
-  - Character sprites (Terra, Locke, Edgar, Celes) with front and back views
-  - Enemy sprites (Cactuar) with horizontal flipping support
-  - Sprite preview page (`sprite-preview.html`) for viewing all sprites
-- Cactuar enemy sprite bouncing horizontally across the screen
-- Horizontal sprite flipping when enemy changes direction
-- Twinkling city lights with intensity-based glow effects
-- Snow drift and wind effects using Bezier curves for smooth animation
-- Character staggering in zig-zag diagonal pattern across the roadway
-- City background improvements with more visible structures and lighting
+## [1.1.0] - 2026-02-12
 
 ### Changed
-- Refactored sprite definitions from hardcoded arrays to separate asset files
-  - `assets/sprites/ff6-characters.js` - Character sprite definitions
-  - `assets/sprites/ff6-enemies.js` - Enemy sprite definitions
-- Character sprites redesigned to match actual FF6 game sprites
-  - Updated colors and designs based on reference images
-  - More accurate character appearances (Terra's purple top/red skirt, Locke's colorful bandana, etc.)
-- Cactuar sprite refined to match classic FF6 Cactuar/Cactrot design
-  - Compact rectangular body (12-14 pixels tall)
-  - Square head with two black dot eyes
-  - Horizontal arms and stubby legs
-  - Dark green shading on right side for depth
-- Characters now show only their backs as they walk toward city lights
-- City lights made more visible with lighter background
-- Snow drift effects smoothed and made more fluid with sectioned generation
-- Camera scrolling direction reversed (upward movement)
+- **Content Layout Redesign**
+  - Restructured grid from 3-column to responsive 2-column layout (`md:grid-cols-2`)
+  - Character Sheet and Active Quests now display side-by-side in equal-width boxes
+  - Skills moved to align with Character Sheet/Active Quests row
+  - Adventure Log relocated below grid as full-width section with `mt-8` spacing
+  - All grid boxes constrained to `max-h-96` with `overflow-y-auto` for consistent heights (except Adventure Log)
+  - Adventure Log height unrestricted to display all work history entries
+
+- **Header Layout**
+  - Removed email display from header for cleaner aesthetic
+  - Summon button maintains `mailto:` link functionality
+  - Header improved with `flex-1` for better space distribution
+
+- **UI/UX Improvements**
+  - Character Sheet internal layout changed to always stack vertically (`flex-col`)
+  - Better visual hierarchy with consistent box sizing
+  - Improved breathing room between content sections
+  - Fixed npm start script to not auto-open browser (prevents port conflict errors)
+
+- **Project Organization**
+  - Moved archived files to `archive-delta-data/` folder for cleaner structure
+  - Removed unnecessary `backup/` directory
+  - Updated `.gitignore` to maintain standards
 
 ### Fixed
-- Sprite import/export compatibility (ES6 modules for webpack, CommonJS/global for direct HTML)
-- Character positioning to ensure all characters are on dark road tiles
-- Cactuar positioning to prevent overlap with characters
-- Port conflicts during development (automatic cleanup)
+- Portfolio box overflow causing content to extend entire page height
+- Port 3000 already in use errors during development
+- Grid layout inconsistency across breakpoints
 
-### Technical
-- Improved asset organization following web development best practices
-- Sprite files support both ES6 module imports and direct script tag usage
-- Webpack configuration handles sprite asset imports correctly
-- Build process optimized for GitHub Pages deployment
-
+## [1.0.0] - Previous Release
 ## [1.0.0] - 2025-01-XX
 
 ### Added
