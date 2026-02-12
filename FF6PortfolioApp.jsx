@@ -484,7 +484,7 @@ const App = () => {
       <div className={`relative z-10 transition-all duration-1000 transform ${watchMode ? 'opacity-0 translate-y-10 pointer-events-none' : 'opacity-100 translate-y-0'}`}>
         
         <header className="container mx-auto px-6 py-12 flex flex-col md:flex-row justify-between items-center gap-6">
-            <div className="text-center md:text-left">
+            <div className="text-center md:text-left flex-1">
                 <h1 className="text-4xl md:text-6xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-200 to-blue-500 drop-shadow-lg mb-2" style={{ fontFamily: 'Cinzel, serif' }}>
                     {resumeData.personal.name}
                 </h1>
@@ -542,13 +542,13 @@ const App = () => {
                 </div>
             </section>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 
-                <div className="col-span-1 md:col-span-2 lg:col-span-2 bg-slate-900/60 border border-slate-700/50 p-6 rounded-lg backdrop-blur-sm hover:border-cyan-500/50 transition-colors shadow-lg">
+                <div className="bg-slate-900/60 border border-slate-700/50 p-6 rounded-lg backdrop-blur-sm hover:border-cyan-500/50 transition-colors shadow-lg max-h-96 overflow-y-auto">
                     <h3 className="text-xl text-cyan-200 font-bold border-b border-slate-700 pb-3 mb-4 flex items-center gap-2" style={{ fontFamily: 'Cinzel, serif' }}>
                         <span>📜</span> Character Sheet
                     </h3>
-                    <div className="flex flex-col md:flex-row gap-6">
+                    <div className="flex flex-col gap-6">
                         <div className="w-24 h-24 bg-slate-950 border-2 border-slate-600 rounded-lg flex items-center justify-center shrink-0">
                             <span className="text-4xl">{resumeData.about.avatar}</span>
                         </div>
@@ -570,7 +570,7 @@ const App = () => {
                     </div>
                 </div>
 
-                <div className="bg-slate-900/60 border border-slate-700/50 p-6 rounded-lg backdrop-blur-sm hover:border-cyan-500/50 transition-colors shadow-lg">
+                <div className="bg-slate-900/60 border border-slate-700/50 p-6 rounded-lg backdrop-blur-sm hover:border-cyan-500/50 transition-colors shadow-lg max-h-96 overflow-y-auto">
                     <h3 className="text-xl text-cyan-200 font-bold border-b border-slate-700 pb-3 mb-4 flex items-center gap-2" style={{ fontFamily: 'Cinzel, serif' }}>
                         <span>⚔️</span> Active Quests
                     </h3>
@@ -584,48 +584,7 @@ const App = () => {
                     </ul>
                 </div>
 
-                <div className="col-span-1 md:col-span-2 lg:col-span-2 bg-slate-900/60 border border-slate-700/50 p-6 rounded-lg backdrop-blur-sm hover:border-cyan-500/50 transition-colors shadow-lg">
-                    <h3 className="text-xl text-cyan-200 font-bold border-b border-slate-700 pb-3 mb-6 flex items-center gap-2" style={{ fontFamily: 'Cinzel, serif' }}>
-                        <span>🗺️</span> Adventure Log
-                    </h3>
-                    <div className="space-y-6">
-                        {resumeData.experience.map((job, index) => (
-                            <div key={index} className="bg-slate-950/50 border border-slate-700/50 rounded-lg p-6 hover:border-cyan-500/30 transition-colors">
-                                <div className="flex items-start gap-3 mb-3">
-                                    <span className="text-2xl flex-shrink-0">
-                                        {index === 0 ? '⚡' : index === 1 ? '🔧' : index === 2 ? '🌐' : index === 3 ? '💻' : '📋'}
-                                    </span>
-                                    <div className="flex-1">
-                                        <h4 className="text-lg font-bold text-cyan-100">{job.title}</h4>
-                                        <div className="text-sm text-cyan-400 font-mono mt-1">{job.company}</div>
-                                    </div>
-                                </div>
-                                
-                                <div className="text-xs text-slate-400 font-mono mb-4 pl-11">
-                                    {job.startDate} → {job.endDate}
-                                </div>
-                                
-                                <p className="text-slate-300 text-sm leading-relaxed mb-4 pl-11">
-                                    {job.description}
-                                </p>
-                                
-                                <div className="pl-11">
-                                    <div className="text-xs text-cyan-400 font-bold uppercase tracking-wider mb-2">Key Achievements:</div>
-                                    <ul className="space-y-2">
-                                        {job.achievements && job.achievements.map((achievement, achIndex) => (
-                                            <li key={achIndex} className="text-slate-300 text-sm flex items-start gap-2">
-                                                <span className="text-cyan-500 flex-shrink-0 mt-1">▸</span>
-                                                <span>{achievement}</span>
-                                            </li>
-                                        ))}
-                                    </ul>
-                                </div>
-                            </div>
-                        ))}
-                    </div>
-                </div>
-
-                <div className="bg-slate-900/60 border border-slate-700/50 p-6 rounded-lg backdrop-blur-sm hover:border-cyan-500/50 transition-colors shadow-lg">
+                <div className="bg-slate-900/60 border border-slate-700/50 p-6 rounded-lg backdrop-blur-sm hover:border-cyan-500/50 transition-colors shadow-lg max-h-96 overflow-y-auto">
                     <h3 className="text-xl text-cyan-200 font-bold border-b border-slate-700 pb-3 mb-4 flex items-center gap-2" style={{ fontFamily: 'Cinzel, serif' }}>
                         <span>🎒</span> Skills
                     </h3>
@@ -644,6 +603,47 @@ const App = () => {
                     </div>
                 </div>
 
+            </div>
+
+            <div className="bg-slate-900/60 border border-slate-700/50 p-6 rounded-lg backdrop-blur-sm hover:border-cyan-500/50 transition-colors shadow-lg mt-8">
+                <h3 className="text-xl text-cyan-200 font-bold border-b border-slate-700 pb-3 mb-6 flex items-center gap-2" style={{ fontFamily: 'Cinzel, serif' }}>
+                    <span>🗺️</span> Adventure Log
+                </h3>
+                <div className="space-y-6">
+                    {resumeData.experience.map((job, index) => (
+                        <div key={index} className="bg-slate-950/50 border border-slate-700/50 rounded-lg p-6 hover:border-cyan-500/30 transition-colors">
+                            <div className="flex items-start gap-3 mb-3">
+                                <span className="text-2xl flex-shrink-0">
+                                    {index === 0 ? '⚡' : index === 1 ? '🔧' : index === 2 ? '🌐' : index === 3 ? '💻' : '📋'}
+                                </span>
+                                <div className="flex-1">
+                                    <h4 className="text-lg font-bold text-cyan-100">{job.title}</h4>
+                                    <div className="text-sm text-cyan-400 font-mono mt-1">{job.company}</div>
+                                </div>
+                            </div>
+                            
+                            <div className="text-xs text-slate-400 font-mono mb-4 pl-11">
+                                {job.startDate} → {job.endDate}
+                            </div>
+                            
+                            <p className="text-slate-300 text-sm leading-relaxed mb-4 pl-11">
+                                {job.description}
+                            </p>
+                            
+                            <div className="pl-11">
+                                <div className="text-xs text-cyan-400 font-bold uppercase tracking-wider mb-2">Key Achievements:</div>
+                                <ul className="space-y-2">
+                                    {job.achievements && job.achievements.map((achievement, achIndex) => (
+                                        <li key={achIndex} className="text-slate-300 text-sm flex items-start gap-2">
+                                            <span className="text-cyan-500 flex-shrink-0 mt-1">▸</span>
+                                            <span>{achievement}</span>
+                                        </li>
+                                    ))}
+                                </ul>
+                            </div>
+                        </div>
+                    ))}
+                </div>
             </div>
 
             <footer className="text-center py-12 text-slate-500 text-xs font-mono">

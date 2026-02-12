@@ -5,7 +5,7 @@
   "description": "Eric Rivera's FF6-inspired portfolio app",
   "main": "FF6PortfolioApp.jsx",
   "scripts": {
-    "start": "webpack serve --mode development --open",
+    "start": "webpack serve --mode development",
     "build": "cross-env NODE_ENV=production webpack --mode production"
   },
   "dependencies": {
