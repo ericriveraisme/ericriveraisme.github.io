@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+
+# Disallow archive files
+Disallow: /archive-delta-data/
+
+# Sitemap location
+Sitemap: https://ericriveraisme.github.io/sitemap.xml
