@@ -143,7 +143,23 @@ This document outlines optional improvements for the portfolio site that would e
   - Section header
 - **Notes:** Currently inline in FF6PortfolioApp.jsx
 
+### 13. Google Search Console Verification (Priority: High) ⏰
+**Description:** Complete Google Search Console setup and verification
+- **Impact:** Monitor SEO issues, indexing status, and site performance
+- **Effort:** ~5 minutes (after deployment)
+- **Steps:**
+  - ✅ Verification meta tag added to index.html
+  - ✅ sitemap.xml created
+  - ✅ robots.txt created
+  - ⏰ **TODO: Verify site ownership in Google Search Console**
+  - ⏰ **TODO: Submit sitemap.xml in GSC**
+  - ⏰ Monitor Coverage, Core Web Vitals, Mobile Usability reports
+- **Notes:** Files deployed Feb 12, 2026 - verify after GitHub Pages deployment completes
+
 ## Implementation Priorities
+
+**Immediate Actions** (<5 min):
+- ⏰ Google Search Console verification and sitemap submission
 
 **Quick Wins** (start here, <45 min each):
 - Print stylesheet
