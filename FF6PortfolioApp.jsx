@@ -544,7 +544,7 @@ const App = () => {
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 
-                <div className="col-span-1 lg:col-span-2 bg-slate-900/60 border border-slate-700/50 p-6 rounded-lg backdrop-blur-sm hover:border-cyan-500/50 transition-colors shadow-lg">
+                <div className="col-span-1 md:col-span-2 lg:col-span-2 bg-slate-900/60 border border-slate-700/50 p-6 rounded-lg backdrop-blur-sm hover:border-cyan-500/50 transition-colors shadow-lg">
                     <h3 className="text-xl text-cyan-200 font-bold border-b border-slate-700 pb-3 mb-4 flex items-center gap-2" style={{ fontFamily: 'Cinzel, serif' }}>
                         <span>📜</span> Character Sheet
                     </h3>
@@ -572,25 +572,6 @@ const App = () => {
 
                 <div className="bg-slate-900/60 border border-slate-700/50 p-6 rounded-lg backdrop-blur-sm hover:border-cyan-500/50 transition-colors shadow-lg">
                     <h3 className="text-xl text-cyan-200 font-bold border-b border-slate-700 pb-3 mb-4 flex items-center gap-2" style={{ fontFamily: 'Cinzel, serif' }}>
-                        <span>🎒</span> Skills
-                    </h3>
-                    <div className="space-y-4">
-                        {resumeData.skills.map((skill) => (
-                            <div key={skill.name}>
-                                <div className="flex justify-between text-xs font-bold text-slate-300 mb-1">
-                                    <span>{skill.name}</span>
-                                    <span>LVL {skill.level}</span>
-                                </div>
-                                <div className="h-2 bg-slate-950 rounded-full overflow-hidden">
-                                    <div className={`h-full ${skill.color}`} style={{ width: `${skill.level * 10}%` }}></div>
-                                </div>
-                            </div>
-                        ))}
-                    </div>
-                </div>
-
-                <div className="bg-slate-900/60 border border-slate-700/50 p-6 rounded-lg backdrop-blur-sm hover:border-cyan-500/50 transition-colors shadow-lg">
-                    <h3 className="text-xl text-cyan-200 font-bold border-b border-slate-700 pb-3 mb-4 flex items-center gap-2" style={{ fontFamily: 'Cinzel, serif' }}>
                         <span>⚔️</span> Active Quests
                     </h3>
                     <ul className="space-y-4">
@@ -603,7 +584,7 @@ const App = () => {
                     </ul>
                 </div>
 
-                <div className="col-span-1 lg:col-span-2 bg-slate-900/60 border border-slate-700/50 p-6 rounded-lg backdrop-blur-sm hover:border-cyan-500/50 transition-colors shadow-lg">
+                <div className="col-span-1 md:col-span-2 lg:col-span-2 bg-slate-900/60 border border-slate-700/50 p-6 rounded-lg backdrop-blur-sm hover:border-cyan-500/50 transition-colors shadow-lg">
                     <h3 className="text-xl text-cyan-200 font-bold border-b border-slate-700 pb-3 mb-6 flex items-center gap-2" style={{ fontFamily: 'Cinzel, serif' }}>
                         <span>🗺️</span> Adventure Log
                     </h3>
@@ -638,6 +619,25 @@ const App = () => {
                                             </li>
                                         ))}
                                     </ul>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+
+                <div className="bg-slate-900/60 border border-slate-700/50 p-6 rounded-lg backdrop-blur-sm hover:border-cyan-500/50 transition-colors shadow-lg">
+                    <h3 className="text-xl text-cyan-200 font-bold border-b border-slate-700 pb-3 mb-4 flex items-center gap-2" style={{ fontFamily: 'Cinzel, serif' }}>
+                        <span>🎒</span> Skills
+                    </h3>
+                    <div className="space-y-4">
+                        {resumeData.skills.map((skill) => (
+                            <div key={skill.name}>
+                                <div className="flex justify-between text-xs font-bold text-slate-300 mb-1">
+                                    <span>{skill.name}</span>
+                                    <span>LVL {skill.level}</span>
+                                </div>
+                                <div className="h-2 bg-slate-950 rounded-full overflow-hidden">
+                                    <div className={`h-full ${skill.color}`} style={{ width: `${skill.level * 10}%` }}></div>
                                 </div>
                             </div>
                         ))}
