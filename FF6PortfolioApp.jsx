@@ -528,7 +528,7 @@ const App = () => {
                                     </span>
                                 ))}
                             </div>
-                            <a href={resumeData.featured.ctaLink} className="px-6 py-3 bg-indigo-600 hover:bg-indigo-500 text-white font-bold rounded shadow-lg transition-colors flex items-center gap-2 inline-block">
+                            <a href={resumeData.featured.ctaLink} className="px-6 py-3 bg-indigo-600 hover:bg-indigo-500 text-white font-bold rounded shadow-lg transition-colors inline-flex items-center gap-2">
                                 <span>{resumeData.featured.ctaText}</span>
                             </a>
                         </div>
