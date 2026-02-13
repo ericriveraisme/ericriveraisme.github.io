@@ -54,7 +54,23 @@ const App = () => {
     
     // Performance optimization: track average FPS and reduce particles if low
     let fpsSamples = [];
-    let particleCount = 150; // Start with 150 snowflakes
+
+    // Adaptive quality settings (4b)
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+    const saveData = Boolean(connection && connection.saveData);
+    const deviceMemory = navigator.deviceMemory || 4;
+    const cpuCores = navigator.hardwareConcurrency || 4;
+    const lowPowerMode = prefersReducedMotion || saveData || deviceMemory <= 2 || cpuCores <= 4;
+
+    const windSettings = {
+      enabled: !prefersReducedMotion,
+      layers: lowPowerMode ? 1 : 3,
+      sections: lowPowerMode ? 4 : 8,
+      particleCount: lowPowerMode ? 75 : 150
+    };
+
+    let particleCount = windSettings.particleCount;
     
     // Fixed-timestep wind animation (independent from render FPS)
     let windTime = 0; // Accumulates at fixed 30fps rate
@@ -117,12 +133,17 @@ const App = () => {
     const renderWindToOffscreenCanvas = (horizonY) => {
       // Clear offscreen canvas
       windCtx.clearRect(0, 0, windCanvas.width, windCanvas.height);
+
+      if (!windSettings.enabled) {
+        windNeedsRedraw = false;
+        return;
+      }
       
       // Generate smaller sections at regular intervals, moving left to right
       const sectionWidth = 180;
       const sectionSpacing = 250;
       const horizontalSpeed = 25;
-      const numLayers = 3;
+      const numLayers = windSettings.layers;
       
       for (let layerIndex = 0; layerIndex < numLayers; layerIndex++) {
         const baseY = horizonY - 45 + layerIndex * 15;
@@ -131,7 +152,7 @@ const App = () => {
         const bandThickness = 20 + Math.sin(windTime / 800 + layerIndex) * 8;
         const layerOffset = layerIndex * (sectionSpacing / numLayers);
         
-        for (let sectionIndex = 0; sectionIndex < 8; sectionIndex++) {
+        for (let sectionIndex = 0; sectionIndex < windSettings.sections; sectionIndex++) {
           const sectionStartX = -sectionWidth + ((windTime / horizontalSpeed) + (sectionIndex * sectionSpacing) + layerOffset) % (windCanvas.width + sectionSpacing * 2);
           
           if (sectionStartX < windCanvas.width + sectionWidth && sectionStartX > -sectionWidth) {
@@ -379,12 +400,14 @@ const App = () => {
 
       // --- WIND TIME ACCUMULATION (Fixed Timestep) ---
       // Advance wind time at fixed 30fps, independent of render FPS
-      const windDelta = timestamp - lastWindTime;
-      if (windDelta >= WIND_FRAME_INTERVAL) {
-        windTime += windDelta;
-        lastWindTime = timestamp;
-        windNeedsRedraw = true; // Trigger wind re-render on offscreen canvas
-      } 
+      if (windSettings.enabled) {
+        const windDelta = timestamp - lastWindTime;
+        if (windDelta >= WIND_FRAME_INTERVAL) {
+          windTime += windDelta;
+          lastWindTime = timestamp;
+          windNeedsRedraw = true; // Trigger wind re-render on offscreen canvas
+        }
+      }
 
       // --- SKY ---
       // Dark Magitek Night
@@ -563,12 +586,12 @@ const App = () => {
       // --- LAYER 4.5: Snow Drift/Wind Effects (offscreen buffer optimization) ---
       // PERFORMANCE: Wind is rendered to offscreen canvas at 30fps, then composited
       // This reduces per-frame CPU cost by avoiding bezier recalculation every frame
-      if (windNeedsRedraw && windTime > 0) {
+      if (windSettings.enabled && windNeedsRedraw && windTime > 0) {
         renderWindToOffscreenCanvas(horizonY);
       }
       
       // Composite the cached wind buffer onto main canvas
-      if (windTime > 0) {
+      if (windSettings.enabled && windTime > 0) {
         ctx.drawImage(windCanvas, 0, 0);
       }
 
