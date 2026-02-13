@@ -56,6 +56,17 @@ const App = () => {
     let fpsSamples = [];
     let particleCount = 150; // Start with 150 snowflakes
     
+    // Fixed-timestep wind animation (independent from render FPS)
+    let windTime = 0; // Accumulates at fixed 30fps rate
+    let lastWindTime = performance.now();
+    const WIND_FPS = 30;
+    const WIND_FRAME_INTERVAL = 1000 / WIND_FPS; // ~33.33ms
+    
+    // Offscreen canvas for wind effect caching (3c optimization)
+    const windCanvas = document.createElement('canvas');
+    const windCtx = windCanvas.getContext('2d');
+    let windNeedsRedraw = true; // Flag to trigger wind re-render
+    
     // --- Assets (FF6 Sprites) - Imported from assets folder ---
     // Using sprites from assets/sprites/ff6-characters.js
     const TERRA = FF6_CHARACTER_SPRITES.TERRA;
@@ -97,6 +108,109 @@ const App = () => {
     // --- Renderer ---
 
     /**
+     * Render wind effect to offscreen canvas buffer
+     * Called only at 30fps when windNeedsRedraw is true (performance optimization 3c)
+     * @function renderWindToOffscreenCanvas
+     * @param {number} horizonY - Horizon line Y position
+     * @returns {void}
+     */
+    const renderWindToOffscreenCanvas = (horizonY) => {
+      // Clear offscreen canvas
+      windCtx.clearRect(0, 0, windCanvas.width, windCanvas.height);
+      
+      // Generate smaller sections at regular intervals, moving left to right
+      const sectionWidth = 180;
+      const sectionSpacing = 250;
+      const horizontalSpeed = 25;
+      const numLayers = 3;
+      
+      for (let layerIndex = 0; layerIndex < numLayers; layerIndex++) {
+        const baseY = horizonY - 45 + layerIndex * 15;
+        const waveAmplitude = 18 + Math.sin(windTime / 1500 + layerIndex) * 8;
+        const waveFrequency = 0.015;
+        const bandThickness = 20 + Math.sin(windTime / 800 + layerIndex) * 8;
+        const layerOffset = layerIndex * (sectionSpacing / numLayers);
+        
+        for (let sectionIndex = 0; sectionIndex < 8; sectionIndex++) {
+          const sectionStartX = -sectionWidth + ((windTime / horizontalSpeed) + (sectionIndex * sectionSpacing) + layerOffset) % (windCanvas.width + sectionSpacing * 2);
+          
+          if (sectionStartX < windCanvas.width + sectionWidth && sectionStartX > -sectionWidth) {
+            windCtx.beginPath();
+            const points = [];
+            const numPoints = Math.ceil(sectionWidth / 6);
+            
+            for (let i = 0; i <= numPoints; i++) {
+              const x = sectionStartX + (i * 6);
+              const wavePhase = (x * waveFrequency) + (windTime / 1000) + layerIndex;
+              const y = baseY + Math.sin(wavePhase) * waveAmplitude;
+              points.push({ x, y });
+            }
+            
+            windCtx.moveTo(points[0].x, points[0].y);
+            for (let i = 0; i < points.length - 1; i++) {
+              const cp1x = points[i].x + (points[i + 1].x - points[i].x) / 3;
+              const cp1y = points[i].y;
+              const cp2x = points[i].x + 2 * (points[i + 1].x - points[i].x) / 3;
+              const cp2y = points[i + 1].y;
+              windCtx.bezierCurveTo(cp1x, cp1y, cp2x, cp2y, points[i + 1].x, points[i + 1].y);
+            }
+            
+            for (let i = points.length - 1; i >= 0; i--) {
+              const x = points[i].x;
+              const wavePhase = (x * waveFrequency) + (windTime / 1000) + layerIndex;
+              const y = baseY + Math.sin(wavePhase) * waveAmplitude + bandThickness;
+              if (i === points.length - 1) {
+                windCtx.lineTo(x, y);
+              } else {
+                const cp1x = points[i + 1].x - (points[i + 1].x - points[i].x) / 3;
+                const cp1y = points[i + 1].y + bandThickness;
+                const cp2x = points[i + 1].x - 2 * (points[i + 1].x - points[i].x) / 3;
+                const cp2y = points[i].y + bandThickness;
+                windCtx.bezierCurveTo(cp1x, cp1y, cp2x, cp2y, x, y);
+              }
+            }
+            
+            windCtx.closePath();
+            
+            const gradient = windCtx.createLinearGradient(sectionStartX, baseY - waveAmplitude, sectionStartX + sectionWidth, baseY + waveAmplitude + bandThickness);
+            const opacity = 0.35 + Math.sin(windTime / 600 + layerIndex + sectionIndex) * 0.15;
+            gradient.addColorStop(0, `rgba(226, 232, 240, 0)`);
+            gradient.addColorStop(0.15, `rgba(203, 213, 225, ${opacity * 0.5})`);
+            gradient.addColorStop(0.5, `rgba(226, 232, 240, ${opacity})`);
+            gradient.addColorStop(0.85, `rgba(203, 213, 225, ${opacity * 0.5})`);
+            gradient.addColorStop(1, `rgba(226, 232, 240, 0)`);
+            
+            windCtx.fillStyle = gradient;
+            windCtx.fill();
+            
+            for (let windIndex = 0; windIndex < 3; windIndex++) {
+              const windX = sectionStartX + (windIndex * 50) + ((windTime / 18) % 50);
+              if (windX > sectionStartX && windX < sectionStartX + sectionWidth) {
+                const wavePhase = (windX * waveFrequency) + (windTime / 1000) + layerIndex;
+                const windY = baseY + Math.sin(wavePhase) * waveAmplitude + bandThickness / 2;
+                const windLength = 60 + Math.sin(windTime / 250 + windIndex + sectionIndex) * 20;
+                const windOpacity = 0.3 + Math.sin(windTime / 350 + windIndex + sectionIndex) * 0.1;
+                
+                const windGradient = windCtx.createLinearGradient(windX, windY, windX + windLength, windY);
+                windGradient.addColorStop(0, 'rgba(203, 213, 225, 0)');
+                windGradient.addColorStop(0.3, `rgba(203, 213, 225, ${windOpacity})`);
+                windGradient.addColorStop(0.7, `rgba(203, 213, 225, ${windOpacity})`);
+                windGradient.addColorStop(1, 'rgba(203, 213, 225, 0)');
+                
+                windCtx.fillStyle = windGradient;
+                windCtx.fillRect(windX, windY - 1, windLength, 2);
+              }
+            }
+          }
+        }
+      }
+      
+      windNeedsRedraw = false;
+    };
+
+    // --- Renderer ---
+
+    /**
      * Resize canvas to match window dimensions and update rendering context
      * Called on mount and whenever window is resized (debounced to max 1 per 250ms)
      * Debouncing prevents excessive canvas dimension updates during window resize events
@@ -105,17 +219,15 @@ const App = () => {
      */
     let resizeTimeoutId;
     const resize = () => {
-      const dpr = window.devicePixelRatio || 1;
-      const width = window.innerWidth;
-      const height = window.innerHeight;
-
-      canvas.style.width = `${width}px`;
-      canvas.style.height = `${height}px`;
-      canvas.width = Math.floor(width * dpr);
-      canvas.height = Math.floor(height * dpr);
-
-      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
       ctx.imageSmoothingEnabled = false;
+      
+      // Resize wind offscreen canvas to match
+      windCanvas.width = canvas.width;
+      windCanvas.height = canvas.height;
+      windCtx.imageSmoothingEnabled = false;
+      windNeedsRedraw = true; // Force wind redraw after resize
     };
     
     // Debounce resize events to avoid thrashing (max 1 per 250ms)
@@ -264,6 +376,15 @@ const App = () => {
       setFps(Math.round(1/dt));
 
       cameraY -= 50 * dt; 
+
+      // --- WIND TIME ACCUMULATION (Fixed Timestep) ---
+      // Advance wind time at fixed 30fps, independent of render FPS
+      const windDelta = timestamp - lastWindTime;
+      if (windDelta >= WIND_FRAME_INTERVAL) {
+        windTime += windDelta;
+        lastWindTime = timestamp;
+        windNeedsRedraw = true; // Trigger wind re-render on offscreen canvas
+      } 
 
       // --- SKY ---
       // Dark Magitek Night
@@ -439,107 +560,17 @@ const App = () => {
       });
       ctx.globalAlpha = 1.0;
 
-      // --- LAYER 4.5: Snow Drift/Wind Effects (obscuring city like FF6) ---
-      // PERFORMANCE: Skip wind effect rendering every other frame to reduce CPU load
-      // Wind effect is the most expensive operation due to bezier curve calculations
-      const shouldRenderWind = Math.floor(timestamp / 16.67) % 2 === 0;
-      
-      if (shouldRenderWind) {
-        // Generate smaller sections at regular intervals, moving left to right
-        const sectionWidth = 180; // Width of each section
-        const sectionSpacing = 250; // Spacing between sections
-        const horizontalSpeed = 25;
-        const numLayers = 3;
-        
-        for (let layerIndex = 0; layerIndex < numLayers; layerIndex++) {
-          const baseY = horizonY - 45 + layerIndex * 15;
-          const waveAmplitude = 18 + Math.sin(timestamp / 1500 + layerIndex) * 8;
-          const waveFrequency = 0.015;
-          const bandThickness = 20 + Math.sin(timestamp / 800 + layerIndex) * 8;
-          const layerOffset = layerIndex * (sectionSpacing / numLayers);
-          
-          // Generate multiple sections at regular intervals
-          for (let sectionIndex = 0; sectionIndex < 8; sectionIndex++) {
-            const sectionStartX = -sectionWidth + ((timestamp / horizontalSpeed) + (sectionIndex * sectionSpacing) + layerOffset) % (canvas.width + sectionSpacing * 2);
-            
-            // Only draw if section is visible or about to enter
-            if (sectionStartX < canvas.width + sectionWidth && sectionStartX > -sectionWidth) {
-              // Create wavy band section using bezier curves
-              ctx.beginPath();
-              const points = [];
-              const numPoints = Math.ceil(sectionWidth / 6);
-              
-              // Generate top and bottom wave points for this section
-              for (let i = 0; i <= numPoints; i++) {
-                const x = sectionStartX + (i * 6);
-                const wavePhase = (x * waveFrequency) + (timestamp / 1000) + layerIndex;
-                const y = baseY + Math.sin(wavePhase) * waveAmplitude;
-                points.push({ x, y });
-              }
-              
-              // Draw top curve
-              ctx.moveTo(points[0].x, points[0].y);
-              for (let i = 0; i < points.length - 1; i++) {
-                const cp1x = points[i].x + (points[i + 1].x - points[i].x) / 3;
-                const cp1y = points[i].y;
-                const cp2x = points[i].x + 2 * (points[i + 1].x - points[i].x) / 3;
-                const cp2y = points[i + 1].y;
-                ctx.bezierCurveTo(cp1x, cp1y, cp2x, cp2y, points[i + 1].x, points[i + 1].y);
-              }
-              
-              // Draw bottom curve (offset by band thickness)
-              for (let i = points.length - 1; i >= 0; i--) {
-                const x = points[i].x;
-                const wavePhase = (x * waveFrequency) + (timestamp / 1000) + layerIndex;
-              const y = baseY + Math.sin(wavePhase) * waveAmplitude + bandThickness;
-              if (i === points.length - 1) {
-                ctx.lineTo(x, y);
-              } else {
-                const cp1x = points[i + 1].x - (points[i + 1].x - points[i].x) / 3;
-                const cp1y = points[i + 1].y + bandThickness;
-                const cp2x = points[i + 1].x - 2 * (points[i + 1].x - points[i].x) / 3;
-                const cp2y = points[i].y + bandThickness;
-                ctx.bezierCurveTo(cp1x, cp1y, cp2x, cp2y, x, y);
-              }
-            }
-            
-            ctx.closePath();
-            
-            // Fill with gradient that fades at edges
-            const gradient = ctx.createLinearGradient(sectionStartX, baseY - waveAmplitude, sectionStartX + sectionWidth, baseY + waveAmplitude + bandThickness);
-            const opacity = 0.35 + Math.sin(timestamp / 600 + layerIndex + sectionIndex) * 0.15;
-            gradient.addColorStop(0, `rgba(226, 232, 240, 0)`);
-            gradient.addColorStop(0.15, `rgba(203, 213, 225, ${opacity * 0.5})`);
-            gradient.addColorStop(0.5, `rgba(226, 232, 240, ${opacity})`);
-            gradient.addColorStop(0.85, `rgba(203, 213, 225, ${opacity * 0.5})`);
-            gradient.addColorStop(1, `rgba(226, 232, 240, 0)`);
-            
-            ctx.fillStyle = gradient;
-            ctx.fill();
-            
-            // Add wind streaks integrated into each section
-            for (let windIndex = 0; windIndex < 3; windIndex++) {
-              const windX = sectionStartX + (windIndex * 50) + ((timestamp / 18) % 50);
-              if (windX > sectionStartX && windX < sectionStartX + sectionWidth) {
-                const wavePhase = (windX * waveFrequency) + (timestamp / 1000) + layerIndex;
-                const windY = baseY + Math.sin(wavePhase) * waveAmplitude + bandThickness / 2;
-                const windLength = 60 + Math.sin(timestamp / 250 + windIndex + sectionIndex) * 20;
-                const windOpacity = 0.3 + Math.sin(timestamp / 350 + windIndex + sectionIndex) * 0.1;
-                
-                const windGradient = ctx.createLinearGradient(windX, windY, windX + windLength, windY);
-                windGradient.addColorStop(0, 'rgba(203, 213, 225, 0)');
-                windGradient.addColorStop(0.3, `rgba(203, 213, 225, ${windOpacity})`);
-                windGradient.addColorStop(0.7, `rgba(203, 213, 225, ${windOpacity})`);
-                windGradient.addColorStop(1, 'rgba(203, 213, 225, 0)');
-                
-                ctx.fillStyle = windGradient;
-                ctx.fillRect(windX, windY - 1, windLength, 2);
-              }
-            }
-          }
-        }
+      // --- LAYER 4.5: Snow Drift/Wind Effects (offscreen buffer optimization) ---
+      // PERFORMANCE: Wind is rendered to offscreen canvas at 30fps, then composited
+      // This reduces per-frame CPU cost by avoiding bezier recalculation every frame
+      if (windNeedsRedraw && windTime > 0) {
+        renderWindToOffscreenCanvas(horizonY);
       }
-      } // End shouldRenderWind optimization
+      
+      // Composite the cached wind buffer onto main canvas
+      if (windTime > 0) {
+        ctx.drawImage(windCanvas, 0, 0);
+      }
 
       // --- LAYER 5: Fog Gradient (lighter, more like FF6) ---
       const gradient = ctx.createLinearGradient(0, horizonY - 80, 0, horizonY + 50);
