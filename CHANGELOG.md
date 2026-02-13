@@ -7,6 +7,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+- Adaptive quality for low-power devices (reduced wind layers/sections and snow count)
+- Mobile responsiveness issue documented for follow-up
+- Performance testing checklist and updated optimization notes
+
+### Changed
+- Wind animation now uses a fixed 30fps timestep with offscreen caching
+- Wind rendering uses an offscreen buffer to reduce per-frame CPU cost
+- Performance documentation updated with measured LCP gains and deferred 1a
+
+### Deferred
+- DPR-aware canvas scaling (1a) rolled back due to shimmer and alignment issues
+
 ## [1.2.1] - 2026-02-12
 
 ### Added

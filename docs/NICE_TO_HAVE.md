@@ -4,6 +4,16 @@ This document outlines optional improvements for the portfolio site that would e
 
 ## Tier 4: Future Enhancement Ideas
 
+### 0. Mobile Canvas Responsiveness (Priority: High)
+**Description:** Fix mobile layout so background path and characters remain visible on small viewports
+- **Impact:** Ensures the hero scene renders correctly on phones/tablets
+- **Effort:** ~1-2 hours
+- **Tech:**
+  - Adjust horizon and character offsets based on aspect ratio
+  - Add viewport-aware clamping for character path alignment
+  - Validate in DevTools Device Toolbar and at least one real device
+- **Notes:** Issue tracked in docs/DEVELOPMENT/MOBILE_RESPONSIVENESS.md
+
 ### 1. Dark Mode Toggle (Priority: Medium)
 **Description:** Add a theme switcher to allow users to choose between dark and light modes
 - **Impact:** Improves accessibility and user preference
@@ -37,6 +47,15 @@ This document outlines optional improvements for the portfolio site that would e
 - **Notes:** v1.2.1 added frame rate limiting (60fps cap) and wind optimization (30fps)
   - Current implementation: 150 snowflakes, alternating wind frames
   - Previously 644 lines of complex canvas operations
+
+### 2.1 QA Debug Overlay (Priority: Low)
+**Description:** Optional on-screen badge to display performance states for testing
+- **Impact:** Faster QA verification for low-power mode, reduced motion, and wind toggles
+- **Effort:** ~20 minutes
+- **Tech:**
+  - Small fixed overlay with `lowPowerMode`, `windEnabled`, and particle count
+  - Disabled in production builds or hidden behind a query param
+- **Notes:** For internal testing only
 
 ### 3. Print Stylesheet (Priority: Low)
 **Description:** Add print-friendly CSS for users printing the portfolio

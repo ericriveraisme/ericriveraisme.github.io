@@ -51,15 +51,16 @@ An immersive, retro gaming-inspired portfolio featuring:
 - **Canvas Rendering Optimization** (v1.2.1):
   - 60fps frame rate limiting to prevent CPU overload on low-end devices
   - Debounced window resize events (250ms throttle) for efficient dimension updates
-  - Wind effect optimization: renders at 30fps (every other frame) instead of 60fps
+  - Wind effect optimization: fixed 30fps wind timebase
   - Estimated 10-30% CPU improvement on integrated graphics hardware
   - All visual effects preserved while improving responsiveness on work laptops
 
-- **Planned Performance Improvements** (approved, in progress):
-  - DPR-aware canvas scaling for sharper output on HiDPI displays
+- **Recent Performance Improvements** (2026-02-13):
   - Fixed-timestep wind animation to avoid refresh-rate shimmer
   - Offscreen wind caching for lower CPU/GPU cost
   - Adaptive quality for low-power devices (fewer layers/particles)
+  - LCP improved from ~9.2s to ~0.21-0.27s after these changes
+- **Deferred:** DPR-aware canvas scaling (1a) caused shimmer/alignment issues and was rolled back
 
 - **Tailwind CSS**: Migrated from CDN to local build with PostCSS for:
   - Faster load times (only used classes included)

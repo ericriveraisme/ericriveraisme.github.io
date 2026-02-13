@@ -4,25 +4,31 @@
 
 The FF6 Portfolio features heavy canvas-based rendering with animated sprites, particles, and effects. This document outlines the performance bottlenecks identified and optimizations implemented.
 
-## Planned Performance Changes (2026-02-13)
+## Performance Plan Status (2026-02-13)
 
-These updates are approved for implementation, in order, to reduce shimmer and improve cross-device performance while preserving visuals:
+These updates were tested to reduce shimmer and improve cross-device performance while preserving visuals.
 
-1. **DPR-aware canvas scaling (1a)**
-  - Scale the backing store by `devicePixelRatio` and use `ctx.setTransform(...)`.
-  - Expected result: sharper output and less temporal shimmer on high-DPI displays.
+**Completed:**
+1. **Fixed-timestep wind animation (2b)**
+  - Wind progression runs at a steady 30fps timebase, decoupled from render FPS.
+  - Result: more consistent motion on 60/90/120Hz panels.
 
-2. **Fixed-timestep wind animation (2b)**
-  - Run wind progression at a steady 30fps timebase, decoupled from render FPS.
-  - Expected result: consistent motion on 60/90/120Hz panels without cadence flicker.
+2. **Offscreen wind caching (3c)**
+  - Wind bands render to an offscreen canvas at the wind timestep, then blit.
+  - Result: lower CPU/GPU usage without visual loss.
 
-3. **Offscreen wind caching (3c)**
-  - Render wind bands to an offscreen canvas at the wind timestep, then blit.
-  - Expected result: lower CPU/GPU usage with the same visual look.
+3. **Adaptive quality for low-power devices (4b)**
+  - Reduced wind layers/sections and snow count based on device heuristics.
+  - Result: stable frame times on weaker hardware and better battery life.
 
-4. **Adaptive quality for low-power devices (4b)**
-  - Reduce wind layers/sections and snow count based on device heuristics.
-  - Expected result: stable frame times on weaker hardware and better battery life.
+**Deferred:**
+4. **DPR-aware canvas scaling (1a)**
+  - Tested and rolled back after introducing shimmer and alignment issues.
+  - Status: deferred unless a safer approach is identified.
+
+**Measured results:**
+- LCP improved from ~9.2s to ~0.21-0.27s after wind optimizations.
+- Visible shimmer reduced without reintroducing cadence flicker.
 
 ## Performance Bottlenecks (Identified & Fixed)
 
@@ -68,32 +74,32 @@ window.addEventListener('resize', onWindowResize);
 - Generated 8 sections per layer
 - 3 layers total
 - Each section had multiple bezier curves with wave calculations
-- All calculated 60 times per second
+- Calculated every frame
 
 This alone accounted for ~40% of frame time on integrated graphics.
 
-**Solution:** Conditional rendering - skip wind effect every other frame:
+**Solution:** Fixed-timestep wind + offscreen caching:
 ```javascript
-const shouldRenderWind = Math.floor(timestamp / 16.67) % 2 === 0;
-
-if (shouldRenderWind) {
-  // Wind effect rendering (only runs on alternate frames)
-  // ...
+// Wind runs at fixed 30fps and renders to an offscreen buffer
+if (windDelta >= WIND_FRAME_INTERVAL) {
+  windTime += windDelta;
+  windNeedsRedraw = true;
 }
+
+if (windNeedsRedraw) {
+  renderWindToOffscreenCanvas(horizonY);
+}
+ctx.drawImage(windCanvas, 0, 0);
 ```
 
-**Impact:** ~40% CPU reduction! Most significant single optimization
+**Impact:** Large CPU reduction and improved LCP; less shimmer on high refresh rate screens.
 
 ---
 
-### 4. **Particle System** (Monitored, Not Aggressive)
+### 4. **Particle System** ✅ Improved (Adaptive Quality)
 **Issue:** 150 snowflakes constantly updated and rendered
-**Status:** Currently acceptable performance
-**Future Optimization:** Infrastructure in place to dynamically reduce particle count:
-```javascript
-let fpsSamples = [];
-let particleCount = 150; // Could be reduced to 75-100 on low FPS detection
-```
+**Solution:** Adaptive quality reduces particle count on low-power devices
+**Status:** Live (part of 4b)
 
 ---
 
