@@ -55,6 +55,12 @@ An immersive, retro gaming-inspired portfolio featuring:
   - Estimated 10-30% CPU improvement on integrated graphics hardware
   - All visual effects preserved while improving responsiveness on work laptops
 
+- **Planned Performance Improvements** (approved, in progress):
+  - DPR-aware canvas scaling for sharper output on HiDPI displays
+  - Fixed-timestep wind animation to avoid refresh-rate shimmer
+  - Offscreen wind caching for lower CPU/GPU cost
+  - Adaptive quality for low-power devices (fewer layers/particles)
+
 - **Tailwind CSS**: Migrated from CDN to local build with PostCSS for:
   - Faster load times (only used classes included)
   - Eliminated unsafe-eval CSP warning

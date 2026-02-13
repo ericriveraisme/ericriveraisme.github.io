@@ -4,6 +4,26 @@
 
 The FF6 Portfolio features heavy canvas-based rendering with animated sprites, particles, and effects. This document outlines the performance bottlenecks identified and optimizations implemented.
 
+## Planned Performance Changes (2026-02-13)
+
+These updates are approved for implementation, in order, to reduce shimmer and improve cross-device performance while preserving visuals:
+
+1. **DPR-aware canvas scaling (1a)**
+  - Scale the backing store by `devicePixelRatio` and use `ctx.setTransform(...)`.
+  - Expected result: sharper output and less temporal shimmer on high-DPI displays.
+
+2. **Fixed-timestep wind animation (2b)**
+  - Run wind progression at a steady 30fps timebase, decoupled from render FPS.
+  - Expected result: consistent motion on 60/90/120Hz panels without cadence flicker.
+
+3. **Offscreen wind caching (3c)**
+  - Render wind bands to an offscreen canvas at the wind timestep, then blit.
+  - Expected result: lower CPU/GPU usage with the same visual look.
+
+4. **Adaptive quality for low-power devices (4b)**
+  - Reduce wind layers/sections and snow count based on device heuristics.
+  - Expected result: stable frame times on weaker hardware and better battery life.
+
 ## Performance Bottlenecks (Identified & Fixed)
 
 ### 1. **Unlimited Frame Rate** ✅ Fixed
@@ -118,6 +138,34 @@ Monitors Core Web Vitals for the overall page:
    - Run performance audit
    - Check Canvas API efficiency
    - Verify no forced layouts
+
+---
+
+## Performance Lab Checklist
+
+Use this checklist before and after each performance change to keep testing consistent.
+
+1. **Build + run**
+  - `npm start` (dev) or `npm run build` + `python -m http.server 8000` (prod)
+
+2. **Baseline record**
+  - DevTools Performance: record 5-10 seconds of idle animation
+  - Save a screenshot of the FPS meter and note average frame time
+
+3. **CPU stress**
+  - DevTools Performance: set CPU throttling to 4x or 6x
+  - Record 5-10 seconds; note if frame time spikes or stutters
+
+4. **HiDPI check**
+  - DevTools Device Toolbar: set DPR to 2 or 3
+  - Check for shimmer or blurry motion in wind and snow
+
+5. **Visibility behavior**
+  - Switch tabs for 5-10 seconds
+  - Return and verify animation stability (no large jumps or stalls)
+
+6. **Notes**
+  - Record observations in the change log (date, device, browser, findings)
 
 ---
 
