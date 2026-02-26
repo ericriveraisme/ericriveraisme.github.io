@@ -4,8 +4,6 @@
  * Update this file to reflect your current professional information
  */
 
-import { activeQuests } from './activeQuests.js';
-
 export const resumeData = {
   // Personal Information
   personal: {
@@ -53,9 +51,6 @@ export const resumeData = {
     { name: "Client Relations & Communication", level: 9, color: "bg-blue-500" },
     { name: "Problem Solving & Conflict Resolution", level: 9, color: "bg-cyan-500" }
   ],
-
-  // Active Quests / Current Goals
-  activeQuests,
 
   // Work Experience / Adventure Log
   experience: [

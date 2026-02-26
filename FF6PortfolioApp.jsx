@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { FF6_CHARACTER_SPRITES, FF6_CHARACTER_SPRITES_BACK } from './assets/sprites/ff6-characters.js';
 import { FF6_ENEMY_SPRITES } from './assets/sprites/ff6-enemies.js';
 import { resumeData } from './src/data/resumeData.js';
+import { activeQuests as activeQuestData } from './src/data/activeQuests.js';
 
 /**
  * FF6 Portfolio App
@@ -621,7 +622,7 @@ const App = () => {
     'Next Up': 'bg-indigo-900/40 border-indigo-500/50 text-indigo-300'
   };
 
-  const activeQuests = [...resumeData.activeQuests]
+  const activeQuests = [...activeQuestData]
     .sort((a, b) => {
       if (a.priority !== b.priority) {
         return a.priority - b.priority;

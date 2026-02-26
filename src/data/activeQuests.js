@@ -12,5 +12,12 @@ export const activeQuests = [
     status: "In Progress",
     priority: 2,
     updatedAt: "2026-02-26"
+  },
+  {
+    title: "Hypervisor I Proxmox Home Lab (Future)",
+    description: "Planning a home Proxmox setup to manage a headless Ubuntu server and link it with the Azure Windows DC through Tailscale for a hybrid topology.",
+    status: "Next Up",
+    priority: 3,
+    updatedAt: "2026-02-26"
   }
 ];
