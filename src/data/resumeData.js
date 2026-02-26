@@ -11,6 +11,7 @@ export const resumeData = {
     title: "IT Professional",
     tagline: "<IT Professional/Amatuer Vibe-Coder>",
     email: "ericriveraisme@gmail.com",
+    linkedin: "https://www.linkedin.com/in/eric-rivera-62240818a/",
     github: "https://github.com/ericriveraisme",
     phone: null, // Available upon request
     location: "USA"
@@ -36,6 +37,7 @@ export const resumeData = {
 
   // Skills Section
   skills: [
+    { name: "Certifications: CompTIA Network+", level: 10, max: true, color: "bg-purple-900" },
     { name: "Network Administration", level: 9, color: "bg-blue-500" },
     { name: "System Administration", level: 8, color: "bg-cyan-500" },
     { name: "Networking Protocols (BGP, TCP/IP, DNS, DHCP)", level: 8, color: "bg-cyan-500" },
