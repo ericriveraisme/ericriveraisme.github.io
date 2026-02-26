@@ -748,10 +748,10 @@ const App = () => {
                             <div key={skill.name}>
                                 <div className="flex justify-between text-xs font-bold text-slate-300 mb-1">
                                     <span>{skill.name}</span>
-                                    <span>LVL {skill.level}</span>
+                                  <span>{skill.max ? 'MAX' : `LVL ${skill.level}`}</span>
                                 </div>
                                 <div className="h-2 bg-slate-950 rounded-full overflow-hidden">
-                                    <div className={`h-full ${skill.color}`} style={{ width: `${skill.level * 10}%` }}></div>
+                                  <div className={`h-full ${skill.color}`} style={{ width: `${skill.max ? 100 : skill.level * 10}%` }}></div>
                                 </div>
                             </div>
                         ))}
