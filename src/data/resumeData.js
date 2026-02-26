@@ -4,6 +4,8 @@
  * Update this file to reflect your current professional information
  */
 
+import { activeQuests } from './activeQuests.js';
+
 export const resumeData = {
   // Personal Information
   personal: {
@@ -53,22 +55,7 @@ export const resumeData = {
   ],
 
   // Active Quests / Current Goals
-  activeQuests: [
-    {
-      title: "Hybrid Cloud Identity Bridge (AD → Entra ID)",
-      description: "Built Azure Windows Server 2025 DC, configured AD DS/DNS health, bulk-provisioned users via PowerShell, and verified Entra Connect sync cycles.",
-      status: "In Progress",
-      priority: 1,
-      updatedAt: "2026-02-26"
-    },
-    {
-      title: "SSH via VS Code & Server Hardening",
-      description: "Transitioning from RDP to SSH workflow, tightening NSG exposure, enforcing least privilege, and enabling automated update management.",
-      status: "Next Up",
-      priority: 2,
-      updatedAt: "2026-02-26"
-    }
-  ],
+  activeQuests,
 
   // Work Experience / Adventure Log
   experience: [
