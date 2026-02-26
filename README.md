@@ -61,6 +61,7 @@ An immersive, retro gaming-inspired portfolio featuring:
   - Adaptive quality for low-power devices (fewer layers/particles)
   - LCP improved from ~9.2s to ~0.21-0.27s after these changes
 - **Deferred:** DPR-aware canvas scaling (1a) caused shimmer/alignment issues and was rolled back
+- **Motion-aware behavior:** Wind and effects may reduce/disable automatically on reduced-motion or lower-power environments for smoother performance
 
 - **Tailwind CSS**: Migrated from CDN to local build with PostCSS for:
   - Faster load times (only used classes included)
@@ -74,7 +75,7 @@ An immersive, retro gaming-inspired portfolio featuring:
   - Security headers configured (_headers file for GitHub Pages)
 
 - **Security**:
-  - No hardcoded personal information (removed phone, location)
+- Contact/profile details are intentionally maintained in source-controlled resume data
   - Verified certifications and credentials
   - X-Frame-Options, X-Content-Type-Options headers
   - Referrer-Policy and Permissions-Policy configured
@@ -92,10 +93,11 @@ ericriveraisme.github.io/
 ├── .babelrc               # Babel configuration
 ├── src/
 │   └── data/
-│       └── resumeData.js   # Centralized resume/portfolio data
+│       ├── resumeData.js    # Core resume/portfolio data (personal, skills, experience)
+│       └── activeQuests.js  # Active Quests data module (status, priority, updatedAt)
 ├── assets/
 │   ├── styles.css         # Global styles
-│   ├── script.js          # Utility scripts
+│   ├── profile-photo.jpg  # Character Sheet profile photo
 │   └── sprites/           # 16-bit SNES style sprite assets
 │       ├── ff6-characters.js    # Character sprite definitions
 │       ├── ff6-enemies.js       # Enemy sprite definitions
@@ -197,6 +199,7 @@ Previous portfolio versions and archived projects are located in `archive-delta-
 - Canvas rendering optimized with `requestAnimationFrame`
 - Snow particles limited to 150 for smooth performance
 - Proper cleanup of event listeners and animation frames
+- See `docs/PERFORMANCE_NOTES.md` for benchmark notes and next-step enhancement roadmap
 
 ## Contact
 

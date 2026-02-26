@@ -11,11 +11,24 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Adaptive quality for low-power devices (reduced wind layers/sections and snow count)
 - Mobile responsiveness issue documented for follow-up
 - Performance testing checklist and updated optimization notes
+- LinkedIn header button (positioned left of GitHub)
+- Character Sheet profile photo asset and framed avatar rendering
+- Dedicated Active Quests data module (`src/data/activeQuests.js`)
+- Active Quest status tags (Completed, In Progress, Next Up)
+- New Active Quest: Hypervisor I Proxmox Home Lab (Future)
 
 ### Changed
 - Wind animation now uses a fixed 30fps timestep with offscreen caching
 - Wind rendering uses an offscreen buffer to reduce per-frame CPU cost
 - Performance documentation updated with measured LCP gains and deferred 1a
+- LinkedIn and GitHub header links now open in new tabs
+- Active Quests now sourced directly from the dedicated quests module (decoupled from resume data)
+- Resume content refreshed with updated professional verbiage, core skills, contact details, and stronger experience bullets
+- Character Sheet avatar now supports image fallback logic in place of emoji-only rendering
+
+### Documentation
+- Added a new "Suggested Performance Enhancements (2026-02-26)" section in `docs/PERFORMANCE_NOTES.md`
+- Updated README structure/details to reflect modularized Active Quests data and current behavior
 
 ### Deferred
 - DPR-aware canvas scaling (1a) rolled back due to shimmer and alignment issues

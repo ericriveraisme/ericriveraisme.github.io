@@ -177,6 +177,30 @@ Use this checklist before and after each performance change to keep testing cons
 
 ## Future Optimization Ideas
 
+## Suggested Performance Enhancements (2026-02-26)
+
+These are recommended next steps focused on keeping strong performance while preserving the current experience.
+
+### 1) Keep Adaptive Animation Defaults (Current Strategy)
+- Continue honoring reduced-motion and low-power heuristics so expensive effects (like wind) can scale down or disable automatically.
+- Rationale: maintains smooth performance and battery behavior across lower-end devices.
+
+### 2) Isolate Canvas Engine from Resume UI
+- Split animation rendering concerns from content rendering so static resume content remains responsive even if canvas effects are constrained.
+- Rationale: better fault isolation and easier performance tuning.
+
+### 3) Add Optional "Performance Mode" Controls
+- Add a lightweight toggle to reduce particle count and animation complexity on demand.
+- Rationale: user-controlled fallback for constrained devices without changing theme.
+
+### 4) Run Focused Production Audits
+- Use Lighthouse/DevTools performance traces and act only on the top 1-2 high-impact findings.
+- Rationale: avoids over-optimization and keeps maintenance simple.
+
+### 5) Maintain Asset Budget Discipline
+- Keep profile/portfolio images lightweight and avoid adding large above-the-fold media without compression.
+- Rationale: protects initial load and LCP consistency.
+
 ### Quick Wins (< 1 hour)
 1. **Cache bezier curve calculations** - Pre-compute static curves
 2. **Reduce wind effect sections** - From 8 to 4 sections per layer

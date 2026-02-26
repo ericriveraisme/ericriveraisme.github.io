@@ -6,6 +6,7 @@ This folder contains project documentation and reference materials.
 
 - **[../README.md](../README.md)** - Main project documentation with setup and deployment info
 - **[../CHANGELOG.md](../CHANGELOG.md)** - Project version history and changes
+- **[PERFORMANCE_NOTES.md](PERFORMANCE_NOTES.md)** - Canvas performance history, benchmarks, and tuning roadmap
 - **[../assets/sprites/README.md](../assets/sprites/README.md)** - Sprite assets documentation
 
 ## Development & Reference
