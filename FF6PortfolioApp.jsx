@@ -615,6 +615,20 @@ const App = () => {
     };
   }, []);
 
+  const questStatusClasses = {
+    'In Progress': 'bg-cyan-900/40 border-cyan-500/50 text-cyan-300',
+    Completed: 'bg-emerald-900/40 border-emerald-500/50 text-emerald-300',
+    'Next Up': 'bg-indigo-900/40 border-indigo-500/50 text-indigo-300'
+  };
+
+  const activeQuests = [...resumeData.activeQuests]
+    .sort((a, b) => {
+      if (a.priority !== b.priority) {
+        return a.priority - b.priority;
+      }
+      return new Date(b.updatedAt) - new Date(a.updatedAt);
+    });
+
   return (
     <div className="font-mono min-h-screen text-slate-200 relative selection:bg-cyan-500 selection:text-white bg-slate-900">
       
@@ -733,9 +747,16 @@ const App = () => {
                         <span>⚔️</span> Active Quests
                     </h3>
                     <ul className="space-y-4">
-                        {resumeData.activeQuests.map((quest, index) => (
+                      {activeQuests.map((quest, index) => (
                             <li key={index} className={`${index > 0 ? 'border-t border-slate-800 pt-3' : ''} group`}>
-                                <h4 className="font-bold text-white group-hover:text-cyan-400 transition-colors">{quest.title}</h4>
+                            <div className="flex items-center justify-between gap-3">
+                              <h4 className="font-bold text-white group-hover:text-cyan-400 transition-colors">{quest.title}</h4>
+                              {quest.status && (
+                                <span className={`text-[10px] uppercase tracking-wider font-bold px-2 py-1 rounded border ${questStatusClasses[quest.status] || 'bg-slate-800/60 border-slate-600 text-slate-300'}`}>
+                                  {quest.status}
+                                </span>
+                              )}
+                            </div>
                                 <p className="text-slate-400 text-sm">{quest.description}</p>
                             </li>
                         ))}
