@@ -30,6 +30,7 @@ export const resumeData = {
   // Character Sheet / About Section
   about: {
     avatar: "🧙‍♂️",
+    photo: "/assets/profile-photo.jpg",
     bio: "12 years of hands-on experience in technical support and systems administration. Proven track record as a trusted technical advisor, excelling in proactive planning, complex problem-solving, and delivering exceptional client service across networking, systems administration, and IT operations.",
     class: "IT Professional",
     guild: "NetDevOps"

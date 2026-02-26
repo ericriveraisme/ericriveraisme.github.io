@@ -722,8 +722,16 @@ const App = () => {
                         <span>📜</span> Character Sheet
                     </h3>
                     <div className="flex flex-col gap-6">
-                        <div className="w-24 h-24 bg-slate-950 border-2 border-slate-600 rounded-lg flex items-center justify-center shrink-0">
+                        <div className="w-24 h-24 bg-slate-950 border-2 border-slate-600 rounded-lg flex items-center justify-center shrink-0 overflow-hidden">
+                          {resumeData.about.photo ? (
+                            <img
+                              src={resumeData.about.photo}
+                              alt={`${resumeData.personal.name} profile`}
+                              className="w-full h-full object-cover"
+                            />
+                          ) : (
                             <span className="text-4xl">{resumeData.about.avatar}</span>
+                          )}
                         </div>
                         <div>
                             <p className="text-slate-300 leading-relaxed mb-4">
