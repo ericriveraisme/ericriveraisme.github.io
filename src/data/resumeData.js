@@ -30,6 +30,7 @@ export const resumeData = {
   // Character Sheet / About Section
   about: {
     avatar: "🧙‍♂️",
+    photo: "/assets/profile-photo.jpg",
     bio: "12 years of hands-on experience in technical support and systems administration. Proven track record as a trusted technical advisor, excelling in proactive planning, complex problem-solving, and delivering exceptional client service across networking, systems administration, and IT operations.",
     class: "IT Professional",
     guild: "NetDevOps"
@@ -50,22 +51,6 @@ export const resumeData = {
     { name: "Virtualization (VMware, Hyper-V)", level: 6, color: "bg-indigo-500" },
     { name: "Client Relations & Communication", level: 9, color: "bg-blue-500" },
     { name: "Problem Solving & Conflict Resolution", level: 9, color: "bg-cyan-500" }
-  ],
-
-  // Active Quests / Current Goals
-  activeQuests: [
-    {
-      title: "Physical Cultivation",
-      description: "Increasing strength stats & endurance."
-    },
-    {
-      title: "Arcane Studies",
-      description: "Mastering NetDevOps & Python scripting."
-    },
-    {
-      title: "Linguistic Decoding",
-      description: "Learning Japanese (Nihongo)."
-    }
   ],
 
   // Work Experience / Adventure Log
