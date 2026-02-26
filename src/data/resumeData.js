@@ -8,13 +8,13 @@ export const resumeData = {
   // Personal Information
   personal: {
     name: "Eric Rivera",
-    title: "IT Professional",
-    tagline: "<IT Professional/Amatuer Vibe-Coder>",
+    title: "IT Systems Administrator | Infrastructure & Operations Specialist",
+    tagline: "<IT Systems Administrator / Infrastructure & Operations Specialist>",
     email: "ericriveraisme@gmail.com",
     linkedin: "https://www.linkedin.com/in/eric-rivera-62240818a/",
     github: "https://github.com/ericriveraisme",
-    phone: null, // Available upon request
-    location: "USA"
+    phone: "(870) 882-1926",
+    location: "Paragould, AR"
   },
 
   // Hero/Featured Section
@@ -31,26 +31,26 @@ export const resumeData = {
   about: {
     avatar: "🧙‍♂️",
     photo: "/assets/profile-photo.jpg",
-    bio: "12 years of hands-on experience in technical support and systems administration. Proven track record as a trusted technical advisor, excelling in proactive planning, complex problem-solving, and delivering exceptional client service across networking, systems administration, and IT operations.",
-    class: "IT Professional",
-    guild: "NetDevOps"
+    bio: "Detail-oriented IT professional with 12 years of experience bridging high-level Network Operations (NOC) and corporate systems administration. Specialist in high-availability infrastructure, hybrid identity (Active Directory/Entra ID), and technical documentation, with proven ownership across internal IT operations.",
+    class: "IT Systems Administrator",
+    guild: "Infrastructure & Operations"
   },
 
   // Skills Section
   skills: [
     { name: "Certifications: CompTIA Network+", level: 10, max: true, color: "bg-purple-900" },
-    { name: "Network Administration", level: 9, color: "bg-blue-500" },
-    { name: "System Administration", level: 8, color: "bg-cyan-500" },
-    { name: "Networking Protocols (BGP, TCP/IP, DNS, DHCP)", level: 8, color: "bg-cyan-500" },
-    { name: "Layer 2/3 Device Management", level: 8, color: "bg-blue-500" },
-    { name: "Windows & Linux Systems", level: 8, color: "bg-cyan-500" },
-    { name: "Technical Support & Troubleshooting", level: 9, color: "bg-cyan-500" },
-    { name: "Active Directory", level: 7, color: "bg-indigo-500" },
-    { name: "SQL & Database Management", level: 7, color: "bg-blue-500" },
-    { name: "PowerShell & Bash", level: 7, color: "bg-cyan-500" },
-    { name: "Virtualization (VMware, Hyper-V)", level: 6, color: "bg-indigo-500" },
-    { name: "Client Relations & Communication", level: 9, color: "bg-blue-500" },
-    { name: "Problem Solving & Conflict Resolution", level: 9, color: "bg-cyan-500" }
+    { name: "Identity & Access (Active Directory, Entra ID)", level: 9, color: "bg-blue-500" },
+    { name: "Identity Governance & Access Audits", level: 8, color: "bg-cyan-500" },
+    { name: "Infrastructure (Layer 2/3, BGP, VPRN)", level: 9, color: "bg-cyan-500" },
+    { name: "Firewall Administration (Meraki, Pan-OS Fundamentals)", level: 8, color: "bg-blue-500" },
+    { name: "Endpoint Management (Intune, Imaging, Patch Mgmt)", level: 8, color: "bg-cyan-500" },
+    { name: "Microsoft 365 Admin (Exchange, Teams, SharePoint)", level: 8, color: "bg-indigo-500" },
+    { name: "SaaS & Cloud Operations (M365, Google Suite)", level: 8, color: "bg-blue-500" },
+    { name: "SQL/MySQL Administration", level: 7, color: "bg-cyan-500" },
+    { name: "PowerShell & Bash Automation", level: 8, color: "bg-blue-500" },
+    { name: "Technical Documentation (SOPs)", level: 9, color: "bg-cyan-500" },
+    { name: "Vendor Management & IT Operations", level: 8, color: "bg-indigo-500" },
+    { name: "Technical Support & Troubleshooting", level: 9, color: "bg-blue-500" }
   ],
 
   // Work Experience / Adventure Log
@@ -60,11 +60,11 @@ export const resumeData = {
       company: "Irby Utilities (ISP)",
       startDate: "Sept 2025",
       endDate: "Present",
-      description: "Provided essential Tier 1 call center support and troubleshooting for regional ISP support centers, assisting small electrical co-op utilities with technical and NOC services.",
+      description: "Serve as a technical advisor for regional ISP infrastructure, supporting NOC services for electrical co-ops with a focus on uptime and reliability.",
       achievements: [
-        "Provided prompt and expedient technical support for various ONT and AP manufacturers across 10+ local ISPs",
-        "Managed Calix, TPLink, DZS, Zyxel devices with fiber and wi-fi technologies",
-        "Assisted end users with consumer-grade devices"
+        "Administer and troubleshoot enterprise ONT/AP platforms (Calix, DZS, Zyxel) across fiber and Wi-Fi environments",
+        "Execute complex Tier 1/2 troubleshooting to maintain consistent service availability",
+        "Provide escalation-ready diagnostics and clear customer-impact communication"
       ]
     },
     {
@@ -72,10 +72,10 @@ export const resumeData = {
       company: "Visual Edge IT (MSP)",
       startDate: "March 2025",
       endDate: "Sept 2025",
-      description: "Responded to and managed service request tickets in a professional and timely manner.",
+      description: "Managed the full lifecycle of office printing and networking solutions for business clients across diverse environments.",
       achievements: [
-        "Interfaced directly with on-site IT teams to troubleshoot complex networking and software issues related to office printing solutions",
-        "Provided high-level service to business clients through prompt and effective communication"
+        "Collaborated directly with onsite IT teams to resolve critical hardware and software bottlenecks",
+        "Improved service quality through stronger documentation, reporting, and communication standards"
       ]
     },
     {
@@ -83,10 +83,10 @@ export const resumeData = {
       company: "Ritter Communications (ISP)",
       startDate: "Nov 2024",
       endDate: "March 2025",
-      description: "Provided high-level network provisioning and troubleshooting support for business clients.",
+      description: "Operated in a high-stakes Network Operations Center (NOC), provisioning and maintaining enterprise fiber services.",
       achievements: [
-        "Operated within a Network Operation Center (NOC) to resolve fiber optic hardware and service issues",
-        "Worked with advanced networking protocols (BGP, VPRN, VPSL) and enterprise-level devices from Ciena, Nokia, and Cisco"
+        "Provisioned and stabilized business-critical network services for enterprise clients",
+        "Worked with advanced protocols (BGP, VPRN, VPLS) and platforms from Ciena, Nokia, and Cisco"
       ]
     },
     {
@@ -94,10 +94,10 @@ export const resumeData = {
       company: "Teleflora (SaaS/MSP)",
       startDate: "April 2024",
       endDate: "Nov 2024",
-      description: "Administered and maintained Windows and Linux systems using Cisco Meraki products.",
+      description: "Owned administration of Windows/Linux infrastructure and endpoint security operations using Cisco Meraki.",
       achievements: [
-        "Managed vendor relationships, including coordinating RMAs and staging servers",
-        "Performed database management on SQL and Linux servers to ensure system reliability"
+        "Performed critical SQL and Linux server maintenance to support POS system data integrity",
+        "Managed vendor procurement, RMA workflows, hardware staging, and deployment lifecycle operations"
       ]
     },
     {
@@ -105,10 +105,10 @@ export const resumeData = {
       company: "Teleflora (SaaS/MSP)",
       startDate: "April 2018",
       endDate: "April 2024",
-      description: "Served as the primary point of contact for technical support and troubleshooting of networking, software, and hardware for a point-of-sale system.",
+      description: "Served as primary administrator and support lead for POS networking, software, and hardware across a nationwide client base.",
       achievements: [
-        "Created and maintained technical documentation, improving procedural efficiency and assisting in the training of new staff",
-        "Managed database backups, restores, and bug tracking through a ticketing system"
+        "Authored and maintained internal knowledge base documentation that improved process consistency and onboarding",
+        "Managed automated database backup and restore workflows to support disaster recovery readiness"
       ]
     }
   ],
