@@ -11,6 +11,7 @@ export const resumeData = {
     title: "IT Professional",
     tagline: "<IT Professional/Amatuer Vibe-Coder>",
     email: "ericriveraisme@gmail.com",
+    linkedin: "https://www.linkedin.com/in/eric-rivera-62240818a/",
     github: "https://github.com/ericriveraisme",
     phone: null, // Available upon request
     location: "USA"

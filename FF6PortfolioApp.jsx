@@ -651,7 +651,10 @@ const App = () => {
             </div>
             
             <div className="flex gap-4">
-                <a href={resumeData.personal.github} className="flex items-center gap-2 px-4 py-2 bg-slate-900/80 hover:bg-slate-800 border border-slate-600 rounded text-slate-200 text-xs font-bold uppercase tracking-wider transition-all hover:scale-105">
+              <a href={resumeData.personal.linkedin} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 px-4 py-2 bg-slate-900/80 hover:bg-slate-800 border border-slate-600 rounded text-slate-200 text-xs font-bold uppercase tracking-wider transition-all hover:scale-105">
+                <span>LinkedIn</span>
+              </a>
+              <a href={resumeData.personal.github} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 px-4 py-2 bg-slate-900/80 hover:bg-slate-800 border border-slate-600 rounded text-slate-200 text-xs font-bold uppercase tracking-wider transition-all hover:scale-105">
                     <span>GitHub</span>
                 </a>
                 <a href={`mailto:${resumeData.personal.email}`} className="flex items-center gap-2 px-4 py-2 bg-indigo-600/90 hover:bg-indigo-500 border border-indigo-500 rounded text-white text-xs font-bold uppercase tracking-wider shadow-lg transition-all hover:scale-105">
