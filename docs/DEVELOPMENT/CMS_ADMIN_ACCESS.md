@@ -9,6 +9,11 @@ This project now includes a browser editor at `/admin`.
 - ~~Wired site data loader to CMS JSON content source~~
 - ~~Updated deploy workflow to publish `/admin`~~
 - ~~Added local pre-commit secret scanning hook~~
+- ~~Deployed Decap OAuth auth service/proxy~~
+- ~~Created GitHub OAuth App and configured callback~~
+- ~~Configured production backend auth values in `admin/config.yml`~~
+- ~~Validated live login + publish flow at `/admin`~~
+- ~~Validated live delete flow~~
 
 ## Local Access (No OAuth needed)
 
@@ -91,18 +96,18 @@ Local note:
 
 ## What’s Left To Do (Production)
 
-1. Deploy a Decap auth service/proxy (or use an equivalent hosted option).
-2. Create a GitHub OAuth App for your repo access flow.
-3. In `admin/config.yml`, set:
-	- `backend.base_url`
-	- `backend.auth_endpoint`
-4. In the OAuth App settings, configure callback URL to match your auth service callback route.
-5. Push these config changes to `main`.
-6. Open `https://ericriveraisme.github.io/admin/` and verify login + save flow.
-7. Create a test article in admin and confirm:
-	- new JSON appears in `src/content/lab-articles-json/`
-	- article appears in Lab Logs
-	- newest five behavior updates in Active Quests
+1. ~~Deploy a Decap auth service/proxy (or use an equivalent hosted option).~~
+2. ~~Create a GitHub OAuth App for your repo access flow.~~
+3. ~~In `admin/config.yml`, set:~~
+	- ~~`backend.base_url`~~
+	- ~~`backend.auth_endpoint`~~
+4. ~~In the OAuth App settings, configure callback URL to match your auth service callback route.~~
+5. ~~Push these config changes to `main`.~~
+6. ~~Open `https://ericriveraisme.github.io/admin/` and verify login + save flow.~~
+7. ~~Create a test article in admin and confirm:~~
+	- ~~new JSON appears in `src/content/lab-articles-json/`~~
+	- ~~article appears in Lab Logs~~
+	- ~~newest five behavior updates in Active Quests~~
 
 ## Production Readiness Check
 
@@ -145,19 +150,26 @@ Each article record should include:
 
 ## Final Remaining Production Tasks
 
-1. Deploy OAuth auth service/proxy for Decap.
-2. Create/configure GitHub OAuth App callback URL for that service.
-3. Update `admin/config.yml` with real OAuth values:
-	- `backend.base_url`
-	- `backend.auth_endpoint`
-	- recommended: `site_url`, `display_url`
-4. Run `npm run check:admin-prod` until it passes.
-5. Push and deploy to main.
-6. Validate live admin at `https://ericriveraisme.github.io/admin/`:
-	- login works
-	- create test post works
-	- post appears in Lab Logs
-	- top-5 Active Quests updates correctly
+1. ~~Deploy OAuth auth service/proxy for Decap.~~
+2. ~~Create/configure GitHub OAuth App callback URL for that service.~~
+3. ~~Update `admin/config.yml` with real OAuth values:~~
+	- ~~`backend.base_url`~~
+	- ~~`backend.auth_endpoint`~~
+	- ~~recommended: `site_url`, `display_url`~~
+4. ~~Run `npm run check:admin-prod` until it passes.~~
+5. ~~Push and deploy to main.~~
+6. ~~Validate live admin at `https://ericriveraisme.github.io/admin/`:~~
+	- ~~login works~~
+	- ~~create test post works~~
+	- ~~post appears in Lab Logs~~
+	- ~~top-5 Active Quests updates correctly~~
+
+## Production Status
+
+✅ CMS production upgrade is complete and validated:
+- OAuth login works on live `/admin`
+- Create/edit/delete flows are confirmed
+- Publish pipeline updates live Lab Logs + Active Quests automatically
 
 ## GitHub OAuth Setup Walkthrough
 
