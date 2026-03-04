@@ -158,3 +158,65 @@ Each article record should include:
 	- create test post works
 	- post appears in Lab Logs
 	- top-5 Active Quests updates correctly
+
+## GitHub OAuth Setup Walkthrough
+
+Use this sequence to finish production auth cutover.
+
+### 1) Deploy an auth service for Decap
+
+You need a Decap-compatible OAuth proxy service endpoint that handles GitHub auth exchange.
+
+When deployed, collect:
+- `AUTH_BASE_URL` (example: `https://your-auth-service.example.com`)
+- `AUTH_ENDPOINT` (often `auth`)
+- callback URL path required by that service
+
+### 2) Create GitHub OAuth App
+
+In GitHub:
+- Go to **Settings → Developer settings → OAuth Apps → New OAuth App**
+- Set **Application name** to something like: `Portfolio CMS Admin`
+- Set **Homepage URL** to: `https://ericriveraisme.github.io`
+- Set **Authorization callback URL** to your auth service callback URL
+
+Save the app and collect:
+- Client ID
+- Client Secret
+
+Configure those values in your auth service (not in this repo).
+
+### 3) Switch repo config to production mode
+
+Run:
+
+`npm run admin:config:prod`
+
+Then edit [admin/config.yml](admin/config.yml) and set:
+- `backend.base_url: AUTH_BASE_URL`
+- `backend.auth_endpoint: AUTH_ENDPOINT`
+- `site_url: https://ericriveraisme.github.io`
+- `display_url: https://ericriveraisme.github.io`
+
+### 4) Validate config before deploy
+
+Run:
+
+`npm run check:admin-prod`
+
+It must pass before deploying.
+
+### 5) Deploy and test live admin
+
+1. Commit and push the config updates.
+2. Wait for CI/deploy to complete.
+3. Open `https://ericriveraisme.github.io/admin/`.
+4. Click login and complete GitHub OAuth flow.
+5. Create a test article and confirm downstream updates.
+
+### 6) Verify publishing flow
+
+Confirm the new article appears in:
+- Lab Logs page
+- Active Quests (top-5 newest)
+- Full article route
