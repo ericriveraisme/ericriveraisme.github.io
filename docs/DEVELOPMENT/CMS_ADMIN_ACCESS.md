@@ -50,6 +50,15 @@ Without OAuth service setup, live `/admin` can load but cannot authenticate for 
 	- article appears in Lab Logs
 	- newest five behavior updates in Active Quests
 
+## Production Readiness Check
+
+Before enabling live `/admin`, run:
+
+`npm run check:admin-prod`
+
+- If it fails, fill missing OAuth fields in `admin/config.yml`.
+- Use `admin/config.production.template.yml` as the source template for required values.
+
 ## Validation and Publish Flow
 
 1. Create/edit article in `/admin`.

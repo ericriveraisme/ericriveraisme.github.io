@@ -8,6 +8,7 @@
     "start": "webpack serve --mode development",
     "build": "cross-env NODE_ENV=production webpack --mode production",
     "validate:content": "node scripts/validate-lab-articles.mjs",
+    "check:admin-prod": "node scripts/check-admin-production-readiness.mjs",
     "cms:proxy": "decap-server",
     "cms:dev": "npm run cms:proxy",
     "hooks:install": "git config core.hooksPath .githooks"
