@@ -4,6 +4,7 @@ import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import { onCLS, onFCP, onINP, onLCP, onTTFB } from 'web-vitals';
 import App from './FF6PortfolioApp.jsx';
 import LabLogsPage from './src/pages/LabLogsPage.jsx';
+import LabArticlePage from './src/pages/LabArticlePage.jsx';
 import './src/tailwind.css';
 import './assets/styles.css';
 
@@ -39,6 +40,7 @@ root.render(
     <Routes>
       <Route path="/" element={<App />} />
       <Route path="/lab-logs" element={<LabLogsPage />} />
+      <Route path="/lab-logs/:slug" element={<LabArticlePage />} />
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   </BrowserRouter>

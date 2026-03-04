@@ -1,9 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { NavLink } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import { FF6_CHARACTER_SPRITES, FF6_CHARACTER_SPRITES_BACK } from './assets/sprites/ff6-characters.js';
 import { FF6_ENEMY_SPRITES } from './assets/sprites/ff6-enemies.js';
 import { resumeData } from './src/data/resumeData.js';
 import { activeQuests as activeQuestData } from './src/data/activeQuests.js';
+import { labArticles } from './src/data/labArticles.js';
 
 /**
  * FF6 Portfolio App
@@ -631,6 +632,18 @@ const App = () => {
       return new Date(b.updatedAt) - new Date(a.updatedAt);
     });
 
+  const articleByQuestTitle = new Map(
+    labArticles.map((article) => [article.questTitle, article])
+  );
+
+  const getArticleSnippet = (content = []) => {
+    const firstParagraph = content[0] || '';
+    if (firstParagraph.length <= 120) {
+      return firstParagraph;
+    }
+    return firstParagraph.slice(0, 120).trim();
+  };
+
   return (
     <div className="font-mono min-h-screen text-slate-200 relative selection:bg-cyan-500 selection:text-white bg-slate-900">
       
@@ -771,6 +784,11 @@ const App = () => {
                     <ul className="space-y-4">
                       {activeQuests.map((quest, index) => (
                             <li key={index} className={`${index > 0 ? 'border-t border-slate-800 pt-3' : ''} group`}>
+                            {(() => {
+                              const questArticle = articleByQuestTitle.get(quest.title);
+
+                              return (
+                                <>
                             <div className="flex items-center justify-between gap-3">
                               <h4 className="font-bold text-white group-hover:text-cyan-400 transition-colors">{quest.title}</h4>
                               {quest.status && (
@@ -780,6 +798,17 @@ const App = () => {
                               )}
                             </div>
                                 <p className="text-slate-400 text-sm">{quest.description}</p>
+                                {questArticle && (
+                                  <p className="text-slate-300 text-xs mt-2 leading-relaxed">
+                                    {getArticleSnippet(questArticle.content)}{' '}
+                                    <Link to={`/lab-logs/${questArticle.slug}`} className="text-cyan-300 hover:text-cyan-200 underline underline-offset-2">
+                                      ...more
+                                    </Link>
+                                  </p>
+                                )}
+                                </>
+                              );
+                            })()}
                             </li>
                         ))}
                     </ul>
