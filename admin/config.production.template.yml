@@ -5,7 +5,7 @@ editor:
   preview: false
 backend:
   name: github
-  repo: gameo/ericriveraisme.github.io
+  repo: ericriveraisme/ericriveraisme.github.io
   branch: main
   base_url: https://YOUR-CMS-AUTH-SERVICE.example.com
   auth_endpoint: auth

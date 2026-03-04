@@ -12,10 +12,20 @@ This project now includes a browser editor at `/admin`.
 
 ## Local Access (No OAuth needed)
 
+0. Ensure local mode config: `npm run admin:config:local`
 1. Start both services with one command: `npm run cms:local`
 2. Open: `http://localhost:3003/admin/`
 3. CMS proxy runs on port `8082` behind the scenes.
 4. Editor uses `local_backend: true`, so saves write files directly in your local repo.
+
+## Config Mode Switching
+
+- Switch to local editing mode: `npm run admin:config:local`
+- Switch to production OAuth template mode: `npm run admin:config:prod`
+
+These commands overwrite `admin/config.yml` using template files:
+- `admin/config.local.template.yml`
+- `admin/config.production.template.yml`
 
 ## Content Path
 
@@ -34,6 +44,50 @@ To edit directly on the live site, Decap's GitHub backend needs OAuth.
 4. Verify login at `https://ericriveraisme.github.io/admin/`.
 
 Without OAuth service setup, live `/admin` can load but cannot authenticate for GitHub write actions.
+
+## Where To Test (Now vs OAuth)
+
+### Test now (no OAuth)
+
+- Run: `npm run cms:local`
+- Open: `http://localhost:3003/admin/`
+- Use this to validate editor UX, JSON writes, image uploads, and site rendering flow.
+
+### First point you can test GitHub OAuth
+
+You can only test real GitHub login **after** all of these are true:
+
+1. OAuth auth service/proxy is deployed.
+2. GitHub OAuth App is created with correct callback URL.
+3. `admin/config.yml` has real values for:
+	- `backend.base_url`
+	- `backend.auth_endpoint`
+4. `npm run check:admin-prod` passes.
+5. Changes are pushed and deployed to the live site.
+
+Then test at: `https://ericriveraisme.github.io/admin/`
+
+This is the best test point because OAuth callback URLs must match the live domain setup.
+
+## Auth Session Behavior
+
+GitHub OAuth sessions in admin can require re-authentication over time.
+
+Common reasons:
+- OAuth token/session expires (depends on auth service settings)
+- Browser storage/cookies cleared
+- New browser or new device
+- OAuth app authorization revoked in GitHub
+- Auth service token/session invalidation or rotation
+
+Expected recovery flow:
+1. Open `/admin`
+2. Click login again
+3. Re-approve GitHub app if prompted
+4. Resume editing
+
+Local note:
+- Local backend editing (`local_backend: true`) does not require GitHub OAuth login.
 
 ## What’s Left To Do (Production)
 
@@ -88,3 +142,19 @@ Each article record should include:
 - `publishedAt` (`YYYY-MM-DD`)
 - `content` (list of paragraph strings)
 - optional `images` list (`src`, `alt`, `insertAfter`)
+
+## Final Remaining Production Tasks
+
+1. Deploy OAuth auth service/proxy for Decap.
+2. Create/configure GitHub OAuth App callback URL for that service.
+3. Update `admin/config.yml` with real OAuth values:
+	- `backend.base_url`
+	- `backend.auth_endpoint`
+	- recommended: `site_url`, `display_url`
+4. Run `npm run check:admin-prod` until it passes.
+5. Push and deploy to main.
+6. Validate live admin at `https://ericriveraisme.github.io/admin/`:
+	- login works
+	- create test post works
+	- post appears in Lab Logs
+	- top-5 Active Quests updates correctly

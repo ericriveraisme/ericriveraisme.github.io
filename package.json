@@ -10,6 +10,8 @@
     "build": "cross-env NODE_ENV=production webpack --mode production",
     "validate:content": "node scripts/validate-lab-articles.mjs",
     "check:admin-prod": "node scripts/check-admin-production-readiness.mjs",
+    "admin:config:local": "node scripts/switch-admin-config.mjs local",
+    "admin:config:prod": "node scripts/switch-admin-config.mjs prod",
     "cms:proxy": "cross-env PORT=8082 decap-server",
     "cms:dev": "npm run cms:proxy",
     "cms:local": "concurrently \"npm run cms:proxy\" \"npm run start:cms\"",

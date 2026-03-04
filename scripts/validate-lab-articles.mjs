@@ -63,8 +63,16 @@ for (const file of files) {
     fail(`${fileRef}: content must be a non-empty array`);
   } else {
     content.forEach((paragraph, index) => {
-      if (typeof paragraph !== 'string' || paragraph.trim().length === 0) {
-        fail(`${fileRef}: content[${index}] must be a non-empty string`);
+      const isStringParagraph =
+        typeof paragraph === 'string' && paragraph.trim().length > 0;
+      const isObjectParagraph =
+        paragraph &&
+        typeof paragraph === 'object' &&
+        typeof paragraph.text === 'string' &&
+        paragraph.text.trim().length > 0;
+
+      if (!isStringParagraph && !isObjectParagraph) {
+        fail(`${fileRef}: content[${index}] must be a non-empty string or { text } object`);
       }
     });
   }
