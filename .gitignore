@@ -12,6 +12,15 @@ deploy/
 .env.local
 .env.*.local
 
+# CMS/OAuth local secrets
+.env.decap
+admin/config.local.yml
+.netlify/
+
+# Local auth keys/certs (if generated for OAuth proxy)
+*.pem
+*.key
+
 # IDE
 .vscode/
 .idea/
