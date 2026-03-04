@@ -50,6 +50,18 @@ Without OAuth service setup, live `/admin` can load but cannot authenticate for 
 4. CI runs audit/build.
 5. Deploy workflow publishes updated site.
 
+## Local Secret Guardrail (Recommended)
+
+This repo includes a local pre-commit secret scan hook.
+
+1. Run once: `npm run hooks:install`
+2. Commit as usual.
+3. If potential secrets are detected in staged files, commit is blocked.
+
+Hook files:
+- `.githooks/pre-commit`
+- `scripts/scan-secrets.sh`
+
 ## Data Contract
 
 Each article record should include:

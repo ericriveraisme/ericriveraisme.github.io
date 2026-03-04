@@ -8,7 +8,8 @@
     "start": "webpack serve --mode development",
     "build": "cross-env NODE_ENV=production webpack --mode production",
     "cms:proxy": "decap-server",
-    "cms:dev": "npm run cms:proxy"
+    "cms:dev": "npm run cms:proxy",
+    "hooks:install": "git config core.hooksPath .githooks"
   },
   "dependencies": {
     "react": "^18.0.0",
