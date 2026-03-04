@@ -1,7 +1,7 @@
 {
   "slug": "azure-hybrid-identity-lab",
   "title": "Bridging the Gap: Bringing My Lab into the Microsoft Cloud",
-  "publishedAt": "2026-03-03",
+  "publishedAt": "2026-02-25",
   "author": "Eric R. Rivera",
   "summary": "How I bridged an on-prem lab with Microsoft cloud identity using Entra Connect, PowerShell automation, and practical troubleshooting.",
   "tags": [
