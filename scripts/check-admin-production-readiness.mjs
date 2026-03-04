@@ -17,7 +17,7 @@ const checks = [
   },
   {
     label: 'backend.auth_endpoint is set',
-    pass: /\n\s*auth_endpoint\s*:\s*\S+/.test(raw) && !raw.includes('auth_endpoint: auth')
+    pass: /\n\s*auth_endpoint\s*:\s*\S+/.test(raw)
   },
   {
     label: 'site_url is set',

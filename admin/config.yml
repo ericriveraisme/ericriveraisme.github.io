@@ -1,11 +1,17 @@
-local_backend:
-  url: http://localhost:8082/api/v1
+# Copy values from this template into admin/config.yml when enabling live /admin OAuth.
+
+local_backend: false
 editor:
   preview: false
 backend:
   name: github
   repo: ericriveraisme/ericriveraisme.github.io
   branch: main
+  base_url: https://YOUR-CMS-AUTH-SERVICE.example.com
+  auth_endpoint: auth
+
+site_url: https://ericriveraisme.github.io
+display_url: https://ericriveraisme.github.io
 
 media_folder: "assets/lab-article-images"
 public_folder: "/assets/lab-article-images"
