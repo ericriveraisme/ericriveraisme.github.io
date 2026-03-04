@@ -2,6 +2,14 @@
 
 This project now includes a browser editor at `/admin`.
 
+## Completed So Far
+
+- ~~Created admin route and CMS scaffold (`/admin`)~~
+- ~~Configured CMS content folder (`src/content/lab-articles-json/`)~~
+- ~~Wired site data loader to CMS JSON content source~~
+- ~~Updated deploy workflow to publish `/admin`~~
+- ~~Added local pre-commit secret scanning hook~~
+
 ## Local Access (No OAuth needed)
 
 1. Start CMS proxy: `npm run cms:proxy`
@@ -46,15 +54,16 @@ Without OAuth service setup, live `/admin` can load but cannot authenticate for 
 
 1. Create/edit article in `/admin`.
 2. Save (writes JSON article file + optional image path).
-3. Commit/PR to `main`.
-4. CI runs audit/build.
-5. Deploy workflow publishes updated site.
+3. Run local validation: `npm run validate:content`.
+4. Commit/PR to `main`.
+5. CI runs content validation + audit/build.
+6. Deploy workflow publishes updated site.
 
 ## Local Secret Guardrail (Recommended)
 
 This repo includes a local pre-commit secret scan hook.
 
-1. Run once: `npm run hooks:install`
+1. ~~Run once: `npm run hooks:install`~~
 2. Commit as usual.
 3. If potential secrets are detected in staged files, commit is blocked.
 

@@ -25,6 +25,9 @@ jobs:
       
       - name: Install dependencies
         run: npm ci
+
+      - name: Validate article content
+        run: npm run validate:content
       
       - name: Build React app
         run: npm run build
