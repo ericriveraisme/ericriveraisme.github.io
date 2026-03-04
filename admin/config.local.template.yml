@@ -1,5 +1,6 @@
 local_backend:
   url: http://localhost:8082/api/v1
+publish_mode: editorial_workflow
 editor:
   preview: false
 backend:

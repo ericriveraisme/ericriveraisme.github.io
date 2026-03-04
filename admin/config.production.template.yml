@@ -1,6 +1,7 @@
 # Copy values from this template into admin/config.yml when enabling live /admin OAuth.
 
 local_backend: false
+publish_mode: editorial_workflow
 editor:
   preview: false
 backend:

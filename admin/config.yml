@@ -1,4 +1,5 @@
 local_backend: false
+publish_mode: editorial_workflow
 editor:
   preview: false
 backend:
