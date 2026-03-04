@@ -71,8 +71,12 @@
       // This script redirects to the home page and preserves the requested path
       // so the React app can handle client-side routing
       if (window.location.pathname !== '/') {
+        const path = window.location.pathname;
+        const isSafePath = path.startsWith('/') && !path.startsWith('//');
         // Store the intended path for the app to handle
-        sessionStorage.setItem('redirect', window.location.pathname);
+        if (isSafePath) {
+          sessionStorage.setItem('redirect', `${path}${window.location.search}${window.location.hash}`);
+        }
         // Redirect to home page
         window.location.href = '/';
       }

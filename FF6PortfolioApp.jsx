@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
+import { NavLink } from 'react-router-dom';
 import { FF6_CHARACTER_SPRITES, FF6_CHARACTER_SPRITES_BACK } from './assets/sprites/ff6-characters.js';
 import { FF6_ENEMY_SPRITES } from './assets/sprites/ff6-enemies.js';
 import { resumeData } from './src/data/resumeData.js';
@@ -666,6 +667,18 @@ const App = () => {
             </div>
             
             <div className="flex gap-4">
+              <NavLink
+                to="/lab-logs"
+                className={({ isActive }) =>
+                  `flex items-center gap-2 px-4 py-2 rounded text-xs font-bold uppercase tracking-wider transition-all hover:scale-105 ${
+                    isActive
+                      ? 'bg-cyan-900/50 border border-cyan-300 text-cyan-100'
+                      : 'bg-slate-900/80 hover:bg-slate-800 border border-cyan-500/60 text-cyan-200'
+                  }`
+                }
+              >
+                <span>Lab Logs</span>
+              </NavLink>
               <a href={resumeData.personal.linkedin} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 px-4 py-2 bg-slate-900/80 hover:bg-slate-800 border border-slate-600 rounded text-slate-200 text-xs font-bold uppercase tracking-wider transition-all hover:scale-105">
                 <span>LinkedIn</span>
               </a>
