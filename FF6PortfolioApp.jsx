@@ -3,7 +3,6 @@ import { Link, NavLink } from 'react-router-dom';
 import { FF6_CHARACTER_SPRITES, FF6_CHARACTER_SPRITES_BACK } from './assets/sprites/ff6-characters.js';
 import { FF6_ENEMY_SPRITES } from './assets/sprites/ff6-enemies.js';
 import { resumeData } from './src/data/resumeData.js';
-import { activeQuests as activeQuestData } from './src/data/activeQuests.js';
 import { labArticles } from './src/data/labArticles.js';
 
 /**
@@ -618,21 +617,9 @@ const App = () => {
     };
   }, []);
 
-  const activeQuests = [...activeQuestData]
-    .sort((a, b) => {
-      if (a.priority !== b.priority) {
-        return a.priority - b.priority;
-      }
-      return new Date(b.updatedAt) - new Date(a.updatedAt);
-    });
-
-  const articleByQuestTitle = labArticles.reduce((map, article) => {
-    const existing = map.get(article.questTitle);
-    if (!existing || new Date(article.publishedAt) > new Date(existing.publishedAt)) {
-      map.set(article.questTitle, article);
-    }
-    return map;
-  }, new Map());
+  const activeQuestArticles = [...labArticles]
+    .sort((a, b) => new Date(b.publishedAt) - new Date(a.publishedAt))
+    .slice(0, 5);
 
   const getArticleSnippet = (content = []) => {
     const firstParagraph = content[0] || '';
@@ -780,37 +767,21 @@ const App = () => {
                         <span>⚔️</span> Active Quests
                     </h3>
                     <ul className="space-y-4">
-                      {activeQuests.map((quest, index) => (
+                      {activeQuestArticles.map((article, index) => (
                             <li key={index} className={`${index > 0 ? 'border-t border-slate-800 pt-3' : ''} group`}>
-                            {(() => {
-                              const questArticle = articleByQuestTitle.get(quest.title);
-
-                              return (
-                                <>
                             <div className="flex items-center justify-between gap-3">
                               <h4 className="font-bold text-white group-hover:text-cyan-400 transition-colors">
-                                {questArticle ? (
-                                  <Link to={`/lab-logs/${questArticle.slug}`} className="hover:text-cyan-300 underline underline-offset-2">
-                                    {quest.title}
-                                  </Link>
-                                ) : (
-                                  quest.title
-                                )}
+                                <Link to={`/lab-logs/${article.slug}`} className="hover:text-cyan-300 underline underline-offset-2">
+                                  {article.questTitle} — {article.publishedAt}
+                                </Link>
                               </h4>
                             </div>
-                                <p className="text-slate-400 text-sm">{quest.description}</p>
-                                {questArticle && (
-                                  <p className="text-slate-300 text-xs mt-2 leading-relaxed">
-                                    {getArticleSnippet(questArticle.content)}{' '}
-                                    <Link to={`/lab-logs/${questArticle.slug}`} className="text-cyan-300 hover:text-cyan-200 underline underline-offset-2">
-                                      ...more
-                                    </Link>
-                                    <span className="text-slate-500"> ({questArticle.publishedAt})</span>
-                                  </p>
-                                )}
-                                </>
-                              );
-                            })()}
+                                <p className="text-slate-300 text-xs mt-2 leading-relaxed">
+                                  {getArticleSnippet(article.content)}{' '}
+                                  <Link to={`/lab-logs/${article.slug}`} className="text-cyan-300 hover:text-cyan-200 underline underline-offset-2">
+                                    ...more
+                                  </Link>
+                                </p>
                             </li>
                         ))}
                     </ul>
