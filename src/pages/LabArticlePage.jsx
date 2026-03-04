@@ -68,6 +68,11 @@ const getTagClasses = (tag = '') => {
   if (normalized === 'oauth') return 'border-pink-400/50 text-pink-200 bg-pink-950/45';
   if (normalized === 'github pages') return 'border-orange-400/50 text-orange-200 bg-orange-950/45';
   if (normalized === 'career growth') return 'border-emerald-400/60 text-emerald-200 bg-emerald-950/45';
+  if (normalized === 'azure') return 'border-sky-400/50 text-sky-200 bg-sky-950/45';
+  if (normalized === 'active directory' || normalized === 'active-directory') return 'border-amber-400/50 text-amber-200 bg-amber-950/45';
+  if (normalized === 'entra id' || normalized === 'entra-id') return 'border-violet-400/50 text-violet-200 bg-violet-950/45';
+  if (normalized === 'hybrid cloud' || normalized === 'hybrid-cloud') return 'border-fuchsia-400/50 text-fuchsia-200 bg-fuchsia-950/45';
+  if (normalized === 'sysadmin') return 'border-teal-400/50 text-teal-200 bg-teal-950/45';
 
   return 'border-cyan-500/30 text-cyan-200 bg-cyan-950/20';
 };

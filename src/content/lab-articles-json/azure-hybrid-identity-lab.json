@@ -1,0 +1,107 @@
+{
+  "slug": "azure-hybrid-identity-lab",
+  "title": "Bridging the Gap: Bringing My Lab into the Microsoft Cloud",
+  "publishedAt": "2026-03-03",
+  "author": "Eric R. Rivera",
+  "summary": "How I bridged an on-prem lab with Microsoft cloud identity using Entra Connect, PowerShell automation, and practical troubleshooting.",
+  "tags": [
+    "Azure",
+    "Active Directory",
+    "Entra ID",
+    "Hybrid Cloud",
+    "SysAdmin"
+  ],
+  "content": [
+    {
+      "type": "paragraph",
+      "text": "I have spent better than ten years fixing servers and helping folks with their tech, and if there is one thing I have learned, it is that the 'cloud' is not just some magical place—it is just someone else’s computer that you have to learn how to talk to. For this project, I wanted to build a bridge between my home lab here in Arkansas and the Microsoft global cloud."
+    },
+    {
+      "type": "paragraph",
+      "text": "Most big companies do not just live in one place; they have servers in the office and identities in the cloud. I wanted to see if I could make that happen on my own during a long night shift. It wasn't always pretty, but getting it working felt like a real win."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "The 'Pretty Cool' Stuff"
+    },
+    {
+      "type": "paragraph",
+      "text": "There is a specific kind of satisfaction you get in this job when a plan actually comes together. Here is what felt the most 'rad' about this build:"
+    },
+    {
+      "type": "list",
+      "items": [
+        "The Moment of Truth: Logging into the Azure Portal on my physical machine and seeing my name—Eric R. Rivera—listed as a user with 'On-premises sync enabled' set to Yes. Seeing that Source say Windows Server AD instead of Cloud was a huge milestone.",
+        "Standardized Provisioning: I used PowerShell to bulk-create a whole team of test users. It is one thing to click around and add people one-by-one, but scripting it out so everyone has the right job title and department from the jump is how you act like a pro.",
+        "Real-World Troubleshooting: I am not going to lie, when those RID pool errors started popping up, I had to take a breath. But realizing it was just a DNS race condition—and watching the health checks turn green—is why I love this work."
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "The Tech Stack (What I am Running)"
+    },
+    {
+      "type": "paragraph",
+      "text": "I didn't just pick the easy path. I wanted to see how the newest stuff handled the pressure:"
+    },
+    {
+      "type": "list",
+      "items": [
+        "The Server: A Windows Server 2025 Azure Edition VM. It is the newest build, and I wanted to see how it played with older AD logic.",
+        "The Bridge: Microsoft Entra Connect. This is the plumbing that syncs local lab users to the cloud every 30 minutes.",
+        "The Management: PowerShell for heavy lifting and DCDIAG for health checks. If you are not using CLI, you are often working harder than needed."
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "The Walls I Hit"
+    },
+    {
+      "type": "paragraph",
+      "text": "Like I said, it wasn't all sunshine. I hit a few snags that reminded me to stay humble:"
+    },
+    {
+      "type": "list",
+      "items": [
+        "DNS Taking Its Sweet Time: Right after promoting the server to Domain Controller, it complained about not being able to allocate IDs. Services were starting faster than DNS records could propagate, so I forced registration and gave it time to stabilize.",
+        "The Security Handshake: Logging into the Entra Connect wizard threw JavaScript errors. Windows Server 2025 security defaults were strict, so I adjusted IE Enhanced Security Configuration and used a dedicated cloud-native admin account.",
+        "RAM Constraints: I started with a small VM, but Entra Connect needed more breathing room for local SQL operations. Moving up to B2als v2 improved reliability."
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Technical Snapshot"
+    },
+    {
+      "type": "code",
+      "language": "powershell",
+      "caption": "Snapshot A — Checking the Sync Scheduler",
+      "code": "Get-ADSyncScheduler | Select-Object NextSyncCycleStartTimeInUTC, SyncCycleEnabled"
+    },
+    {
+      "type": "code",
+      "language": "powershell",
+      "caption": "Snapshot B — Verifying Local User Attributes",
+      "code": "Get-ADUser -Filter * -Properties Title, Department | Select-Object Name, Title, Department"
+    },
+    {
+      "type": "code",
+      "language": "powershell",
+      "caption": "Snapshot C — Forcing a Delta Sync and Health Check",
+      "code": "# Force a Delta Sync\nStart-ADSyncSyncCycle -PolicyType Delta\n\n# Check AD Health and RID Pool\ndcdiag /test:RidManager /v"
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Closing Thoughts"
+    },
+    {
+      "type": "paragraph",
+      "text": "At the end of the day, this was not about building the world's most complex network. It was about proving that I can take the skills I have built over the last decade and bridge them into the future of cloud management. I am just an IT guy from the South who likes to see things work right—and this lab is working just fine."
+    }
+  ]
+}
