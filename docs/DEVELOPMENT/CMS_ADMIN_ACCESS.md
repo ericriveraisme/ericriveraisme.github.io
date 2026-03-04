@@ -12,9 +12,9 @@ This project now includes a browser editor at `/admin`.
 
 ## Local Access (No OAuth needed)
 
-1. Start CMS proxy: `npm run cms:proxy`
-2. In a second terminal, start dev server: `npm start`
-3. Open: `http://localhost:3000/admin/`
+1. Start both services with one command: `npm run cms:local`
+2. Open: `http://localhost:3003/admin/`
+3. CMS proxy runs on port `8082` behind the scenes.
 4. Editor uses `local_backend: true`, so saves write files directly in your local repo.
 
 ## Content Path

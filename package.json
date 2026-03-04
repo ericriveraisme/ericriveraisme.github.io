@@ -6,11 +6,13 @@
   "main": "FF6PortfolioApp.jsx",
   "scripts": {
     "start": "webpack serve --mode development",
+    "start:cms": "webpack serve --mode development --port 3003",
     "build": "cross-env NODE_ENV=production webpack --mode production",
     "validate:content": "node scripts/validate-lab-articles.mjs",
     "check:admin-prod": "node scripts/check-admin-production-readiness.mjs",
-    "cms:proxy": "decap-server",
+    "cms:proxy": "cross-env PORT=8082 decap-server",
     "cms:dev": "npm run cms:proxy",
+    "cms:local": "concurrently \"npm run cms:proxy\" \"npm run start:cms\"",
     "hooks:install": "git config core.hooksPath .githooks"
   },
   "dependencies": {
@@ -26,6 +28,7 @@
     "autoprefixer": "^10.4.24",
     "babel-loader": "^9.1.3",
     "cross-env": "^10.1.0",
+    "concurrently": "^9.2.1",
     "decap-server": "^3.2.0",
     "css-loader": "^6.8.1",
     "postcss": "^8.5.6",
