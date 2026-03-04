@@ -60,7 +60,9 @@ const LabLogsPage = () => {
               <article key={log.slug} className="bg-slate-900/60 border border-slate-700/50 p-6 rounded-lg backdrop-blur-sm shadow-lg">
                 <div className="flex flex-wrap items-center justify-between gap-3 mb-4">
                   <h2 className="text-xl text-cyan-200 font-bold" style={{ fontFamily: 'Cinzel, serif' }}>
-                    {log.title} — {log.publishedAt}
+                    <Link to={`/lab-logs/${log.slug}`} className="hover:text-cyan-100 underline underline-offset-2">
+                      {log.title} — {log.publishedAt}
+                    </Link>
                   </h2>
                 </div>
 

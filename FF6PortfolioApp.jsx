@@ -788,7 +788,15 @@ const App = () => {
                               return (
                                 <>
                             <div className="flex items-center justify-between gap-3">
-                              <h4 className="font-bold text-white group-hover:text-cyan-400 transition-colors">{quest.title}</h4>
+                              <h4 className="font-bold text-white group-hover:text-cyan-400 transition-colors">
+                                {questArticle ? (
+                                  <Link to={`/lab-logs/${questArticle.slug}`} className="hover:text-cyan-300 underline underline-offset-2">
+                                    {quest.title}
+                                  </Link>
+                                ) : (
+                                  quest.title
+                                )}
+                              </h4>
                             </div>
                                 <p className="text-slate-400 text-sm">{quest.description}</p>
                                 {questArticle && (
