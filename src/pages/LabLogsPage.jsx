@@ -1,6 +1,5 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { activeQuests } from '../data/activeQuests.js';
 import { labArticles } from '../data/labArticles.js';
 
 const getSnippet = (content = []) => {
@@ -13,21 +12,12 @@ const getSnippet = (content = []) => {
 
 const LabLogsPage = () => {
   const logs = labArticles
-    .map((article) => {
-      const quest = activeQuests.find((entry) => entry.title === article.questTitle);
-
-      if (!quest) {
-        return null;
-      }
-
-      return {
-        slug: article.slug,
-        title: quest.title,
-        publishedAt: article.publishedAt,
-        snippet: getSnippet(article.content)
-      };
-    })
-    .filter(Boolean)
+    .map((article) => ({
+      slug: article.slug,
+      title: article.questTitle,
+      publishedAt: article.publishedAt,
+      snippet: getSnippet(article.content)
+    }))
     .sort((a, b) => new Date(b.publishedAt) - new Date(a.publishedAt));
 
   return (

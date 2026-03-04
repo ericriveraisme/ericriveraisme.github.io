@@ -1,0 +1,12 @@
+const article = {
+  slug: 'zero-trust-bastion-access-pattern',
+  questTitle: 'Zero-Trust Bastion Access Pattern',
+  publishedAt: '2026-03-06',
+  content: [
+    'This test article documents a zero-trust remote administration pattern using a hardened bastion workflow instead of broad direct host exposure. The main objective is to reduce attack surface while preserving fast operator access for routine infrastructure maintenance.',
+    'The design approach layers identity-first controls, restricted source paths, and session-level traceability so every privileged action can be tied to an accountable access flow. Administrative entry points are intentionally narrowed, and policy boundaries are validated before any production-like rollout.',
+    'Early validation shows the model can support day-to-day operations with lower risk than open management interfaces. The next phase is to codify the pattern into repeatable templates so future lab and cloud projects can inherit the same security baseline by default.'
+  ]
+};
+
+export default article;

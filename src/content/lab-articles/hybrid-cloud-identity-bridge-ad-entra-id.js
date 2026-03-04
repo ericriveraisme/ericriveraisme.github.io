@@ -1,0 +1,13 @@
+const article = {
+  slug: 'hybrid-cloud-identity-bridge-ad-entra-id',
+  questTitle: 'Hybrid Cloud Identity Bridge (AD → Entra ID)',
+  publishedAt: '2026-03-03',
+  content: [
+    'This lab validated a practical hybrid identity foundation from an on-prem style Active Directory domain controller to Microsoft Entra ID. The objective was to prove account lifecycle consistency from initial provisioning through cloud synchronization and sign-in readiness.',
+    'The build started with Azure Windows Server 2025 base hardening, AD DS and DNS role configuration, and replication health checks. After baseline validation, users were bulk-provisioned with structured naming patterns through PowerShell to verify repeatable automation instead of manual point-and-click account creation.',
+    'Once identity objects were stable in AD, Entra Connect synchronization cycles were observed for initial import and delta updates. Attribute consistency and expected object states were verified to ensure that account metadata remained predictable across directory boundaries.',
+    'The final outcome was a repeatable identity bridge pattern that can be reused for future tenant and lab scenarios. This work is now logged as a completed quest and serves as a foundation for upcoming hardening and hybrid infrastructure experiments.'
+  ]
+};
+
+export default article;
