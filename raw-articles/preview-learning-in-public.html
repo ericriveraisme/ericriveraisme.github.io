@@ -96,6 +96,36 @@
         background: rgba(20, 83, 45, 0.6);
       }
 
+      .tag-azure {
+        border-color: rgba(56, 189, 248, 0.55);
+        color: #bae6fd;
+        background: rgba(12, 74, 110, 0.55);
+      }
+
+      .tag-active-directory {
+        border-color: rgba(251, 191, 36, 0.55);
+        color: #fde68a;
+        background: rgba(120, 53, 15, 0.55);
+      }
+
+      .tag-entra-id {
+        border-color: rgba(167, 139, 250, 0.55);
+        color: #ddd6fe;
+        background: rgba(67, 56, 202, 0.35);
+      }
+
+      .tag-hybrid-cloud {
+        border-color: rgba(244, 114, 182, 0.55);
+        color: #fbcfe8;
+        background: rgba(131, 24, 67, 0.55);
+      }
+
+      .tag-sysadmin {
+        border-color: rgba(45, 212, 191, 0.55);
+        color: #99f6e4;
+        background: rgba(19, 78, 74, 0.55);
+      }
+
       h2, h3, h4 {
         margin-top: 28px;
         margin-bottom: 10px;
@@ -186,7 +216,8 @@
     </main>
 
     <script>
-      const fileName = '2026-03-04-learning-in-public-gemini-preview.json';
+      const query = new URLSearchParams(window.location.search);
+      const fileName = query.get('file') || '2026-03-04-learning-in-public-gemini-preview.json';
 
       const headingTag = (level) => {
         if (level === 3) return 'h3';
