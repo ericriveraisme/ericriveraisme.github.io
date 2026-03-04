@@ -1,0 +1,6 @@
+1) Copy lab-article.template.js into src/content/lab-articles/ and rename it to your slug file.
+2) Add your image files under assets/lab-article-images/.
+3) Open src/content/lab-articles/index.js.
+4) Add an import line for your new article file.
+5) Add the imported article object to the exported labArticles array.
+6) Run npm run build.

@@ -1,0 +1,40 @@
+local_backend:
+  url: http://localhost:8082/api/v1
+editor:
+  preview: false
+backend:
+  name: github
+  repo: ericriveraisme/ericriveraisme.github.io
+  branch: main
+
+media_folder: "assets/lab-article-images"
+public_folder: "/assets/lab-article-images"
+
+collections:
+  - name: "lab_articles"
+    label: "Lab Articles"
+    folder: "src/content/lab-articles-json"
+    create: true
+    extension: "json"
+    format: "json"
+    slug: "{{slug}}"
+    identifier_field: "slug"
+    fields:
+      - { label: "Slug", name: "slug", widget: "string", hint: "Use lowercase-dash format" }
+      - { label: "Title", name: "questTitle", widget: "string" }
+      - { label: "Published Date", name: "publishedAt", widget: "datetime", format: "YYYY-MM-DD", time_format: false, date_format: "YYYY-MM-DD" }
+      - label: "Content Paragraphs"
+        name: "content"
+        widget: "list"
+        field:
+          label: "Text"
+          name: "text"
+          widget: "text"
+      - label: "Images"
+        name: "images"
+        widget: "list"
+        required: false
+        fields:
+          - { label: "Image", name: "src", widget: "image" }
+          - { label: "Alt Text", name: "alt", widget: "string" }
+          - { label: "Insert After Paragraph", name: "insertAfter", widget: "number", value_type: "int", min: 0 }
