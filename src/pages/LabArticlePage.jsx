@@ -28,6 +28,13 @@ const LabArticlePage = () => {
     );
   }
 
+  const imageInsertions = new Map();
+  (article.images || []).forEach((image) => {
+    const current = imageInsertions.get(image.insertAfter) || [];
+    current.push(image);
+    imageInsertions.set(image.insertAfter, current);
+  });
+
   return (
     <div className="min-h-screen bg-slate-900 text-slate-200 font-mono">
       <header className="container mx-auto px-6 py-10 flex items-center justify-between gap-4">
@@ -53,7 +60,19 @@ const LabArticlePage = () => {
 
           <div className="space-y-5 text-slate-300 leading-relaxed">
             {article.content.map((paragraph, index) => (
-              <p key={index}>{paragraph}</p>
+              <React.Fragment key={index}>
+                <p>{paragraph}</p>
+                {(imageInsertions.get(index) || []).map((image, imageIndex) => (
+                  <div key={`${index}-${imageIndex}`} className="my-8 flex justify-center">
+                    <img
+                      src={image.src}
+                      alt={image.alt}
+                      className="w-full max-w-3xl rounded-lg border border-slate-700/50 bg-slate-950/40"
+                      loading="lazy"
+                    />
+                  </div>
+                ))}
+              </React.Fragment>
             ))}
           </div>
         </article>

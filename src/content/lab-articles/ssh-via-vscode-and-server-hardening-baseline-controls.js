@@ -2,6 +2,13 @@ const article = {
   slug: 'ssh-via-vscode-and-server-hardening-baseline-controls',
   questTitle: 'SSH via VS Code & Server Hardening',
   publishedAt: '2026-03-05',
+  images: [
+    {
+      src: '/assets/lab-article-images/ssh-hardening-baseline-controls.svg',
+      alt: 'SSH hardening baseline controls overview',
+      insertAfter: 0
+    }
+  ],
   content: [
     'This test article captures the first hardening baseline checkpoint for the SSH-focused administration workflow. The objective was to verify that secure defaults are enforced before expanding remote operations across additional hosts.',
     'Baseline controls included key-only SSH authentication, explicit sudo role boundaries, and tightened network exposure to only approved management sources. Session logging and update cadence notes were also documented to improve incident reconstruction and maintenance consistency.',

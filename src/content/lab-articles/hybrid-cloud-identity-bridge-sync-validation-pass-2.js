@@ -2,6 +2,13 @@ const article = {
   slug: 'hybrid-cloud-identity-bridge-sync-validation-pass-2',
   questTitle: 'Hybrid Cloud Identity Bridge (AD → Entra ID)',
   publishedAt: '2026-03-04',
+  images: [
+    {
+      src: '/assets/lab-article-images/hybrid-identity-sync-validation-pass-2.svg',
+      alt: 'Hybrid identity synchronization validation diagram',
+      insertAfter: 0
+    }
+  ],
   content: [
     'This follow-up pass focused on validating day-two identity operations after the initial bridge build. The goal was to confirm that account updates, disable actions, and attribute changes propagate predictably from AD to Entra without manual reconciliation.',
     'A controlled batch of test users was modified using scripted updates for department values, group membership, and account state transitions. Delta sync timing was observed to establish practical expectations for operational change windows and support response procedures.',
