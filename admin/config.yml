@@ -1,5 +1,3 @@
-# Copy values from this template into admin/config.yml when enabling live /admin OAuth.
-
 local_backend: false
 editor:
   preview: false
@@ -7,7 +5,7 @@ backend:
   name: github
   repo: ericriveraisme/ericriveraisme.github.io
   branch: main
-  base_url: https://YOUR-CMS-AUTH-SERVICE.example.com
+  base_url: https://eric-cms-auth.onrender.com
   auth_endpoint: auth
 
 site_url: https://ericriveraisme.github.io
