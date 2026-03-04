@@ -50,31 +50,117 @@ for (const file of files) {
     slugSet.add(article.slug);
   }
 
-  if (!article.questTitle || typeof article.questTitle !== 'string') {
-    fail(`${fileRef}: missing or invalid questTitle`);
+  const resolvedTitle = article.title || article.questTitle;
+  if (!resolvedTitle || typeof resolvedTitle !== 'string' || resolvedTitle.trim().length === 0) {
+    fail(`${fileRef}: missing or invalid title (title or questTitle required)`);
   }
 
   if (!article.publishedAt || !/^\d{4}-\d{2}-\d{2}$/.test(article.publishedAt)) {
     fail(`${fileRef}: publishedAt must be YYYY-MM-DD`);
   }
 
+  if (Object.prototype.hasOwnProperty.call(article, 'author')) {
+    if (typeof article.author !== 'string' || article.author.trim().length === 0) {
+      fail(`${fileRef}: author must be a non-empty string when provided`);
+    }
+  }
+
+  if (Object.prototype.hasOwnProperty.call(article, 'summary')) {
+    if (typeof article.summary !== 'string' || article.summary.trim().length === 0) {
+      fail(`${fileRef}: summary must be a non-empty string when provided`);
+    }
+  }
+
+  if (Object.prototype.hasOwnProperty.call(article, 'tags')) {
+    if (!Array.isArray(article.tags)) {
+      fail(`${fileRef}: tags must be an array when provided`);
+    } else {
+      article.tags.forEach((tag, index) => {
+        if (typeof tag !== 'string' || tag.trim().length === 0) {
+          fail(`${fileRef}: tags[${index}] must be a non-empty string`);
+        }
+      });
+    }
+  }
+
   const content = article.content;
   if (!Array.isArray(content) || content.length === 0) {
     fail(`${fileRef}: content must be a non-empty array`);
   } else {
-    content.forEach((paragraph, index) => {
-      const isStringParagraph =
-        typeof paragraph === 'string' && paragraph.trim().length > 0;
-      const isObjectParagraph =
-        paragraph &&
-        typeof paragraph === 'object' &&
-        typeof paragraph.text === 'string' &&
-        paragraph.text.trim().length > 0;
+    const hasTypedBlocks = content.every(
+      (entry) => entry && typeof entry === 'object' && typeof entry.type === 'string'
+    );
 
-      if (!isStringParagraph && !isObjectParagraph) {
-        fail(`${fileRef}: content[${index}] must be a non-empty string or { text } object`);
-      }
-    });
+    if (hasTypedBlocks) {
+      content.forEach((block, index) => {
+        const type = String(block.type || '').toLowerCase();
+
+        if (type === 'heading') {
+          if (typeof block.text !== 'string' || block.text.trim().length === 0) {
+            fail(`${fileRef}: content[${index}] heading.text must be a non-empty string`);
+          }
+          if (Object.prototype.hasOwnProperty.call(block, 'level')) {
+            if (!Number.isInteger(block.level) || block.level < 1 || block.level > 6) {
+              fail(`${fileRef}: content[${index}] heading.level must be an integer between 1 and 6`);
+            }
+          }
+          return;
+        }
+
+        if (type === 'paragraph') {
+          if (typeof block.text !== 'string' || block.text.trim().length === 0) {
+            fail(`${fileRef}: content[${index}] paragraph.text must be a non-empty string`);
+          }
+          return;
+        }
+
+        if (type === 'list') {
+          if (!Array.isArray(block.items) || block.items.length === 0) {
+            fail(`${fileRef}: content[${index}] list.items must be a non-empty array`);
+          } else {
+            block.items.forEach((item, itemIndex) => {
+              if (typeof item !== 'string' || item.trim().length === 0) {
+                fail(`${fileRef}: content[${index}] list.items[${itemIndex}] must be a non-empty string`);
+              }
+            });
+          }
+          return;
+        }
+
+        if (type === 'code') {
+          if (typeof block.code !== 'string' || block.code.trim().length === 0) {
+            fail(`${fileRef}: content[${index}] code.code must be a non-empty string`);
+          }
+          if (Object.prototype.hasOwnProperty.call(block, 'language')) {
+            if (typeof block.language !== 'string' || block.language.trim().length === 0) {
+              fail(`${fileRef}: content[${index}] code.language must be a non-empty string when provided`);
+            }
+          }
+          if (Object.prototype.hasOwnProperty.call(block, 'caption')) {
+            if (typeof block.caption !== 'string') {
+              fail(`${fileRef}: content[${index}] code.caption must be a string when provided`);
+            }
+          }
+          return;
+        }
+
+        fail(`${fileRef}: content[${index}] has unsupported block type '${block.type}'`);
+      });
+    } else {
+      content.forEach((paragraph, index) => {
+        const isStringParagraph =
+          typeof paragraph === 'string' && paragraph.trim().length > 0;
+        const isObjectParagraph =
+          paragraph &&
+          typeof paragraph === 'object' &&
+          typeof paragraph.text === 'string' &&
+          paragraph.text.trim().length > 0;
+
+        if (!isStringParagraph && !isObjectParagraph) {
+          fail(`${fileRef}: content[${index}] must be a non-empty string or { text } object`);
+        }
+      });
+    }
   }
 
   if (Array.isArray(article.images)) {

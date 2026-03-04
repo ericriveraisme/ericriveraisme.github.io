@@ -25,15 +25,48 @@ collections:
     identifier_field: "slug"
     fields:
       - { label: "Slug", name: "slug", widget: "string", hint: "Use lowercase-dash format" }
-      - { label: "Title", name: "questTitle", widget: "string" }
+      - { label: "Title", name: "title", widget: "string" }
       - { label: "Published Date", name: "publishedAt", widget: "datetime", format: "YYYY-MM-DD", time_format: false, date_format: "YYYY-MM-DD" }
-      - label: "Content Paragraphs"
+      - { label: "Author", name: "author", widget: "string", required: false }
+      - { label: "Summary", name: "summary", widget: "text", required: false }
+      - { label: "Tags", name: "tags", widget: "list", required: false, field: { label: "Tag", name: "tag", widget: "string" } }
+      - label: "Content Blocks"
         name: "content"
         widget: "list"
-        field:
-          label: "Text"
-          name: "text"
-          widget: "text"
+        types:
+          - label: "Heading"
+            name: "heading"
+            widget: "object"
+            fields:
+              - { label: "Type", name: "type", widget: "hidden", default: "heading" }
+              - { label: "Level", name: "level", widget: "number", value_type: "int", min: 1, max: 6, default: 2 }
+              - { label: "Text", name: "text", widget: "string" }
+          - label: "Paragraph"
+            name: "paragraph"
+            widget: "object"
+            fields:
+              - { label: "Type", name: "type", widget: "hidden", default: "paragraph" }
+              - { label: "Text", name: "text", widget: "text" }
+          - label: "List"
+            name: "list"
+            widget: "object"
+            fields:
+              - { label: "Type", name: "type", widget: "hidden", default: "list" }
+              - label: "Items"
+                name: "items"
+                widget: "list"
+                field:
+                  label: "Item"
+                  name: "item"
+                  widget: "string"
+          - label: "Code"
+            name: "code"
+            widget: "object"
+            fields:
+              - { label: "Type", name: "type", widget: "hidden", default: "code" }
+              - { label: "Language", name: "language", widget: "string", required: false }
+              - { label: "Caption", name: "caption", widget: "string", required: false }
+              - { label: "Code", name: "code", widget: "text" }
       - label: "Images"
         name: "images"
         widget: "list"

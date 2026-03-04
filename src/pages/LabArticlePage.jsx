@@ -42,7 +42,7 @@ const LabArticlePage = () => {
           className="text-3xl md:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-200 to-blue-500"
           style={{ fontFamily: 'Cinzel, serif' }}
         >
-          {article.questTitle} — {article.publishedAt}
+          {article.title || article.questTitle}
         </h1>
         <Link
           to="/lab-logs"
@@ -56,12 +56,53 @@ const LabArticlePage = () => {
         <article className="bg-slate-900/60 border border-slate-700/50 p-6 md:p-8 rounded-lg backdrop-blur-sm shadow-lg">
           <div className="flex flex-wrap items-center gap-3 mb-6 text-xs uppercase tracking-wider">
             <span className="text-slate-400">Published {article.publishedAt}</span>
+            {article.author ? <span className="text-slate-500">• {article.author}</span> : null}
           </div>
 
+          {Array.isArray(article.tags) && article.tags.length > 0 ? (
+            <div className="mb-6 flex flex-wrap gap-2">
+              {article.tags.map((tag) => (
+                <span key={tag} className="px-2.5 py-1 rounded-full text-xs border border-cyan-500/30 text-cyan-200 bg-cyan-950/20">
+                  {tag}
+                </span>
+              ))}
+            </div>
+          ) : null}
+
+          {article.summary ? (
+            <p className="mb-6 text-slate-300 leading-relaxed border-l-2 border-cyan-500/40 pl-4">
+              {article.summary}
+            </p>
+          ) : null}
+
           <div className="space-y-5 text-slate-300 leading-relaxed">
-            {article.content.map((paragraph, index) => (
+            {(article.contentBlocks || []).map((block, index) => (
               <React.Fragment key={index}>
-                <p>{paragraph}</p>
+                {block.type === 'heading' ? (
+                  <h2 className="text-cyan-200 font-bold text-2xl" style={{ fontFamily: 'Cinzel, serif' }}>
+                    {block.text}
+                  </h2>
+                ) : null}
+
+                {block.type === 'paragraph' ? <p>{block.text}</p> : null}
+
+                {block.type === 'list' ? (
+                  <ul className="list-disc pl-6 space-y-2">
+                    {(block.items || []).map((item) => (
+                      <li key={item}>{item}</li>
+                    ))}
+                  </ul>
+                ) : null}
+
+                {block.type === 'code' ? (
+                  <figure>
+                    {block.caption ? <figcaption className="text-cyan-300 text-xs uppercase tracking-wider mb-2">{block.caption}</figcaption> : null}
+                    <pre className="bg-slate-950/80 border border-slate-700 rounded-lg p-4 overflow-x-auto">
+                      <code>{block.code}</code>
+                    </pre>
+                  </figure>
+                ) : null}
+
                 {(imageInsertions.get(index) || []).map((image, imageIndex) => (
                   <div key={`${index}-${imageIndex}`} className="my-8 flex justify-center">
                     <img

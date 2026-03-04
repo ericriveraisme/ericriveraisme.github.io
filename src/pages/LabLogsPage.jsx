@@ -14,8 +14,9 @@ const LabLogsPage = () => {
   const logs = labArticles
     .map((article) => ({
       slug: article.slug,
-      title: article.questTitle,
+      title: article.title || article.questTitle,
       publishedAt: article.publishedAt,
+      author: article.author,
       snippet: getSnippet(article.content)
     }))
     .sort((a, b) => new Date(b.publishedAt) - new Date(a.publishedAt));
@@ -51,9 +52,14 @@ const LabLogsPage = () => {
                 <div className="flex flex-wrap items-center justify-between gap-3 mb-4">
                   <h2 className="text-xl text-cyan-200 font-bold" style={{ fontFamily: 'Cinzel, serif' }}>
                     <Link to={`/lab-logs/${log.slug}`} className="hover:text-cyan-100 underline underline-offset-2">
-                      {log.title} — {log.publishedAt}
+                      {log.title}
                     </Link>
                   </h2>
+                </div>
+
+                <div className="mb-4 text-xs uppercase tracking-wider text-slate-400">
+                  <span>{log.publishedAt}</span>
+                  {log.author ? <span>{` • ${log.author}`}</span> : null}
                 </div>
 
                 <p className="text-slate-300 text-sm leading-relaxed">

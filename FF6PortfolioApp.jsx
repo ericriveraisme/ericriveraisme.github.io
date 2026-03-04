@@ -772,7 +772,7 @@ const App = () => {
                             <div className="flex items-center justify-between gap-3">
                               <h4 className="font-bold text-white group-hover:text-cyan-400 transition-colors">
                                 <Link to={`/lab-logs/${article.slug}`} className="hover:text-cyan-300 underline underline-offset-2">
-                                  {article.questTitle} — {article.publishedAt}
+                                  {(article.title || article.questTitle)} — {article.publishedAt}
                                 </Link>
                               </h4>
                             </div>
