@@ -23,7 +23,6 @@ const LabLogsPage = () => {
       return {
         slug: article.slug,
         title: quest.title,
-        status: quest.status,
         publishedAt: article.publishedAt,
         snippet: getSnippet(article.content)
       };
@@ -63,9 +62,6 @@ const LabLogsPage = () => {
                   <h2 className="text-xl text-cyan-200 font-bold" style={{ fontFamily: 'Cinzel, serif' }}>
                     {log.title} — {log.publishedAt}
                   </h2>
-                  <span className="text-[10px] uppercase tracking-wider font-bold px-2 py-1 rounded border bg-emerald-900/40 border-emerald-500/50 text-emerald-300">
-                    {log.status}
-                  </span>
                 </div>
 
                 <p className="text-slate-300 text-sm leading-relaxed">
