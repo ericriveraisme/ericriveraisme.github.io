@@ -632,9 +632,13 @@ const App = () => {
       return new Date(b.updatedAt) - new Date(a.updatedAt);
     });
 
-  const articleByQuestTitle = new Map(
-    labArticles.map((article) => [article.questTitle, article])
-  );
+  const articleByQuestTitle = labArticles.reduce((map, article) => {
+    const existing = map.get(article.questTitle);
+    if (!existing || new Date(article.publishedAt) > new Date(existing.publishedAt)) {
+      map.set(article.questTitle, article);
+    }
+    return map;
+  }, new Map());
 
   const getArticleSnippet = (content = []) => {
     const firstParagraph = content[0] || '';
@@ -804,6 +808,7 @@ const App = () => {
                                     <Link to={`/lab-logs/${questArticle.slug}`} className="text-cyan-300 hover:text-cyan-200 underline underline-offset-2">
                                       ...more
                                     </Link>
+                                    <span className="text-slate-500"> ({questArticle.publishedAt})</span>
                                   </p>
                                 )}
                                 </>

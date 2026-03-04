@@ -24,12 +24,12 @@ const LabLogsPage = () => {
         slug: article.slug,
         title: quest.title,
         status: quest.status,
-        updatedAt: quest.updatedAt,
+        publishedAt: article.publishedAt,
         snippet: getSnippet(article.content)
       };
     })
     .filter(Boolean)
-    .sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt));
+    .sort((a, b) => new Date(b.publishedAt) - new Date(a.publishedAt));
 
   return (
     <div className="min-h-screen bg-slate-900 text-slate-200 font-mono">
@@ -61,7 +61,7 @@ const LabLogsPage = () => {
               <article key={log.slug} className="bg-slate-900/60 border border-slate-700/50 p-6 rounded-lg backdrop-blur-sm shadow-lg">
                 <div className="flex flex-wrap items-center justify-between gap-3 mb-4">
                   <h2 className="text-xl text-cyan-200 font-bold" style={{ fontFamily: 'Cinzel, serif' }}>
-                    {log.title}
+                    {log.title} — {log.publishedAt}
                   </h2>
                   <span className="text-[10px] uppercase tracking-wider font-bold px-2 py-1 rounded border bg-emerald-900/40 border-emerald-500/50 text-emerald-300">
                     {log.status}

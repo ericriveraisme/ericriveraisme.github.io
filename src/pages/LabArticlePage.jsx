@@ -39,7 +39,7 @@ const LabArticlePage = () => {
           className="text-3xl md:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-200 to-blue-500"
           style={{ fontFamily: 'Cinzel, serif' }}
         >
-          {quest.title}
+          {quest.title} — {article.publishedAt}
         </h1>
         <Link
           to="/lab-logs"
