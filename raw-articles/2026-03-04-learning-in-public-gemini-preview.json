@@ -1,0 +1,98 @@
+{
+  "title": "Learning in Public at 40: Turning My Portfolio into a Real Publishing System",
+  "publishedAt": "2026-03-04",
+  "author": "Eric R. Rivera",
+  "summary": "How I turned a static React portfolio into a live publishing pipeline using Decap CMS, GitHub OAuth, and a whole lot of troubleshooting.",
+  "tags": [
+    "React",
+    "CMS",
+    "OAuth",
+    "GitHub Pages",
+    "Career Growth"
+  ],
+  "content": [
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Why I'm Doing This"
+    },
+    {
+      "type": "paragraph",
+      "text": "I’m 40 years old, I live in Arkansas, and I’ve spent better than 10 years fixin' tech for other folks. It’d be real easy to just keep doin' what I’m doin', but I’ve always felt like if you aren’t growin', you’re just standin' still."
+    },
+    {
+      "type": "paragraph",
+      "text": "My portfolio site started out as a creative tribute to Final Fantasy VI—it looked cool, but it was basically just a static sign in a yard. If I wanted to change a word, I had to dig into the code and re-build the whole thing. I wanted a system where I could just log in from a browser, write what's on my mind, and hit 'Publish.' Getting all that 'plumbing' right behind the scenes was a real challenge, but man, was it worth it."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "The Tech Stack (The Guts of the Project)"
+    },
+    {
+      "type": "paragraph",
+      "text": "Even though I wanted this to be easy to use, I didn't want to skimp on the tech. I built this using the same kind of tools you'd see in a professional dev environment:"
+    },
+    {
+      "type": "list",
+      "items": [
+        "The App Layer: I used React 18 for the main interface and Webpack 5 to bundle it all together. Tailwind CSS handles all the styling so it stays looking sharp on any screen.",
+        "The Content Layer: My articles live as JSON files. I set up a system that 'normalizes' that data so the site knows exactly how to display it every time.",
+        "The Editor: I integrated Decap CMS. It gives me a clean dashboard at /admin so I can write and edit in a browser instead of a code editor.",
+        "Auth & Hosting: The site is hosted on GitHub Pages, and the login 'handshake' happens through a GitHub OAuth App and a proxy service I deployed on Render."
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "The \"Pretty Cool\" Stuff"
+    },
+    {
+      "type": "paragraph",
+      "text": "When you're knee-deep in code at 3:00 a.m., you need those moments that make you lean back and say, 'Yeah, that's it.' Here are a few things from this project that felt pretty rad:"
+    },
+    {
+      "type": "list",
+      "items": [
+        "That 'Official' Feel: Setting up OAuth was a huge highlight. There’s something about clicking a 'Login' button and having it work just like the official systems I've used at work for clocking in or accessing tools. It makes the whole site feel 'pro' and secure.",
+        "The Big Sigh of Relief: I’ve been leanin' more into cybersecurity lately, so I set up some guardrails to check for 'secrets'—you know, those private keys or passwords that sometimes slip into your code by mistake. Running that first check and seeing a perfectly clean report was a massive relief.",
+        "Coaching the AI: I’ve been usin' AI to help me move faster, but the real learnin' has been in the 'directin'.' It’s not just the AI doin' the work; it’s me learnin' how to steer it through the rough patches. It feels like we’re learnin' from each other."
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "The Tribulations (The Stuff That Actually Taught Me)"
+    },
+    {
+      "type": "paragraph",
+      "text": "I’m not gonna sit here and tell you this was all sunshine and roses. I hit plenty of walls, and most of them were my own doin'. Fighting with port collisions, OAuth callback confusion, and Git tangles made for some long nights, but those are the moments where the real growth happens."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Technical Snapshot"
+    },
+    {
+      "type": "code",
+      "language": "yaml",
+      "caption": "Production CMS Auth Wiring",
+      "code": "backend:\n  name: github\n  repo: ericriveraisme/ericriveraisme.github.io\n  branch: main\n  base_url: https://eric-cms-auth.onrender.com\n  auth_endpoint: auth"
+    },
+    {
+      "type": "code",
+      "language": "javascript",
+      "caption": "JSON Normalization Logic",
+      "code": "const normalizeContent = (content = []) =>\n  content.map((entry) => {\n    if (typeof entry === 'string') return entry;\n    if (entry && typeof entry === 'object' && typeof entry.text === 'string') {\n      return entry.text;\n    }\n    return '';\n  }).filter(Boolean);"
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Closing Thoughts"
+    },
+    {
+      "type": "paragraph",
+      "text": "I'm not a '10x developer' or some kind of coding wizard. I’m just an IT guy from the South who likes to build things and isn't afraid to admit when he’s stumped. If I can get this OAuth stuff workin' during a night shift in Paragould, you can get through your project, too."
+    }
+  ]
+}
