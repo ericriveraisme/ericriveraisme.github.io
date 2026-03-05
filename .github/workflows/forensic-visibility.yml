@@ -1,0 +1,84 @@
+name: Forensic Visibility
+
+on:
+  push:
+    branches:
+      - main
+      - master
+  pull_request:
+    branches:
+      - main
+      - master
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  forensic-report:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+        with:
+          fetch-depth: 0
+
+      - name: Generate forensic report
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p forensic
+
+          EVENT_NAME="${GITHUB_EVENT_NAME}"
+          BRANCH_NAME="${GITHUB_REF_NAME}"
+          HEAD_SHA="${GITHUB_SHA}"
+          ACTOR="${GITHUB_ACTOR}"
+          REPO="${GITHUB_REPOSITORY}"
+          RUN_URL="https://github.com/${REPO}/actions/runs/${GITHUB_RUN_ID}"
+          COMPARE_URL=""
+          BASE_SHA=""
+
+          if [[ "${EVENT_NAME}" == "push" ]]; then
+            BASE_SHA="${{ github.event.before }}"
+            if [[ -n "${BASE_SHA}" && "${BASE_SHA}" != "0000000000000000000000000000000000000000" ]]; then
+              COMPARE_URL="https://github.com/${REPO}/compare/${BASE_SHA}...${HEAD_SHA}"
+            fi
+          elif [[ "${EVENT_NAME}" == "pull_request" ]]; then
+            BASE_SHA="${{ github.event.pull_request.base.sha }}"
+            COMPARE_URL="${{ github.event.pull_request.html_url }}/files"
+          fi
+
+          {
+            echo "# Forensic Change Report"
+            echo
+            echo "- **Event:** ${EVENT_NAME}"
+            echo "- **Actor:** ${ACTOR}"
+            echo "- **Branch:** ${BRANCH_NAME}"
+            echo "- **Head SHA:** ${HEAD_SHA}"
+            echo "- **Base SHA:** ${BASE_SHA:-N/A}"
+            echo "- **Run URL:** ${RUN_URL}"
+            if [[ -n "${COMPARE_URL}" ]]; then
+              echo "- **Compare URL:** ${COMPARE_URL}"
+            fi
+            echo
+            echo "## Changed Files"
+            echo
+            if [[ -n "${BASE_SHA}" && "${BASE_SHA}" != "0000000000000000000000000000000000000000" ]]; then
+              git diff --name-status "${BASE_SHA}" "${HEAD_SHA}" | sed 's/^/- /'
+            else
+              echo "- Base SHA unavailable (new branch or manual run)."
+            fi
+            echo
+            echo "## Recent Commit Chain"
+            echo
+            git --no-pager log --oneline --decorate -n 12 | sed 's/^/- /'
+          } > forensic/forensic-report.md
+
+          cat forensic/forensic-report.md >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Upload forensic report artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: forensic-report
+          path: forensic/forensic-report.md

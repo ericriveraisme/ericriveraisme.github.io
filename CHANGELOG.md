@@ -11,6 +11,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Adaptive quality for low-power devices (reduced wind layers/sections and snow count)
 - Mobile responsiveness issue documented for follow-up
 - Performance testing checklist and updated optimization notes
+- Forensic version-control runbook and PR evidence template for higher rollout visibility
+- Automated forensic visibility workflow that emits per-run change reports in Actions
 - LinkedIn header button (positioned left of GitHub)
 - Character Sheet profile photo asset and framed avatar rendering
 - Dedicated Active Quests data module (`src/data/activeQuests.js`)

@@ -15,6 +15,7 @@ For detailed development process documentation, troubleshooting, and historical 
 - **[DEVELOPMENT/](DEVELOPMENT/)** - Development process documentation
   - Branch management guides
   - Deployment troubleshooting
+  - Forensic version control and rollout visibility
   - Development server guides
   - Code reviews and migration notes
 
