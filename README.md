@@ -166,6 +166,14 @@ git commit -m "Build for production"
 git push
 ```
 
+## Release Visibility
+
+[![Forensic Visibility](https://github.com/ericriveraisme/ericriveraisme.github.io/actions/workflows/forensic-visibility.yml/badge.svg)](https://github.com/ericriveraisme/ericriveraisme.github.io/actions/workflows/forensic-visibility.yml)
+
+- Workflow: `.github/workflows/forensic-visibility.yml`
+- Runbook: `docs/DEVELOPMENT/FORENSIC_VERSION_CONTROL.md`
+- PR evidence template: `.github/PULL_REQUEST_TEMPLATE.md`
+
 ## Design
 
 **Theme:** Final Fantasy 6 - Narshe Opening Scene
