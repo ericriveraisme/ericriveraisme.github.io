@@ -13,7 +13,6 @@ export const resumeData = {
     email: "ericriveraisme@gmail.com",
     linkedin: "https://www.linkedin.com/in/eric-rivera-62240818a/",
     github: "https://github.com/ericriveraisme",
-    phone: "(870) 882-1926",
     location: "Paragould, AR"
   },
 
