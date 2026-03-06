@@ -14,6 +14,21 @@ This document outlines optional improvements for the portfolio site that would e
   - Validate in DevTools Device Toolbar and at least one real device
 - **Notes:** Issue tracked in docs/DEVELOPMENT/MOBILE_RESPONSIVENESS.md
 
+### 0.1 Lab Logs Header Animation Rollout (Priority: Medium)
+**Description:** Roll out the "Alchemist Terminal" animated Lab Logs header as a phased feature behind a static-image placeholder.
+- **Impact:** Adds visual identity to the Lab Logs page without blocking publishing workflows.
+- **Effort:** ~2-4 hours (prototype + tuning + QA)
+- **Current State:** Static hero image is live in `src/pages/LabLogsPage.jsx` (`/assets/lab-logs-animation/lab-logs-static-image.png`).
+- **Rollout Plan:**
+  - Keep current static header in production as fallback.
+  - Build animation in an isolated component/canvas for `LabLogsPage` only.
+  - Add a feature flag or conditional toggle for controlled testing.
+  - Validate reduced-motion behavior and mobile rendering before default-on.
+- **Tech Constraints:**
+  - No external animation libraries.
+  - Keep animation loop capped and cleaned up on unmount.
+  - Preserve existing Tailwind/PostCSS setup (no CDN script).
+
 ### 1. Dark Mode Toggle (Priority: Medium)
 **Description:** Add a theme switcher to allow users to choose between dark and light modes
 - **Impact:** Improves accessibility and user preference
