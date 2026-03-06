@@ -23,22 +23,21 @@ const LabLogsPage = () => {
 
   return (
     <div className="min-h-screen bg-slate-900 text-slate-200 font-mono">
-      <header className="container mx-auto px-6 py-10 flex items-center justify-between gap-4">
-        <h1
-          className="text-3xl md:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-200 to-blue-500"
-          style={{ fontFamily: 'Cinzel, serif' }}
-        >
-          Lab Logs
-        </h1>
+      <header className="relative w-full">
+        <img
+          src="/assets/lab-logs-animation/lab-logs-static-image.png"
+          alt="Lab Logs header artwork"
+          className="block w-full h-auto"
+        />
         <Link
           to="/"
-          className="px-4 py-2 bg-slate-900/80 hover:bg-slate-800 border border-slate-600 rounded text-slate-200 text-xs font-bold uppercase tracking-wider transition-all hover:scale-105"
+          className="absolute top-3 right-3 md:top-5 md:right-5 px-4 py-2 bg-slate-900/80 hover:bg-slate-800 border border-slate-600 rounded text-slate-200 text-xs font-bold uppercase tracking-wider transition-all hover:scale-105"
         >
           Back to Home
         </Link>
       </header>
 
-      <main className="container mx-auto px-6 pb-16">
+      <main className="container mx-auto px-6 pt-6 pb-16">
         <section className="space-y-5">
           {logs.length === 0 ? (
             <div className="bg-slate-900/60 border border-slate-700/50 p-6 rounded-lg backdrop-blur-sm shadow-lg">
