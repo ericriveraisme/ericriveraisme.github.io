@@ -18,6 +18,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Dedicated Active Quests data module (`src/data/activeQuests.js`)
 - Active Quest status tags (Completed, In Progress, Next Up)
 - New Active Quest: Hypervisor I Proxmox Home Lab (Future)
+- Lab Logs animation concept-art asset pack in `assets/lab-logs-animation/`
+- Static Lab Logs hero placeholder image for near-term production use
 
 ### Changed
 - Wind animation now uses a fixed 30fps timestep with offscreen caching
@@ -27,10 +29,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Active Quests now sourced directly from the dedicated quests module (decoupled from resume data)
 - Resume content refreshed with updated professional verbiage, core skills, contact details, and stronger experience bullets
 - Character Sheet avatar now supports image fallback logic in place of emoji-only rendering
+- Lab Logs page header now uses an edge-to-edge hero image with overlay Back to Home action
+- Lab Logs placeholder image trimmed to remove bottom-right watermark artifact
 
 ### Documentation
 - Added a new "Suggested Performance Enhancements (2026-02-26)" section in `docs/PERFORMANCE_NOTES.md`
 - Updated README structure/details to reflect modularized Active Quests data and current behavior
+- Added `.github/copilot-instructions.md` with codebase-specific AI guidance
+- Added phased rollout/testing note for future Lab Logs header animation in `docs/NICE_TO_HAVE.md`
 
 ### Deferred
 - DPR-aware canvas scaling (1a) rolled back due to shimmer and alignment issues

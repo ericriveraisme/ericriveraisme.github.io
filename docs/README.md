@@ -7,7 +7,14 @@ This folder contains project documentation and reference materials.
 - **[../README.md](../README.md)** - Main project documentation with setup and deployment info
 - **[../CHANGELOG.md](../CHANGELOG.md)** - Project version history and changes
 - **[PERFORMANCE_NOTES.md](PERFORMANCE_NOTES.md)** - Canvas performance history, benchmarks, and tuning roadmap
+- **[NICE_TO_HAVE.md](NICE_TO_HAVE.md)** - Future enhancement backlog (includes Lab Logs animation rollout plan)
+- **[../.github/copilot-instructions.md](../.github/copilot-instructions.md)** - AI coding-agent project instructions
 - **[../assets/sprites/README.md](../assets/sprites/README.md)** - Sprite assets documentation
+
+## Lab Logs Animation Assets
+
+- **[../assets/lab-logs-animation/](../assets/lab-logs-animation/)** - Concept-art source assets for upcoming Lab Logs header animation
+- **[../assets/lab-logs-animation/alchemists-terminal-specification.md](../assets/lab-logs-animation/alchemists-terminal-specification.md)** - Animation behavior/spec notes
 
 ## Development & Reference
 
