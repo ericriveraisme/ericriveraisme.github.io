@@ -132,14 +132,9 @@ npm start
 ### Production Build
 
 ```bash
-# Build for production
-npm run build
-
-# Output: dist/bundle.js
 
 # Serve locally to test production build
 python -m http.server 8000
-# Open http://localhost:8000
 ```
 
 ## Deployment
@@ -148,13 +143,11 @@ python -m http.server 8000
 
 The repository uses GitHub Actions to automatically build and deploy:
 
-1. Push to `main` or `master` branch
 2. GitHub Actions builds the React app
 3. Deploys to GitHub Pages automatically
 
 **Workflow:** `.github/workflows/deploy.yml`
 
-### Manual Deployment
 
 ```bash
 # Build the app
@@ -169,15 +162,6 @@ git push
 ## Release Visibility
 
 [![Forensic Visibility](https://github.com/ericriveraisme/ericriveraisme.github.io/actions/workflows/forensic-visibility.yml/badge.svg)](https://github.com/ericriveraisme/ericriveraisme.github.io/actions/workflows/forensic-visibility.yml)
-
-- Workflow: `.github/workflows/forensic-visibility.yml`
-- Runbook: `docs/DEVELOPMENT/FORENSIC_VERSION_CONTROL.md`
-- PR evidence template: `.github/PULL_REQUEST_TEMPLATE.md`
-
-## Design
-
-**Theme:** Final Fantasy 6 - Narshe Opening Scene
-
 **Color Palette:**
 - Background: `#02040a` (Dark Magitek Night)
 - Accent: `#06b6d4` (Cyan), `#3b82f6` (Blue)

@@ -1,6 +1,6 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
-import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
+import { HashRouter, Navigate, Route, Routes } from 'react-router-dom';
 import { onCLS, onFCP, onINP, onLCP, onTTFB } from 'web-vitals';
 import App from './FF6PortfolioApp.jsx';
 import LabLogsPage from './src/pages/LabLogsPage.jsx';
@@ -36,12 +36,12 @@ if (redirectPath) {
 }
 
 root.render(
-  <BrowserRouter>
+  <HashRouter>
     <Routes>
       <Route path="/" element={<App />} />
       <Route path="/lab-logs" element={<LabLogsPage />} />
       <Route path="/lab-logs/:slug" element={<LabArticlePage />} />
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
-  </BrowserRouter>
+  </HashRouter>
 );

@@ -20,6 +20,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - New Active Quest: Hypervisor I Proxmox Home Lab (Future)
 - Lab Logs animation concept-art asset pack in `assets/lab-logs-animation/`
 - Static Lab Logs hero placeholder image for near-term production use
+- **Hash-based routing for SPA compatibility**: Switched from BrowserRouter to HashRouter for all client-side navigation. Deep links now work reliably on GitHub Pages and always load the app, improving SEO and social preview reliability for all URLs.
 
 ### Changed
 - Wind animation now uses a fixed 30fps timestep with offscreen caching
@@ -37,6 +38,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Updated README structure/details to reflect modularized Active Quests data and current behavior
 - Added `.github/copilot-instructions.md` with codebase-specific AI guidance
 - Added phased rollout/testing note for future Lab Logs header animation in `docs/NICE_TO_HAVE.md`
+- **Documented hash-based routing update and SPA SEO implications in README and deployment notes.**
 
 ### Deferred
 - DPR-aware canvas scaling (1a) rolled back due to shimmer and alignment issues
