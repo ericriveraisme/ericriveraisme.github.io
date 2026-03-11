@@ -1,7 +1,7 @@
 {
   "title": "Sovereign Lab Day 1: Breaking the Concrete and Laying the Foundation",
   "slug": "sovereign-lab-day-1",
-  "publishedAt": "2024-03-09",
+  "publishedAt": "2026-03-09",
   "author": "Eric Rivera",
   "summary": "Day 1 of building a sovereign home lab: from bare metal Proxmox install to tiered storage, VLANs, and first lessons learned.",
   "tags": ["Proxmox", "HomeLab", "CCNA", "Networking", "LearningInPublic"],
