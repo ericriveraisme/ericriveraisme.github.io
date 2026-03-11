@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Article Preview - Sovereign Lab Day 1</title>
+    <style>
+      :root {
+        color-scheme: dark;
+      }
+      body {
+        margin: 0;
+        font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+        background: #0f172a;
+        color: #e2e8f0;
+        line-height: 1.65;
+      }
+      .wrap {
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 40px 24px 80px;
+      }
+      .card {
+        background: rgba(15, 23, 42, 0.7);
+        border: 1px solid rgba(148, 163, 184, 0.25);
+        border-radius: 14px;
+        padding: 28px;
+        backdrop-filter: blur(6px);
+      }
+      h1 {
+        margin: 0 0 12px;
+        font-size: clamp(1.8rem, 4vw, 2.6rem);
+        line-height: 1.2;
+      }
+      .meta {
+        color: #94a3b8;
+        font-size: 1rem;
+        margin-bottom: 18px;
+      }
+      h2, h3 {
+        color: #fbbf24;
+        margin-top: 2.2em;
+        margin-bottom: 0.7em;
+      }
+      pre, code {
+        background: #1e293b;
+        color: #f1f5f9;
+        border-radius: 6px;
+        padding: 0.2em 0.5em;
+        font-size: 1em;
+      }
+      pre {
+        padding: 1em;
+        overflow-x: auto;
+      }
+      ul, ol {
+        margin-left: 1.5em;
+      }
+      blockquote {
+        border-left: 3px solid #fbbf24;
+        margin: 1.5em 0;
+        padding-left: 1em;
+        color: #fbbf24;
+        font-style: italic;
+      }
+      .success {
+        color: #22d3ee;
+      }
+      .fail {
+        color: #f87171;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <div class="card">
+        <h1>Sovereign Lab Day 1: Breaking the Concrete and Laying the Foundation</h1>
+        <div class="meta">By: Eric | March 9, 2024 | #Proxmox #HomeLab #CCNA #Networking #LearningInPublic</div>
+        <p>They say that at 40, you should probably be looking for hobbies that are "relaxing." Instead, I decided to spend eight hours in the middle of a night shift building a sovereign infrastructure from the bare metal up.</p>
+        <p>Welcome to <strong>Day 1 of the Sovereign Lab</strong>.</p>
+        <p>This isn't just a home lab; it's a dedicated environment designed for CCNA mastery, total data sovereignty, and—eventually—enterprise-grade visibility. Here is exactly how the first marathon session went down.</p>
+        <h2>🏗️ The Vision: Why "Sovereign"?</h2>
+        <p>Most home labs are built on "best effort" networking. You plug a server into your ISP router, get a DHCP address, and hope for the best. I wanted something different. I wanted a "Glass Box"—a lab that is architecturally isolated from my home life but visible to the world.</p>
+        <p>The goal for Day 1 was simple but daunting: Get Proxmox running, establish a tiered storage system, and spin up the first two pillars of the network.</p>
+        <h2>🛠️ Phase 1: The Bare Metal & Proxmox Install</h2>
+        <p>The heart of the lab is a dedicated physical server. I started by installing <strong>Proxmox VE</strong>. If you've never used it, Proxmox is a Type-1 Hypervisor based on Debian. It’s the "Gold Standard" for open-source virtualization.</p>
+        <h3>The First "Fix": The No-Subscription Nag</h3>
+        <p>One of the first things any Proxmox user does is swap the enterprise repository for the "no-subscription" version so you can actually update the system.</p>
+        <pre># Remove the enterprise list
+rm /etc/apt/sources.list.d/pve-enterprise.list
+
+# Add the no-subscription repository
+echo "deb http://download.proxmox.com/debian/pve bookworm pve-no-subscription" > /etc/apt/sources.list.d/pve-install-repo.list
+
+# Update the system
+apt update && apt upgrade -y</pre>
+        <h2>💾 Phase 2: Tiered Storage (The SSD/HDD Split)</h2>
+        <p>I didn't want a "flat" storage pool. I wanted performance where it counts and mass storage where it lasts.</p>
+        <ul>
+          <li><strong>Tier 1 (Performance):</strong> A high-speed SSD for the Proxmox OS and active VM disks.</li>
+          <li><strong>Tier 2 (The Vault):</strong> A physical 2TB HDD dedicated strictly to snapshots and backups.</li>
+        </ul>
+        <p>I physically mounted the "Vault" drive and mapped it to <code>/mnt/pve/Vault_Backups</code>. This ensures that even if I destroy a VM during a CCNA lab, I can restore it in seconds from a local physical disk.</p>
+        <h2>🌐 Phase 3: The Virtual Bridge & The Tailscale Pivot</h2>
+        <p>Networking is where the "House of Cards" usually starts to wobble.</p>
+        <h3>The Linux Bridge</h3>
+        <p>I configured <code>vmbr0</code> to act as the primary bridge, linking my physical NIC to my virtual world. I also began the logical mapping of my VLANs:</p>
+        <ul>
+          <li><strong>VLAN 10:</strong> Management Plane (The "Adults" table).</li>
+          <li><strong>VLAN 20:</strong> Sandbox (Where I break things).</li>
+        </ul>
+        <h3>The Tailscale Pivot (A Major Success)</h3>
+        <p>I initially tried managing the lab via standard Windows networking, but it was clunky. I pivoted and installed <strong>Tailscale</strong> directly on the Proxmox host. This was a game-changer.</p>
+        <pre># Installing Tailscale on the Proxmox Host
+curl -fsSL https://tailscale.com/install.sh | sh
+tailscale up</pre>
+        <p>Suddenly, I had a secure, encrypted tunnel into my datacenter that worked from my laptop (Tiamat) and my workstation (Bahamut) regardless of where I was sitting.</p>
+        <h2>💻 Phase 4: The First Inhabitants (LXC 100 & VM 101)</h2>
+        <p>By hour six, it was time to breathe life into the machines.</p>
+        <ol>
+          <li><strong>LXC 100 (The Core-Router):</strong> A lightweight Linux Container. This is the brain of the lab's network. I installed <strong>FRRouting (FRR)</strong> here, preparing it for the Cisco-style configuration to come.</li>
+          <li><strong>VM 101 (Sovereign-Ops):</strong> My Ubuntu Server management cockpit. This is where my scripts, Git repos, and orchestration tools live.</li>
+        </ol>
+        <h2>❌ Failures & Lessons Learned (The "Learning in Public" Part)</h2>
+        <h3 class="fail">Failure 1: The Case-Sensitivity Trap</h3>
+        <p>I spent nearly an hour debugging a "Drive Not Found" error. I was looking for <code>/mnt/pve/vault_backups</code>. The drive was mounted at <code>/mnt/pve/Vault_Backups</code>.</p>
+        <blockquote>Lesson: Linux is a strict teacher. In Windows, we get lazy with case sensitivity. In Proxmox, "V" and "v" are different universes.</blockquote>
+        <h3 class="fail">Failure 2: The Relative Path Mistake</h3>
+        <p>I tried to run my first backup script using relative paths. When the script ran, it couldn't find the rsync binary because the environment didn't have my $PATH.</p>
+        <blockquote>Lesson: Automation has no "sense of place." Always use absolute paths (e.g., /usr/bin/rsync) in scripts.</blockquote>
+        <h2 class="success">✅ Day 1 Successes</h2>
+        <ul>
+          <li><strong>Physical to Logical:</strong> Successfully transformed a pile of hardware into a functional virtual datacenter.</li>
+          <li><strong>Tiered Backups:</strong> Verified that I could snap a VM from the SSD to the HDD Vault in under 60 seconds.</li>
+          <li><strong>Remote Dev Access:</strong> Established password-less SSH keys on the Ops VM.</li>
+        </ul>
+        <pre># Generating the identity for the Ops VM
+ssh-keygen -t ed25519 -C "eric-sovereign-ops"</pre>
+        <h2>🏁 Conclusion</h2>
+        <p>As the night shift ended, I looked at a dashboard with two green icons and a secure Tailscale tunnel. Day 1 was a success not because everything went perfectly, but because every failure taught me something about the architecture I'm building.</p>
+        <p>The foundation is poured. The "House of Cards" has its first steel beams.</p>
+        <p><em>Stay tuned for Day 2, where we tackle persistent Cisco-grade routing and the battle against the "Ghost IP."</em></p>
+      </div>
+    </div>
+  </body>
+</html>
