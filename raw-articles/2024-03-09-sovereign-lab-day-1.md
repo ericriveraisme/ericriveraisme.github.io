@@ -1,6 +1,6 @@
 # **Sovereign Lab Day 1: Breaking the Concrete and Laying the Foundation**
 
-**By: Eric** | *March 9, 2024* | #Proxmox #HomeLab #CCNA #Networking #LearningInPublic
+**By: Eric** | *March 9, 2026* | #Proxmox #HomeLab #CCNA #Networking #LearningInPublic
 
 They say that at 40, you should probably be looking for hobbies that are "relaxing." Instead, I decided to spend eight hours in the middle of a night shift building a sovereign infrastructure from the bare metal up.
 
