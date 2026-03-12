@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Article Preview - Sovereign Lab Day 2</title>
+    <style>
+      :root {
+        color-scheme: dark;
+      }
+      body {
+        margin: 0;
+        font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+        background: #0f172a;
+        color: #e2e8f0;
+        line-height: 1.65;
+      }
+      .wrap {
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 40px 24px 80px;
+      }
+      .card {
+        background: rgba(15, 23, 42, 0.7);
+        border: 1px solid rgba(148, 163, 184, 0.25);
+        border-radius: 14px;
+        padding: 28px;
+        backdrop-filter: blur(6px);
+      }
+      h1 {
+        margin: 0 0 12px;
+        font-size: clamp(1.8rem, 4vw, 2.6rem);
+        line-height: 1.2;
+      }
+      .meta {
+        color: #94a3b8;
+        font-size: 1rem;
+        margin-bottom: 18px;
+      }
+      h1 {
+        margin: 0 0 12px;
+        font-size: clamp(1.8rem, 4vw, 2.6rem);
+        line-height: 1.2;
+        color: #22d3ee; /* cyan-400 */
+      }
+      h2 {
+        color: #fbbf24; /* gold-400 */
+        margin-top: 2.2em;
+        margin-bottom: 0.7em;
+      }
+      .h2-purple {
+        color: #a78bfa !important; /* purple-400 */
+      }
+      .h2-red {
+        color: #ef4444 !important; /* red-500 */
+      }
+      .h2-blue {
+        color: #38bdf8 !important; /* sky-400 */
+      }
+      h3 {
+        color: #22c55e; /* green-400 */
+        margin-top: 2.2em;
+        margin-bottom: 0.7em;
+      }
+      h4 {
+        color: #ec4899; /* pink-500 */
+        margin-top: 2.2em;
+        margin-bottom: 0.7em;
+      }
+      h5 {
+        color: #a78bfa; /* purple-400 */
+        margin-top: 2.2em;
+        margin-bottom: 0.7em;
+      }
+      h6 {
+        color: #ef4444; /* red-500 */
+        margin-top: 2.2em;
+        margin-bottom: 0.7em;
+      }
+      pre, code {
+        background: #1e293b;
+        color: #f1f5f9;
+        border-radius: 6px;
+        padding: 0.2em 0.5em;
+        font-size: 1em;
+      }
+      pre {
+        padding: 1em;
+        overflow-x: auto;
+      }
+      ul, ol {
+        margin-left: 1.5em;
+      }
+      blockquote {
+        border-left: 3px solid #fbbf24;
+        margin: 1.5em 0;
+        padding-left: 1em;
+        color: #fbbf24;
+        font-style: italic;
+      }
+      .success {
+        color: #22d3ee;
+      }
+      .fail {
+        color: #f87171;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <div class="card">
+        <h1>Sovereign Lab Day 2: Evicting Ghosts and Hardening the Fortress</h1>
+        <div class="meta">By: Eric | March 11, 2026 | #Proxmox #Networking #CCNA #LearningInPublic #HomeLab</div>
+        <p>If Day 1 was about the adrenaline of "seeing the lights come on," Day 2 was the sobering reality of maintenance.</p>
+        <p>I went to bed at the end of Day 1 with a working lab, but I woke up with a "House of Cards." If I rebooted my server, the network fell apart. If I wasn't sitting at my desk to manually type commands, the lab stayed dark. At 40, I’m learning that "working" isn't enough—it has to be <strong>persistent</strong>.</p>
+        <p>Here is how I spent Day 2 hardening the Sovereign Lab, battling a "Ghost IP," and finally getting my infrastructure to talk back to me.</p>
+        <h2>🏗️ The "House of Cards" Problem</h2>
+        <p>When I started Day 2, my Core-Router (the brain of the lab) was held together by manual Linux commands. Every time the container restarted, Proxmox would inject a "Ghost IP" (.232) into my interface, clashing with the identity I wanted (.235).</p>
+        <p>I was a "manual operator," not an architect. To fix this, I had to pivot to enterprise-grade tools.</p>
+        <h2>🛣️ The Cisco Pivot: Entering the World of FRR</h2>
+        <p>Since I am studying for my <strong>CCNA</strong>, I decided to stop using basic Linux networking hacks and start using <strong>FRRouting (FRR)</strong>.</p>
+        <p><em>For the non-networkers:</em> Imagine your router is a busy intersection. Basic Linux commands are like a guy standing in the middle waving his arms. <strong>FRR</strong> is like installing a fully automated, synchronized traffic light system. It uses a CLI (Command Line Interface) called vtysh that is a near-perfect clone of Cisco’s industrial standards.</p>
+        <h3>The "Golden Config"</h3>
+        <p>Instead of messy scripts, I "burned" a configuration into the router's memory. Now, my routing table isn't a guess—it’s a set of rules.</p>
+        <pre>! My Cisco-style Router Config
+interface eth0
+ description WAN-Link-to-Home-Router
+ ip address 192.168.0.235/24
+!
+interface eth1.10
+ description Management-VLAN-10
+ ip address 10.0.10.1/24
+!
+ip route 0.0.0.0/0 192.168.0.1</pre>
+        <h2 class="h2-purple">👻 Exorcising the Ghost IP</h2>
+        <p>Even with FRR, the Proxmox host kept trying to force that .232 IP onto my router. It was a classic "Source of Truth" conflict.</p>
+        <blockquote>The Lesson: Sometimes, you can't just ask a service to stop; you have to "evict" the problem. I wrote a startup script that runs the moment the router wakes up. It waits two seconds, deletes the "Ghost" IP, and restarts the routing service.</blockquote>
+        <h3>The Fix (<code>/usr/local/bin/evict-ghost-ip.sh</code>):</h3>
+        <pre>#!/bin/bash
+# 1. Wait for the ghost to appear
+sleep 2
+# 2. Evict the squatter
+ip addr del 192.168.0.232/24 dev eth0 2>/dev/null
+# 3. Hand the keys to the professional (FRR)
+systemctl restart frr</pre>
+        <h2 class="h2-red">📮 The "Silent Sentry": Solving the SMTP Gauntlet</h2>
+        <p>I wanted my lab to email me backup reports. This sounds simple, but it was the "Final Boss" of Day 2. I was fighting <strong>Postfix</strong> (a mail server) and Google’s security layers.</p>
+        <h3>My Biggest "Rookie" Mistake</h3>
+        <p>I spent hours staring at error logs that said 535 5.7.8 Authentication Failed. I checked my passwords, my encryption, and my firewall.</p>
+        <blockquote>The Moment of Humility: I realized I had left a placeholder email (your-email@gmail.com) in my configuration file instead of my actual address. I had built a high-tech rocket ship but forgot to tell it who the pilot was.</blockquote>
+        <p>The Lesson: At the end of a long shift, always check your placeholders. As soon as I updated the email and forced the mail server to use <strong>IPv4</strong> (to avoid residential ISP blocks), the logs turned green.</p>
+        <h2>🛡️ Tier 3 Redundancy: Making it Native</h2>
+        <p>Finally, I moved away from brittle backup scripts. I used Proxmox’s native <strong>CIFS (SMB)</strong> integration to "mount" my workstation's 14TB external drive directly into the datacenter.</p>
+        <p>Now, the Proxmox GUI handles the backups. At 3:00 AM, it snaps my VMs and sends them across the mesh network (Tailscale) to my physical P: drive. No scripts, no manual labor—just enterprise orchestration.</p>
+        <h2>🏆 Current Standing: Where we are now</h2>
+        <ol>
+          <li><strong>Persistent Routing:</strong> The lab survives reboots. The "Ghost" is evicted automatically.</li>
+          <li><strong>Automated Governance:</strong> I get an email every morning confirming my data is safe.</li>
+          <li><strong>Global Command:</strong> I can power the entire lab up or down with a single command (<code>lab_up</code> / <code>lab_down</code>) from the Proxmox shell.</li>
+        </ol>
+        <h2 class="h2-blue">📅 What’s Next?</h2>
+        <p>The infrastructure is stable. The "Concrete" is dry.</p>
+        <ul>
+          <li><strong>Next Stop:</strong> Moving from "Black Box" to "Glass Box." I’ll be initializing <strong>GitHub</strong> to version-control all these configs and starting to document the architecture for my portfolio.</li>
+        </ul>
+        <p>It’s been a long 48 hours, but the fortress is standing. If you're learning in public like me, remember: the mistakes aren't failures—they’re just the "eviction scripts" for your own ignorance.</p>
+        <p><em>Onward to the CCNA!</em></p>
+
+      </div>
+    </div>
+  </body>
+</html>
