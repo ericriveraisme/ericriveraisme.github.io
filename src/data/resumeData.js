@@ -18,12 +18,13 @@ export const resumeData = {
 
   // Hero/Featured Section
   featured: {
-    title: "NetDevOps Complete",
+    title: "Sovereign Lab: Network Automation Framework",
     emoji: "🔮",
-    description: "The ultimate grimoire for network automation. A comprehensive framework orchestrating the network infrastructure, one packet at a time.",
-    skills: ["Python", "Ansible", "Docker", "CI/CD"],
+    description: "The ultimate grimoire for the public documentation of my home lab with a focus on infrastructure as code (IaC), network automation, and hybrid identity. This project serves as a living portfolio of my hands-on experience and technical expertise in IT systems administration.",
+    skills: ["Proxmox", "Bash", "LXC", "CI/CD"],
     ctaText: "Enter The Portal",
-    ctaLink: "https://github.com/ericriveraisme/netdevops-complete"
+    ctaLink: "https://github.com/ericriveraisme/sovereign-lab-docs"
+
   },
 
   // Character Sheet / About Section
