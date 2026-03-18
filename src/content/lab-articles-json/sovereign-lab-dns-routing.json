@@ -1,0 +1,182 @@
+{
+  "title": "The DNS Handshake & The Ghost in the Machine: Hardening the Sovereign Lab",
+  "slug": "sovereign-lab-dns-routing",
+  "publishedAt": "2026-03-14",
+  "author": "Eric Rivera",
+  "summary": "Debugging internal DNS routing in a sovereign home lab: solving the Ghost IP problem, understanding VLAN traversal, and building automation to prevent configuration drift.",
+  "tags": ["DNS", "Routing", "SovereignLab", "CCNA", "FRR", "Networking", "LearningInPublic", "Sysadmin"],
+  "content": [
+    {
+      "type": "paragraph",
+      "text": "After 12 years in the Help Desk trenches, you'd think I'd be used to things just... breaking. But when you're building your own Sovereign Data Center on your desk during an overnight shift, every \"Connection Timed Out\" feels personal."
+    },
+    {
+      "type": "paragraph",
+      "text": "I've been reading Practical Linux System Administration lately, and one idea from Chapter 1 keeps echoing in my head: the \"Sysadmin Mindset\" isn't just about fixing things — it's about understanding why they break, documenting the fix, and building a system so the problem never happens again. That's the lens I'm trying to apply to everything in this lab now."
+    },
+    {
+      "type": "paragraph",
+      "text": "Today, I hit a wall with my internal DNS routing that dragged me all the way back to CCNA theory. I'm sharing how I worked through it — with AI as a thinking partner and a lot of stubborn persistence — because I think the debugging process is where the real learning happens."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "🏗️ The Architecture: Why Not Just \"Plug and Play\"?"
+    },
+    {
+      "type": "paragraph",
+      "text": "My lab runs on a single Proxmox node using a \"Router-on-a-Stick\" topology. At the heart of it is core-router (LXC 100) — a lightweight container running FRRouting (FRR) that acts as the primary Layer 3 gateway for everything inside the lab."
+    },
+    {
+      "type": "list",
+      "items": [
+        "Management VLAN 10: 10.0.10.0/24 — the backbone where all core services live",
+        "DNS Server (Technitium): 10.0.10.53 — the lab's internal \"Source of Truth\"",
+        "Proxmox Host: 192.168.0.232 — sitting on the physical home network, outside the lab's VLAN"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Why: Most home labs just let the ISP router handle DNS and routing. It works, but you never learn what's actually happening underneath. I chose to isolate everything behind FRR so I'd be forced to handle NAT, masquerading, and Layer 3 transitions by hand. It's the difference between driving an automatic and building the transmission from scratch."
+    },
+    {
+      "type": "paragraph",
+      "text": "The DNS side is intentional too. I'm running Technitium as a dedicated authoritative resolver with Cloudflare (1.1.1.1) as the upstream forwarder over DNS-over-TLS. No inherited ISP configurations. I wanted a DNS server that I own, that I configured, and that I can point every machine in the lab toward. It resolves dns.sovereign.lab, monitor.sovereign.lab, ops.sovereign.lab — all records I defined. That's why I call it the \"Source of Truth.\""
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "👻 The Problem: The Ghost IP"
+    },
+    {
+      "type": "paragraph",
+      "text": "The first hurdle was a \"squatter\" IP. My Core-Router's WAN interface (eth0) kept pulling 192.168.0.232 via DHCP alongside its static .235. Two IPs, one interface, and the kernel didn't know which one to use for the default gateway. The result: internet access across the entire lab dropped."
+    },
+    {
+      "type": "paragraph",
+      "text": "This was the kind of problem that, in a help desk mindset, you'd fix manually and move on. Run ip addr del, confirm it's gone, keep working. But it kept coming back on every reboot. And in a lab where I'm trying to practice \"Persistence First\" engineering — meaning every configuration survives a hard reboot — a manual fix is a failure."
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "The Solution"
+    },
+    {
+      "type": "paragraph",
+      "text": "I wrote an eviction script and wired it into @reboot via crontab, so the ghost gets exorcised before the first packet ever moves."
+    },
+    {
+      "type": "paragraph",
+      "text": "There's a line I keep coming back to from Chapter 1 of that book: \"Laziness is a virtue.\" Not the kind where you skip the work — the kind where you spend two hours automating a five-minute task because you know your future self will forget. That's what this script is. It's five lines of bash that mean I never have to think about this problem again."
+    },
+    {
+      "type": "code",
+      "language": "bash",
+      "caption": "Ghost IP eviction script",
+      "code": "#!/bin/bash\n# Evict the Ghost IP to restore WAN routing\nTARGET_IP=\"192.168.0.232/24\"\nINTERFACE=\"eth0\"\n\nif ip addr show $INTERFACE | grep -q $TARGET_IP; then\n    ip addr del $TARGET_IP dev $INTERFACE\n    echo \"Ghost IP evicted.\"\nfi"
+    },
+    {
+      "type": "paragraph",
+      "text": "I also wrote a formal runbook for this in my documentation. It sounds like overkill for a home lab — but the discipline of documenting the what, why, and how for every fix is what separates reactive troubleshooting from building real operational knowledge."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "🗺️ The Routing Trap: Bridging the Gap"
+    },
+    {
+      "type": "paragraph",
+      "text": "The second issue was more subtle, and honestly, it's the one that taught me the most."
+    },
+    {
+      "type": "paragraph",
+      "text": "My Proxmox Host could ping the Gateway (10.0.10.1), but it couldn't talk to the DNS server at 10.0.10.53. I stared at this for a while. The gateway was right there. How could it see the door but not walk through it?"
+    },
+    {
+      "type": "paragraph",
+      "text": "The answer is a classic Layer 3 logic puzzle, and it clicked when I mapped it out: the Proxmox Host lives on 192.168.0.x — the physical home network. The lab lives on 10.0.10.x — a completely different subnet behind the Core-Router. The host has no inherent way to know that 10.0.10.x exists unless I explicitly tell it: \"If you want to reach the lab, hand your packets to the router's WAN IP.\""
+    },
+    {
+      "type": "paragraph",
+      "text": "This wasn't the only DNS-adjacent rabbit hole, either. Earlier in the build, I had Technitium configured with a Conditional Forwarder for Tailscale's MagicDNS domain (tail54e211.ts.net), which was silently causing DnsClientNoResponseException timeouts across the board. Removing that forwarder cleared the noise so I could actually see the routing problem underneath. Lessons like that are why I'm learning to test one layer at a time."
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "The Fix"
+    },
+    {
+      "type": "paragraph",
+      "text": "A persistent static route in /etc/network/interfaces:"
+    },
+    {
+      "type": "code",
+      "language": "bash",
+      "caption": "Static route in /etc/network/interfaces",
+      "code": "# Added to /etc/network/interfaces under vmbr0\n# Tells the host: \"If you want to reach the Lab, go to the Router's WAN side\"\npost-up ip route add 10.0.10.0/24 via 192.168.0.235"
+    },
+    {
+      "type": "paragraph",
+      "text": "The post-up directive is key — it means this route gets applied every time the interface comes up, surviving every reboot. No manual intervention required. Persistence First."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "🎯 The Result: Authority Secured"
+    },
+    {
+      "type": "paragraph",
+      "text": "After a cold boot test — the ultimate \"Chaos Test\" — the infrastructure held. I ran the golden test from the host shell:"
+    },
+    {
+      "type": "code",
+      "language": "bash",
+      "caption": "Verify DNS resolution to Technitium",
+      "code": "nslookup dns.sovereign.lab 10.0.10.53"
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "The Output"
+    },
+    {
+      "type": "code",
+      "language": "bash",
+      "caption": "Successful DNS resolution",
+      "code": "Server:  10.0.10.53\nAddress: 10.0.10.53#53\n\nName:    dns.sovereign.lab\nAddress: 10.0.10.53"
+    },
+    {
+      "type": "paragraph",
+      "text": "That response means Technitium is answering authoritatively for the sovereign.lab zone. It's not forwarding, it's not guessing — it's resolving from records I defined. And because the architecture survived a full power cycle, I know it's not held together by luck or a warm cache."
+    },
+    {
+      "type": "paragraph",
+      "text": "Since this fix, the same DNS infrastructure has been extended to the rest of the lab. Netdata telemetry resolves at monitor.sovereign.lab, the management cockpit at ops.sovereign.lab, and reverse PTR records point back cleanly. One fix, and the whole naming layer clicked into place."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "💡 The Takeaway"
+    },
+    {
+      "type": "paragraph",
+      "text": "I'll be honest — I didn't figure all of this out alone. I used AI as a thinking partner and a research partner throughout this process. When I was stuck on the routing logic, I talked it through with Copilot the same way I'd talk it through with a senior engineer. It didn't build the lab for me, but it helped me ask better questions and verify my understanding. I think being transparent about that matters, especially when you're learning in public."
+    },
+    {
+      "type": "paragraph",
+      "text": "Coming from 12 years in help desk, the instinct is to find the \"Reboot\" button and move on. But in the Sovereign Lab, I'm learning to be the one who defines why the reboot works. I'm moving away from being a \"user of systems\" toward being an \"architect of systems\" — someone who documents the intent in Obsidian, versions the config in Git, and builds automation that protects against my own future mistakes."
+    },
+    {
+      "type": "paragraph",
+      "text": "The book I'm reading puts it well: a good sysadmin doesn't just fix problems — a good sysadmin builds systems where the problem can never happen again. I'm not there yet. But every script, every runbook, and every article like this one gets me a little closer."
+    },
+    {
+      "type": "paragraph",
+      "text": "If you're learning in public like me, don't be afraid to break your routing table. That's where the real lessons are hiding."
+    },
+    {
+      "type": "paragraph",
+      "text": "Next Up: Deploying Pulse for AI-driven monitoring. See you in the terminal."
+    }
+  ]
+}
