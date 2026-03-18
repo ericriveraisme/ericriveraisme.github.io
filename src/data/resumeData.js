@@ -21,7 +21,7 @@ export const resumeData = {
     title: "Sovereign Lab: Network Automation Framework",
     emoji: "🔮",
     description: "The ultimate grimoire for the public documentation of my home lab with a focus on infrastructure as code (IaC), network automation, and hybrid identity. This project serves as a living portfolio of my hands-on experience and technical expertise in IT systems administration.",
-    skills: ["Proxmox", "Bash", "LXC", "CI/CD"],
+    skills: ["Proxmox", "Bash", "LXC", "CI/CD", "AI", "Ansible", "Python", "Git"],
     ctaText: "Enter The Portal",
     ctaLink: "https://github.com/ericriveraisme/sovereign-lab-docs"
 
