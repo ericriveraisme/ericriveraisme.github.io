@@ -1,0 +1,160 @@
+{
+  "title": "Breaking the Glass: Why I Left Windows Behind and Went Full Linux",
+  "slug": "breaking-the-glass-why-i-left-windows-behind",
+  "publishedAt": "2026-03-19",
+  "author": "Eric Rivera",
+  "summary": "The moment WSL stopped being enough — migrating from Windows to native Ubuntu, rebuilding workflows from scratch, and learning Linux by immersion instead of translation.",
+  "tags": ["Linux", "Migration", "SovereignLab", "WSL", "SSH", "Sysadmin", "LearningInPublic", "AI"],
+  "content": [
+    {
+      "type": "paragraph",
+      "text": "There's a moment in every tech career where you realize the training wheels aren't helping anymore — they're holding you back. For me, that moment came a few days ago when I closed the lid on Windows for the last time and booted into a fresh Ubuntu install on a machine I now call Leviathan."
+    },
+    {
+      "type": "paragraph",
+      "text": "This isn't a \"Linux vs. Windows\" hot take. I've spent a long time on help desks where Windows paid the bills, and I have nothing but respect for the platform. But when nearly your entire lab stack — Proxmox, LXC containers, FRRouting, Technitium, Bash scripts, cron jobs — speaks Linux, managing it all through a translation layer starts to feel like ordering food in a country where you only know how to ask, \"Where's the bathroom?\" OS-bano por favor? You can survive, but you'll never be fluent."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "🪟 The WSL Chapter"
+    },
+    {
+      "type": "paragraph",
+      "text": "For most of the Sovereign Lab's life, I managed everything from WSL on a Windows box I called Tiamat. And honestly? WSL is... okay. It let me SSH into my nodes, run Bash scripts, and push configs to GitHub without ever leaving the comfort of a Windows desktop. For a long time, that was enough."
+    },
+    {
+      "type": "paragraph",
+      "text": "But \"enough\" has a shelf life."
+    },
+    {
+      "type": "paragraph",
+      "text": "The cracks showed up in small ways at first — path translation headaches between /mnt/c/ and the real filesystem, subtle differences in how networking behaved behind the WSL abstraction. But the moment that really broke me was SSH keys."
+    },
+    {
+      "type": "paragraph",
+      "text": "I was setting up key-based authentication and kept running into failures I couldn't explain. The keys existed. The permissions looked right. The commands were correct. What I didn't fully grasp at the time was that Windows and WSL maintain completely separate filesystems. Your Windows keys live in C:\\Users\\<you>\\.ssh\\. Your WSL keys live in /home/<you>/.ssh/. They are not the same directory. They are not linked. They don't know about each other."
+    },
+    {
+      "type": "paragraph",
+      "text": "So when I generated a key in WSL and tried to reference it from a Windows-side tool — or vice versa — nothing worked. And the error messages didn't say \"wrong filesystem.\" They said \"Permission denied\" or \"No such file.\" I spent more time troubleshooting the translation between operating systems than I spent troubleshooting the actual SSH configuration. That's the part that finally got to me: this entire category of problem doesn't exist in a real production environment. No sysadmin managing a fleet of Linux servers is fighting with /mnt/c/ path resolution. I was debugging my tooling instead of debugging my infrastructure, and that's a sign that the tooling needs to change."
+    },
+    {
+      "type": "paragraph",
+      "text": "The book I've been working through — Practical Linux System Administration — talks about the \"Sysadmin Mindset.\" Part of that mindset is tool parity: your management environment should mirror the systems you manage. If the entire lab runs on Linux, the workstation should too. Not because Windows can't do the job, but because removing the translation layer means every lesson hits closer to the metal. Every problem you solve is a real Linux problem, not a WSL-specific edge case you'll never see again."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "🔑 The Migration: More Than an OS Swap"
+    },
+    {
+      "type": "paragraph",
+      "text": "Migrating to Leviathan wasn't just reformatting a drive. It was a chance to rebuild my workflow from scratch with intention."
+    },
+    {
+      "type": "paragraph",
+      "text": "Identity first. The first thing I did on the fresh install was generate an Ed25519 keypair. No more passwords bouncing around the network. I distributed the public key to sovereign-ops, the Proxmox host, and the Core-Router. Now, accessing any node in the lab is a simple ssh ops — no passwords, no friction, no excuses for not checking on things."
+    },
+    {
+      "type": "paragraph",
+      "text": "SSH config as a map. I set up ~/.ssh/config so every machine in the mesh has a human-readable alias. It sounds trivial, but when you're half-asleep on an overnight shift and need to jump into a router, the difference between ssh ops and ssh user@10.0.10.x -i ~/.ssh/id_ed25519 is the difference between confidence and typos."
+    },
+    {
+      "type": "paragraph",
+      "text": "Tailscale as the backbone. Leviathan joined the mesh immediately. With Tailscale handling the overlay network, I can manage the lab from anywhere — home, a coffee shop, or (more realistically) the help desk at 3:00 AM when I should be sleeping."
+    },
+    {
+      "type": "paragraph",
+      "text": "None of this was revolutionary on its own. But doing it on bare metal, without WSL acting as the middleman, made every step feel like I was actually building something instead of borrowing something."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "🧠 The Real Reason: Learning by Immersion"
+    },
+    {
+      "type": "paragraph",
+      "text": "I could write about performance gains and lower latency, but I'd be lying if I said that was the main driver. The real reason I went native is simpler: I want to stop being a tourist in my own infrastructure."
+    },
+    {
+      "type": "paragraph",
+      "text": "When you manage Linux systems from Windows, you can always alt-tab back to safety. There's a comfort net. If Bash gets weird, you open PowerShell. If a config file confuses you, you drag it into Notepad++. You learn, but you learn with an escape hatch always within reach."
+    },
+    {
+      "type": "paragraph",
+      "text": "On Leviathan, there is no escape hatch. If I break my network config, I fix it from the terminal — the same terminal, using the same tools, on the same OS that my servers run. Every problem I solve here is a problem I can solve on any Linux box I'll ever touch professionally."
+    },
+    {
+      "type": "paragraph",
+      "text": "I'm under no illusion that a few days on Ubuntu makes me a Linux admin. I'm still very much in the \"Google it, try it, break it, fix it\" phase. But there's a difference between reading about swimming and being in the water. This is me getting in the water."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "📚 Fundamentals First, AI Second"
+    },
+    {
+      "type": "paragraph",
+      "text": "I want to be upfront about something: I use AI — specifically GitHub Copilot — throughout this process. It helps me draft documentation, think through Bash logic, and rubber-duck problems when I'm stuck at 3:00 AM with no one to ask. I'm not ashamed of that, and I think pretending otherwise would be dishonest."
+    },
+    {
+      "type": "paragraph",
+      "text": "But here's the thing I keep reminding myself: AI is a force multiplier, not a substitute for fundamentals. If I don't understand what a static route actually does, no amount of AI-generated config will save me when the network breaks in a way the model hasn't seen. That's why I'm working through Practical Linux System Administration chapter by chapter — not skimming it, not asking Copilot to summarize it, but actually reading it and applying the concepts in the lab. The book talks about the \"Gold Master Rule,\" about laziness as a virtue, about building systems that survive your own mistakes. These are the principles I want baked into my instincts, not just my prompt history."
+    },
+    {
+      "type": "paragraph",
+      "text": "AI helps me move faster and document better. The book helps me understand why what I'm building matters. I need both."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "🛠️ From Migration to Operations: SOPs and Scripts"
+    },
+    {
+      "type": "paragraph",
+      "text": "One of the things I'm trying to internalize from that book is that learning isn't something you do before the work — it is the work. Every runbook I write in Obsidian, every config I version in Git, every article like this one — they're all part of the infrastructure. Not the servers-and-cables kind, but the kind that lives between your ears."
+    },
+    {
+      "type": "paragraph",
+      "text": "So after the migration was stable, I didn't stop. I sat down and formalized the operational side of the lab into proper Standard Operating Procedures."
+    },
+    {
+      "type": "paragraph",
+      "text": "The first SOP covers the Automated Git-Based Router Backup pipeline. The backup script on sovereign-ops reaches into the Core-Router via SCP, pulls the active FRR configuration, timestamps it, and pushes it to a GitHub repository — all on a midnight UTC cron schedule. But the part I'm most proud of isn't the happy path. It's the error handling: the script does a pre-flight git fetch and pull to prevent merge conflicts, checks exit codes at every stage, and sends email alerts through Postfix on success, no-change, and failure. If something breaks at 2:00 AM, I get an email telling me exactly what went wrong — not a silent failure I discover three weeks later."
+    },
+    {
+      "type": "paragraph",
+      "text": "That email alerting led to the second SOP: Postfix Gmail SMTP Relay. I configured Postfix on the management VM to authenticate with Google's SMTP servers using an App Password, so the lab can send alerts to my personal inbox. Credential files are locked down with chmod 600 and compiled into hashed database format. It's not enterprise-grade, but it means my automation can talk to me — and that's the difference between a script that runs and a system that reports."
+    },
+    {
+      "type": "paragraph",
+      "text": "Writing these SOPs felt like overkill at first. It's a home lab. I'm the only user. But the discipline of documenting the what, why, and how — including prerequisites, deployment steps, and troubleshooting — is exactly the muscle I need to build. Six-months-from-now Eric is going to forget why he configured Postfix that way, and the SOP is the only thing standing between him and a 2:00 AM disaster."
+    },
+    {
+      "type": "paragraph",
+      "text": "The Sovereign Lab isn't a production environment. Nobody's SLA depends on it. But I'm treating it like one, because the habits you build in the lab are the habits you carry into the field. If I can learn to document, automate, and think in systems here, it'll be second nature when the stakes are real."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "🔭 What's Next"
+    },
+    {
+      "type": "paragraph",
+      "text": "I'm still early in the book, still early in the Linux journey, and still very much figuring things out. The lab has a monitoring stack to build out, more automation to write, and an entire filesystem chapter waiting to humble me."
+    },
+    {
+      "type": "paragraph",
+      "text": "But for the first time, I'm doing all of it from a machine that speaks the same language as the rest of the stack. No translation layer. No asterisk. Just a terminal, a willingness to break things, and the discipline to document how I put them back together."
+    },
+    {
+      "type": "paragraph",
+      "text": "If you're on the fence about making the jump — whether it's from WSL to native, from help desk to engineering, or from following tutorials to building your own systems — I'll say this: the comfort zone is warm, but you can't grow there."
+    },
+    {
+      "type": "paragraph",
+      "text": "See you in the terminal."
+    }
+  ]
+}
