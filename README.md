@@ -1,6 +1,6 @@
 # Eric R. Rivera — Portfolio (FF6 Edition)
 
-Final Fantasy 6-inspired interactive portfolio website showcasing NetDevOps expertise and automation work.
+Final Fantasy 6-inspired interactive portfolio website showcasing my Sovereign Lab Virtual Data Center journey, NetDevOps expertise, and automation work.
 
 **Live Site:** [https://ericriveraisme.github.io](https://ericriveraisme.github.io)
 
@@ -27,7 +27,7 @@ An immersive, retro gaming-inspired portfolio featuring:
   - **Row 1:** Character Sheet (bio) | Active Quests (current projects)
   - **Row 2:** Skills (with level progression bars) | (spacer)
   - **Below:** Adventure Log (full-width work history with achievements)
-  - Featured Project showcase (NetDevOps Complete) above grid
+  - Featured Project showcase (Sovereign Lab: Virtual Data Center Automation Framework) above grid
 
 - **Interactive Controls**
   - Watch Mode toggle (play/pause background music)
