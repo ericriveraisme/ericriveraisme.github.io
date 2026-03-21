@@ -622,11 +622,11 @@ const App = () => {
     .slice(0, 5);
 
   const getArticleSnippet = (content = []) => {
-    const firstParagraph = content[0] || '';
-    if (firstParagraph.length <= 120) {
-      return firstParagraph;
-    }
-    return firstParagraph.slice(0, 120).trim();
+    const first = content[0];
+    if (!first) return '';
+    const text = typeof first === 'string' ? first : (first.text || '');
+    if (text.length <= 120) return text;
+    return text.slice(0, 120).trim();
   };
 
   return (
@@ -730,7 +730,7 @@ const App = () => {
                 
                 <div className="bg-slate-900/60 border border-slate-700/50 p-6 rounded-lg backdrop-blur-sm hover:border-cyan-500/50 transition-colors shadow-lg max-h-96 overflow-y-auto">
                     <h3 className="text-xl text-cyan-200 font-bold border-b border-slate-700 pb-3 mb-4 flex items-center gap-2" style={{ fontFamily: 'Cinzel, serif' }}>
-                        <span>📜</span> Character Sheet
+                        <span>📜</span> About Me
                     </h3>
                     <div className="flex flex-col gap-6">
                         <div className="w-24 h-24 bg-slate-950 border-2 border-slate-600 rounded-lg flex items-center justify-center shrink-0 overflow-hidden">
@@ -758,13 +758,19 @@ const App = () => {
                                     <span className="text-white font-bold" style={{ fontFamily: 'Cinzel, serif' }}>{resumeData.about.guild}</span>
                                 </div>
                             </div>
+                            {resumeData.about.nextMission && (
+                              <div className="mt-4 bg-slate-950/50 p-3 rounded border border-cyan-500/30">
+                                <span className="block text-[10px] text-cyan-500 uppercase font-bold tracking-wider mb-1">Next Mission</span>
+                                <p className="text-slate-300 text-sm leading-relaxed">{resumeData.about.nextMission}</p>
+                              </div>
+                            )}
                         </div>
                     </div>
                 </div>
 
                 <div className="bg-slate-900/60 border border-slate-700/50 p-6 rounded-lg backdrop-blur-sm hover:border-cyan-500/50 transition-colors shadow-lg max-h-96 overflow-y-auto">
                     <h3 className="text-xl text-cyan-200 font-bold border-b border-slate-700 pb-3 mb-4 flex items-center gap-2" style={{ fontFamily: 'Cinzel, serif' }}>
-                        <span>⚔️</span> Active Quests
+                        <span>⚔️</span> Recent Work
                     </h3>
                     <ul className="space-y-4">
                       {activeQuestArticles.map((article, index) => (
@@ -796,7 +802,7 @@ const App = () => {
                             <div key={skill.name}>
                                 <div className="flex justify-between text-xs font-bold text-slate-300 mb-1">
                                     <span>{skill.name}</span>
-                                  <span>{skill.max ? 'MAX' : `LVL ${skill.level}`}</span>
+                                    <span className="text-cyan-400">{skill.qualifier || (skill.max ? 'MAX' : `LVL ${skill.level}`)}</span>
                                 </div>
                                 <div className="h-2 bg-slate-950 rounded-full overflow-hidden">
                                   <div className={`h-full ${skill.color}`} style={{ width: `${skill.max ? 100 : skill.level * 10}%` }}></div>
@@ -810,7 +816,7 @@ const App = () => {
 
             <div className="bg-slate-900/60 border border-slate-700/50 p-6 rounded-lg backdrop-blur-sm hover:border-cyan-500/50 transition-colors shadow-lg mt-8">
                 <h3 className="text-xl text-cyan-200 font-bold border-b border-slate-700 pb-3 mb-6 flex items-center gap-2" style={{ fontFamily: 'Cinzel, serif' }}>
-                    <span>🗺️</span> Adventure Log
+                    <span>🗺️</span> Experience
                 </h3>
                 <div className="space-y-6">
                     {resumeData.experience.map((job, index) => (
@@ -828,6 +834,12 @@ const App = () => {
                             <div className="text-xs text-slate-400 font-mono mb-4 pl-11">
                                 {job.startDate} → {job.endDate}
                             </div>
+
+                            {job.context && (
+                              <p className="text-cyan-300/80 text-xs italic mb-3 pl-11">
+                                {job.context}
+                              </p>
+                            )}
                             
                             <p className="text-slate-300 text-sm leading-relaxed mb-4 pl-11">
                                 {job.description}
