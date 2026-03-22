@@ -2,8 +2,6 @@
 module.exports = {
   content: [
     "./index.html",
-    "./index.jsx",
-    "./FF6PortfolioApp.jsx",
     "./src/**/*.{js,jsx}",
   ],
   theme: {

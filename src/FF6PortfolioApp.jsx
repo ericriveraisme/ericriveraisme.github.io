@@ -1,9 +1,9 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Link, NavLink } from 'react-router-dom';
-import { FF6_CHARACTER_SPRITES, FF6_CHARACTER_SPRITES_BACK } from './assets/sprites/ff6-characters.js';
-import { FF6_ENEMY_SPRITES } from './assets/sprites/ff6-enemies.js';
-import { resumeData } from './src/data/resumeData.js';
-import { labArticles } from './src/data/labArticles.js';
+import { FF6_CHARACTER_SPRITES, FF6_CHARACTER_SPRITES_BACK } from '../assets/sprites/ff6-characters.js';
+import { FF6_ENEMY_SPRITES } from '../assets/sprites/ff6-enemies.js';
+import { resumeData } from './data/resumeData.js';
+import { labArticles } from './data/labArticles.js';
 
 /**
  * FF6 Portfolio App

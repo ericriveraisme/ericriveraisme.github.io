@@ -3,10 +3,10 @@ import { createRoot } from 'react-dom/client';
 import { HashRouter, Navigate, Route, Routes } from 'react-router-dom';
 import { onCLS, onFCP, onINP, onLCP, onTTFB } from 'web-vitals';
 import App from './FF6PortfolioApp.jsx';
-import LabLogsPage from './src/pages/LabLogsPage.jsx';
-import LabArticlePage from './src/pages/LabArticlePage.jsx';
-import './src/tailwind.css';
-import './assets/styles.css';
+import LabLogsPage from './pages/LabLogsPage.jsx';
+import LabArticlePage from './pages/LabArticlePage.jsx';
+import './tailwind.css';
+import '../assets/styles.css';
 
 // Log Web Vitals to console for performance monitoring
 try {

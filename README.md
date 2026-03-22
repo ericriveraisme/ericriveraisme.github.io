@@ -1,203 +1,146 @@
-# Eric R. Rivera — Portfolio (FF6 Edition)
+# Eric R. Rivera Portfolio (FF6 Theme)
 
-Final Fantasy 6-inspired interactive portfolio website showcasing my Sovereign Lab Virtual Data Center journey, NetDevOps expertise, and automation work.
+Interactive, Final Fantasy VI-inspired portfolio site focused on infrastructure, NOC, and automation storytelling.
 
-**Live Site:** [https://ericriveraisme.github.io](https://ericriveraisme.github.io)
+Live site: <https://ericriveraisme.github.io>
 
-## Overview
+## What This Project Is
 
-An immersive, retro gaming-inspired portfolio featuring:
-- **Animated Canvas Background**: FF6 party members (Terra, Locke, Edgar, Celes) walking through a snowy Narshe landscape
-- **RPG-Style UI**: Character sheets, skill bars, quest logs, and adventure timeline
-- **Interactive Elements**: Watch mode toggle with background music
-- **React + Webpack**: Modern build system with hot module replacement
+This is a React + Webpack single-page portfolio that combines:
 
-## Features
+- A canvas-driven FF6 visual style on the home page
+- Resume and project content from source-controlled data modules
+- A Lab Logs publishing area for technical writeups
+- A Decap CMS-compatible content path for JSON-based article publishing
 
-- **Animated Background Scene**
-  - Dark Magitek night sky with parallax mountains (Narshe cityscape)
-  - Four FF6 party members (Terra, Locke, Edgar, Celes) with walking animations
-  - Cactuar enemy sprite bouncing horizontally across the screen
-  - Twinkling city lights with glow effects
-  - Snow drift and wind effects obscuring the city
-  - Snow particle system (150 animated flakes)
-  - Atmospheric fog gradients
+The goal is to present technical experience in a memorable format while keeping maintainability, performance, and deployment reliability high.
 
-- **Portfolio Sections** (2x2 Grid Layout)
-  - **Row 1:** Character Sheet (bio) | Active Quests (current projects)
-  - **Row 2:** Skills (with level progression bars) | (spacer)
-  - **Below:** Adventure Log (full-width work history with achievements)
-  - Featured Project showcase (Sovereign Lab: Virtual Data Center Automation Framework) above grid
+## Current State
 
-- **Interactive Controls**
-  - Watch Mode toggle (play/pause background music)
-  - Smooth transitions and animations
-  - Responsive design for all screen sizes
+Implemented and active:
 
-## Tech Stack
+- Home page FF6 scene and RPG-inspired UI sections
+- HashRouter navigation for GitHub Pages deep-link reliability
+- Lab Logs listing + article detail pages
+- Merged article system (legacy JS modules + JSON CMS articles)
+- New animated Lab Logs header rendered via React canvas
+- Improved Lab Logs summary extraction for mixed content block formats
+- CI workflows for build validation, deployment, and forensic change visibility
 
-- **React 18** - Component-based UI library
-- **Webpack 5** - Modern module bundler with HMR
-- **Tailwind CSS v3** - Local build with PostCSS (migrated from CDN for better performance)
-- **Canvas API** - 2D sprite rendering, animations, and visual effects
-- **Babel** - JavaScript transpilation and JSX support
-- **Web Vitals** - Performance monitoring (CLS, INP, FCP, LCP, TTFB)
-- **PostCSS** - CSS processing with autoprefixer
-- **16-bit SNES Sprites** - Custom pixel art assets (characters and enemies)
-- **GitHub Pages** - Hosting and deployment
+## Recently Completed
 
-## Performance & Quality
+- Replaced the Lab Logs static hero with an animated pixel-art scene
+- Added compile-state interaction in the Lab Logs header (screen state, wizard reaction, speech bubble)
+- Upgraded wizard art direction to a mystical sage style (crimson, purple, gold accents)
+- Improved visual polish: shoulders/arms anatomy, beard/goatee continuity, title glow behavior
+- Centered and refined Lab Logs neon title rendering
+- Fixed snippet extraction in Lab Logs to support typed paragraph blocks and legacy strings
 
-- **Canvas Rendering Optimization** (v1.2.1):
-  - 60fps frame rate limiting to prevent CPU overload on low-end devices
-  - Debounced window resize events (250ms throttle) for efficient dimension updates
-  - Wind effect optimization: fixed 30fps wind timebase
-  - Estimated 10-30% CPU improvement on integrated graphics hardware
-  - All visual effects preserved while improving responsiveness on work laptops
+## Near-Term Roadmap
 
-- **Recent Performance Improvements** (2026-02-13):
-  - Fixed-timestep wind animation to avoid refresh-rate shimmer
-  - Offscreen wind caching for lower CPU/GPU cost
-  - Adaptive quality for low-power devices (fewer layers/particles)
-  - LCP improved from ~9.2s to ~0.21-0.27s after these changes
-- **Deferred:** DPR-aware canvas scaling (1a) caused shimmer/alignment issues and was rolled back
-- **Motion-aware behavior:** Wind and effects may reduce/disable automatically on reduced-motion or lower-power environments for smoother performance
+- Final UX pass for mobile behavior and readability in Lab Logs header animation
+- Optional: remove or gate the Trigger Compile button in production UX if desired
+- Derive Active Quests dynamically from latest Lab Logs entries (reduce manual drift)
+- Continue performance tuning (bundle strategy and selective code-splitting)
+- Expand Lab Logs publishing cadence through CMS workflow
 
-- **Tailwind CSS**: Migrated from CDN to local build with PostCSS for:
-  - Faster load times (only used classes included)
-  - Eliminated unsafe-eval CSP warning
-  - Better tree-shaking of unused utilities
+## Stack
 
-- **Code Quality**:
-  - Comprehensive JSDoc comments for all major functions
-  - Zero npm security vulnerabilities
-  - Web Vitals monitoring for performance metrics
-  - Security headers configured (_headers file for GitHub Pages)
+- React 18
+- React Router 6
+- Webpack 5
+- Tailwind CSS (local PostCSS build)
+- Canvas 2D API
+- Web Vitals
+- Decap CMS tooling (local proxy + admin config switching)
 
-- **Security**:
-- Contact/profile details are intentionally maintained in source-controlled resume data
-  - Verified certifications and credentials
-  - X-Frame-Options, X-Content-Type-Options headers
-  - Referrer-Policy and Permissions-Policy configured
-  - Open Graph meta tags for safe social sharing
+## Key Files and Architecture
 
-## Project Structure
+- `src/index.jsx`: router entrypoint and route wiring
+- `src/FF6PortfolioApp.jsx`: home page shell + primary canvas animation
+- `src/data/resumeData.js`: single source of truth for profile/resume content
+- `src/data/labArticles.js`: merged article dataset used by Lab Logs pages
+- `src/pages/LabLogsPage.jsx`: Lab Logs listing page
+- `src/pages/LabLogsAnimatedHeader.jsx`: production animated Lab Logs header
+- `src/pages/LabArticlePage.jsx`: article detail renderer
+- `src/content/lab-articles/`: legacy JS-authored articles
+- `src/content/lab-articles-json/`: CMS-managed JSON articles
 
-```
-ericriveraisme.github.io/
-├── index.html              # Main entry point
-├── FF6PortfolioApp.jsx     # Main React component
-├── index.jsx               # React entry point
-├── webpack.config.js       # Webpack configuration
-├── package.json            # Dependencies
-├── .babelrc               # Babel configuration
-├── src/
-│   └── data/
-│       ├── resumeData.js    # Core resume/portfolio data (personal, skills, experience)
-│       └── activeQuests.js  # Active Quests data module (status, priority, updatedAt)
-├── assets/
-│   ├── styles.css         # Global styles
-│   ├── profile-photo.jpg  # Character Sheet profile photo
-│   └── sprites/           # 16-bit SNES style sprite assets
-│       ├── ff6-characters.js    # Character sprite definitions
-│       ├── ff6-enemies.js       # Enemy sprite definitions
-│       ├── sprite-preview.html  # Sprite preview page
-│       └── README.md            # Sprite documentation
-├── archive-delta-data/    # Archived versions and old files
-├── docs/                  # Project documentation
-│   ├── README.md         # Documentation index
-│   ├── DEV_SERVER_GUIDE.md
-│   ├── CODE_REVIEW.md
-│   └── [other docs]
-└── dist/                 # Build output (generated, gitignored)
-```
+## Commands
 
-## Local Development
+Prerequisite: Node.js 18+ and npm.
 
-### Prerequisites
-- Node.js 18+ and npm
-
-### Development Server
+Install dependencies:
 
 ```bash
-# Install dependencies
 npm install
-
-# Start development server with hot reload
-npm start
-
-# Server runs on http://localhost:3000
 ```
 
-### Production Build
+Run dev server:
 
 ```bash
+npm start
+```
 
-# Serve locally to test production build
-python -m http.server 8000
+Run dev server on CMS port pairing:
+
+```bash
+npm run cms:local
+```
+
+Build production bundle:
+
+```bash
+npm run build
+```
+
+Validate article content:
+
+```bash
+npm run validate:content
+```
+
+Check CMS admin production readiness:
+
+```bash
+npm run check:admin-prod
+```
+
+Switch CMS config:
+
+```bash
+npm run admin:config:local
+npm run admin:config:prod
 ```
 
 ## Deployment
 
-### GitHub Pages (Automatic)
+Deployment is automated through GitHub Actions.
 
-The repository uses GitHub Actions to automatically build and deploy:
+- Push to `main`/`master`
+- CI runs content validation and build
+- Deploy workflow publishes to `gh-pages`
 
-2. GitHub Actions builds the React app
-3. Deploys to GitHub Pages automatically
+Do not commit `dist/` to `main`; deploy automation handles build artifacts.
 
-**Workflow:** `.github/workflows/deploy.yml`
+## Documentation
 
+Additional project documentation is in `docs/`.
 
-```bash
-# Build the app
-npm run build
+Useful starting points:
 
-# Commit and push dist/ folder
-git add dist/
-git commit -m "Build for production"
-git push
-```
+- `docs/README.md`
+- `docs/PERFORMANCE_NOTES.md`
+- `docs/DEVELOPMENT/PRE_PUSH_CHECKLIST.md`
+- `docs/DEVELOPMENT/FORENSIC_VERSION_CONTROL.md`
 
-## Release Visibility
+## Notes
 
-[![Forensic Visibility](https://github.com/ericriveraisme/ericriveraisme.github.io/actions/workflows/forensic-visibility.yml/badge.svg)](https://github.com/ericriveraisme/ericriveraisme.github.io/actions/workflows/forensic-visibility.yml)
-**Color Palette:**
-- Background: `#02040a` (Dark Magitek Night)
-- Accent: `#06b6d4` (Cyan), `#3b82f6` (Blue)
-- Text: `#e2e8f0` (Slate-200)
-- Mountains: `#000000` (Black silhouette)
-
-**Typography:**
-- Headings: Cinzel (serif, fantasy style)
-- Body: Monospace (8-bit gaming aesthetic)
-
-## Archived Versions
-
-Previous portfolio versions and archived projects are located in `archive-delta-data/` folder:
-- **FF6 React HTML version**: ff6-react.html
-- **Standard Portfolio**: index-standard.html  
-- **Original Portfolio**: index-og.html
-- **Delta Data Defense**: Historical project files
-
-## Browser Support
-
-- Modern browsers (Chrome, Firefox, Safari, Edge)
-- Canvas API required for background animation
-- Web Audio API for background music (optional)
-
-## Performance
-
-- Canvas rendering optimized with `requestAnimationFrame`
-- Snow particles limited to 150 for smooth performance
-- Proper cleanup of event listeners and animation frames
-- See `docs/PERFORMANCE_NOTES.md` for benchmark notes and next-step enhancement roadmap
+- `archive-delta-data/` is historical and treated as read-only archive content.
+- `_headers` contains security headers used for static hosting behavior.
 
 ## Contact
 
-- **GitHub:** [@ericriveraisme](https://github.com/ericriveraisme)
-- **Location:** Paragould, Arkansas
-
----
+- GitHub: <https://github.com/ericriveraisme>
 
 © 2026 Eric R. Rivera

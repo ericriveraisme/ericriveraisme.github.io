@@ -7,6 +7,28 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Documentation
+- Reworked `README.md` for clearer project purpose, architecture, current status, and near-term roadmap
+- Clarified command usage and deployment expectations for contributors and future maintenance
+
+## [1.3.0] - 2026-03-22
+
+### Added
+- Production animated Lab Logs header component: `src/pages/LabLogsAnimatedHeader.jsx`
+- Layered pixel-art Lab Logs scene including background props, CRT monitor, wizard animation, runes, particles, and neon title
+- Compile interaction states in header scene (monitor compile output, wizard expression change, speech bubble)
+- Standalone animation reference/tuning artifact: `assets/lab-logs-animation/animated-preview.html`
+
+### Changed
+- Lab Logs listing hero switched from static image to animated canvas header
+- Wizard art direction iterated to mystical sage profile (crimson/purple/gold styling, improved silhouette, improved arm/shoulder anatomy)
+- Lab Logs title glow treatment centered and constrained to lettering for cleaner neon effect
+- Flask color/glow styling updated to stronger toxic green theme
+
+### Fixed
+- Lab Logs snippet extraction now supports both legacy string arrays and typed paragraph content blocks
+- Multiple visual alignment issues in wizard layering and facial-hair continuity during expression changes
+
 ### Added
 - Adaptive quality for low-power devices (reduced wind layers/sections and snow count)
 - Mobile responsiveness issue documented for follow-up

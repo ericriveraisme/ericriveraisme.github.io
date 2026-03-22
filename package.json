@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "description": "Eric Rivera's FF6-inspired portfolio app",
-  "main": "FF6PortfolioApp.jsx",
+  "main": "src/FF6PortfolioApp.jsx",
   "scripts": {
     "start": "webpack serve --mode development",
     "start:cms": "webpack serve --mode development --port 3003",
