@@ -704,20 +704,31 @@ const LabLogsAnimatedHeader = () => {
   }, []);
 
   return (
-    <div className="relative w-full bg-slate-950">
+    <div
+      className="relative w-full overflow-hidden rounded-xl"
+      style={{
+        paddingBottom: '48%',
+        boxShadow: 'inset 0 0 0 1px rgba(199,157,47,0.18), inset 0 0 60px rgba(0,0,0,0.25), 0 8px 32px rgba(0,0,0,0.5)'
+      }}
+    >
       <canvas
         ref={canvasRef}
         width={1120}
         height={630}
-        className="block w-full h-auto image-rendering-pixelated"
-        style={{ imageRendering: 'pixelated' }}
+        className="absolute top-0 left-0 w-full"
+        style={{ imageRendering: 'pixelated', height: 'auto' }}
+      />
+      <div
+        className="pointer-events-none absolute inset-0"
+        style={{ background: 'radial-gradient(ellipse at center, transparent 55%, rgba(2,4,10,0.55) 100%)' }}
       />
       <button
         type="button"
         onClick={() => triggerCompileRef.current()}
-        className="absolute bottom-3 left-3 md:bottom-5 md:left-5 px-3 py-2 bg-slate-950/80 hover:bg-slate-900 border border-slate-600 rounded text-slate-200 text-[10px] md:text-xs font-bold uppercase tracking-wider transition-colors"
+        className="absolute bottom-2 z-10 -translate-x-1/2 px-2 py-1 bg-slate-950/70 hover:bg-slate-900/90 rounded text-[9px] font-bold uppercase tracking-widest transition-colors"
+        style={{ left: '40.2%', color: '#68d3ee', border: '1px solid #68d3ee55' }}
       >
-        Trigger Compile
+        Compile Me!
       </button>
     </div>
   );

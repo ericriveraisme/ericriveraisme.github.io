@@ -31,14 +31,16 @@ const LabLogsPage = () => {
 
   return (
     <div className="min-h-screen bg-slate-900 text-slate-200 font-mono">
-      <header className="relative w-full">
-        <LabLogsAnimatedHeader />
-        <Link
-          to="/"
-          className="absolute top-3 right-3 md:top-5 md:right-5 px-4 py-2 bg-slate-900/80 hover:bg-slate-800 border border-slate-600 rounded text-slate-200 text-xs font-bold uppercase tracking-wider transition-all hover:scale-105"
-        >
-          Back to Home
-        </Link>
+      <header className="w-full px-3 pt-3 sm:px-6 sm:pt-5">
+        <div className="relative mx-auto w-full max-w-5xl">
+          <LabLogsAnimatedHeader />
+          <Link
+            to="/"
+            className="absolute top-3 right-3 md:top-5 md:right-5 px-3 py-2 bg-slate-900/80 hover:bg-slate-800 border border-slate-600 rounded text-slate-200 text-[10px] sm:text-xs font-bold uppercase tracking-wider transition-all hover:scale-105"
+          >
+            Back to Home
+          </Link>
+        </div>
       </header>
 
       <main className="container mx-auto px-6 pt-6 pb-16">
