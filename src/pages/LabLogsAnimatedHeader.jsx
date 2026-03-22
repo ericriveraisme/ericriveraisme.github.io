@@ -340,7 +340,7 @@ const LabLogsAnimatedHeader = () => {
       px(cx + 3, hatY + 11, 1, 1, C.robePurpleHi);
       px(cx + 4, hatY + 12, 1, 1, C.robePurpleHi);
 
-      const headY = brimY + 4;
+      const headY = brimY + 3;
       px(cx - 12, headY, 24, 14, C.skin);
       px(cx - 12, headY + 8, 24, 6, C.skinSh);
       px(cx - 14, headY + 3, 2, 5, C.skin);
