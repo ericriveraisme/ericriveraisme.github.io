@@ -1,13 +1,21 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { labArticles } from '../data/labArticles.js';
+import LabLogsAnimatedHeader from './LabLogsAnimatedHeader.jsx';
 
 const getSnippet = (content = []) => {
-  const firstParagraph = content[0] || '';
-  if (firstParagraph.length <= 160) {
-    return firstParagraph;
+  const firstParagraph = content.find((block) => {
+    if (typeof block === 'string') {
+      return block.trim().length > 0;
+    }
+    return block?.type === 'paragraph' && typeof block.text === 'string' && block.text.trim().length > 0;
+  });
+
+  const text = typeof firstParagraph === 'string' ? firstParagraph : firstParagraph?.text || '';
+  if (text.length <= 160) {
+    return text;
   }
-  return firstParagraph.slice(0, 160).trim();
+  return text.slice(0, 160).trim();
 };
 
 const LabLogsPage = () => {
@@ -24,11 +32,7 @@ const LabLogsPage = () => {
   return (
     <div className="min-h-screen bg-slate-900 text-slate-200 font-mono">
       <header className="relative w-full">
-        <img
-          src="/assets/lab-logs-animation/lab-logs-static-image.png"
-          alt="Lab Logs header artwork"
-          className="block w-full h-auto"
-        />
+        <LabLogsAnimatedHeader />
         <Link
           to="/"
           className="absolute top-3 right-3 md:top-5 md:right-5 px-4 py-2 bg-slate-900/80 hover:bg-slate-800 border border-slate-600 rounded text-slate-200 text-xs font-bold uppercase tracking-wider transition-all hover:scale-105"
