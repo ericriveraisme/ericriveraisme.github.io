@@ -1,0 +1,153 @@
+{
+  "title": "From NetDevOps Sandbox to Bare Metal: The Pivot That Built the Sovereign Lab",
+  "slug": "netdevops-sandbox-to-bare-metal-pivot",
+  "publishedAt": "2026-03-24",
+  "author": "Eric Rivera",
+  "summary": "I built a fully containerized network observability stack, realized it was teaching me the wrong lessons, and pivoted to bare metal — where the Sovereign Lab was born.",
+  "tags": ["NetDevOps", "Python", "Docker", "SovereignLab", "HomeLab", "LearningInPublic", "NetworkEngineering", "CompTIA"],
+  "content": [
+    {
+      "type": "paragraph",
+      "text": "If you spend enough time looking at IT and Network Engineering portfolios, you start to see a pattern. It's the classic rite of passage project — someone fires up Cisco Packet Tracer or Modeling Labs, copy-pastes some garden-variety OSPF configs into a simulated router, and calls it a day. Sometimes literally the same day. The GitHub repository was created this morning."
+    },
+    {
+      "type": "paragraph",
+      "text": "I didn't want to do that. I wanted to build something modern. I wanted to do \"NetDevOps.\""
+    },
+    {
+      "type": "paragraph",
+      "text": "So I set out to build a fully containerized, automated network observability stack — the kind of project that proves you can handle the intersection of software development and network engineering. What I built was technically impressive. But the real breakthrough wasn't the code. It was the moment I realized the simulation was teaching me the wrong lessons — which ultimately gave birth to the Sovereign Lab."
+    },
+    {
+      "type": "paragraph",
+      "text": "Here's the story of how I built a pristine software sandbox and learned I needed real iron instead."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "🧪 The Proof of Concept: Building the Sandbox"
+    },
+    {
+      "type": "paragraph",
+      "text": "The plan was solid. I was going to use a localized Linux host to run a decoupled stack that handled everything from a definitive Source of Truth to custom API scripting and real-time observability."
+    },
+    {
+      "type": "list",
+      "items": [
+        "The Foundation: Linux and systemd to keep my background processes alive. (Relying on nohup commands is no way to live your life.)",
+        "The Environment: Docker and Docker Compose for containerized, reproducible everything. I wanted a system I could rebuild from scratch, not a fragile house of cards that collapsed if I sneezed near the terminal.",
+        "The Brain: NetBox, acting as my Network Source of Truth (NSoT) — the canonical record for IP addresses and device metadata.",
+        "The Glue: Python 3.12, armed with python-dotenv so I wasn't accidentally pushing hardcoded API tokens to a public GitHub repo. (There may have been a close call. We don't talk about it.)",
+        "The Pretty Colors: InfluxDB for time-series data storage and Grafana to translate raw metrics into real-time dashboards."
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "📚 Making the Network+ Flashcards Real"
+    },
+    {
+      "type": "paragraph",
+      "text": "This project was the exact moment my CompTIA Network+ studies stopped feeling like homework and started feeling like architecture. While I was taking the course, I was building the stack, and piece by piece, the abstract concepts started clicking together."
+    },
+    {
+      "type": "paragraph",
+      "text": "Take NetBox. The Net+ material spends a lot of time on subnetting, CIDR notation, and IPAM. But when I stood up the NetBox container, I couldn't just memorize it — I had to design it. I was carving out subnets, assigning IPs to simulated devices, and defining the boundaries of my network. Suddenly, CIDR notation wasn't a math problem on a flashcard; it was the architectural blueprint of everything I was building."
+    },
+    {
+      "type": "paragraph",
+      "text": "Then came the pollers. I built a custom Python \"Device Manager\" to simulate bringing network devices up and down. While the Net+ course was teaching me about ICMP and network availability, writing the scripts to measure those states gave the theory immediate weight. You don't forget what ICMP does when you've written the code that depends on it."
+    },
+    {
+      "type": "paragraph",
+      "text": "Finally, the database side — InfluxDB and Grafana. Structuring time-series data with the right tags and fields meant understanding what metrics actually mattered. Designing the schemas and dashboards forced me to operationalize concepts like latency, jitter, and performance in real time. I wasn't just reading about network health — I was engineering the system that monitored it."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "🤖 Where the Cracks Started Showing"
+    },
+    {
+      "type": "paragraph",
+      "text": "I'm going to be completely honest: in the early stages, I leaned hard on AI. When you're staring at a blank Python file and an LLM can spit out the API integration in four seconds, the temptation is overwhelming. For a while, I was feeding prompts into an AI and watching it assemble my scripts while I nodded along like I understood what was happening."
+    },
+    {
+      "type": "paragraph",
+      "text": "And it worked. I had a functioning pipeline. My Python scripts were talking to NetBox, metrics were flowing into InfluxDB, and Grafana was lighting up with simulated latency and device health statuses."
+    },
+    {
+      "type": "paragraph",
+      "text": "The problem was the health poller — a Python script that was supposed to automatically cycle simulated devices through up/down states and push the metrics into the pipeline. It wasn't running correctly as an automated process. So I asked the AI to help me fix it."
+    },
+    {
+      "type": "paragraph",
+      "text": "What followed was a loop I didn't recognize at first: the AI would change something, I'd run it, it would break differently, I'd paste the error back, and it would change something else. Each fix introduced a new issue I understood less than the last. I was spending more time troubleshooting errors the AI created than I'd spent building the original script."
+    },
+    {
+      "type": "paragraph",
+      "text": "That's when it hit me. I wasn't learning Python. I wasn't learning networking. I was learning how to manage an AI's mistakes — and I couldn't even do that well, because I didn't have the fundamentals to evaluate whether its suggestions were good."
+    },
+    {
+      "type": "paragraph",
+      "text": "But the deeper realization was simpler: I'm not trying to become a Python developer. I'm trying to become a network engineer. And no amount of AI-assisted scripting inside a sanitized Docker environment was going to teach me what happens when a real routing table breaks at 2:00 AM."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "🔥 The Breaking Point (and the Pivot)"
+    },
+    {
+      "type": "paragraph",
+      "text": "I sat there staring at my beautiful dashboard — simulated 1.5ms latency, green health checks, everything performing perfectly — and realized I had built a very expensive screensaver."
+    },
+    {
+      "type": "paragraph",
+      "text": "The environment was containerized and talked to real APIs, but it was still a completely sanitized simulation. The network wasn't doing anything real. What I had built wasn't that far from the Packet Tracer copy-paste jobs I'd set out to avoid — just wrapped in Docker containers and Grafana dashboards."
+    },
+    {
+      "type": "paragraph",
+      "text": "I didn't want to be someone who knew how to write a good AI prompt inside a carefully controlled bubble. I wanted to understand the physical constraints of memory and storage. I wanted to wrestle with the Linux kernel directly. I wanted to know the actual mechanics of operating a datacenter environment — not simulate them from the comfort of a Docker network."
+    },
+    {
+      "type": "paragraph",
+      "text": "The weird part? Recognizing the limitations of what I'd built was its own kind of validation. You can't identify a gap if you don't understand the space it's supposed to fill. Twelve years of help desk had trained me to patch the surface symptom and close the ticket. This time, I was choosing to go deeper."
+    },
+    {
+      "type": "paragraph",
+      "text": "So I closed the Docker Compose file for the last time, walked into the other room, found an old dusty machine that had been collecting regret in the corner, and decided to do it the hard way."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "🛰️ Moving Forward"
+    },
+    {
+      "type": "paragraph",
+      "text": "The NetDevOps project wasn't a failure — it was a mandatory stepping stone. It proved I could grasp the high-level concepts: telemetry, containers, NSoT, APIs, data normalization, time-series queries. It taught me how to build a system that looks like it works."
+    },
+    {
+      "type": "paragraph",
+      "text": "But acknowledging its limitations gave me the confidence to dive deeper. It gave me the validation I needed to aggressively pursue my CompTIA Network+ certification, knowing I wasn't just memorizing definitions — I was learning the theory behind systems I was actually building."
+    },
+    {
+      "type": "paragraph",
+      "text": "The simulated dashboards are gone. In their place is the Sovereign Lab — real, physical infrastructure running on bare metal, behaving exactly the way real hardware does: unpredictably, occasionally infuriatingly, and always honestly."
+    },
+    {
+      "type": "paragraph",
+      "text": "Instead of watching numbers politely do what I told them to, I'm debugging actual VLAN tags in my core router. I'm tracing why Tailscale suddenly blocked outbound access for new services — a headache that eventually forced me to stand up my own internal DNS server just to restore basic connectivity. I'm reading real routing tables, untangling real DNS failures, and learning what \"fixing a network issue\" actually costs when the network doesn't care about your feelings."
+    },
+    {
+      "type": "paragraph",
+      "text": "Fixing a real routing problem on a physical machine — even if it takes hours of staring at logs at 2:00 AM — feels infinitely better than watching a simulated dashboard turn green on cue."
+    },
+    {
+      "type": "paragraph",
+      "text": "The Docker container was safe. The terminal is real."
+    },
+    {
+      "type": "paragraph",
+      "text": "See you there."
+    }
+  ]
+}
