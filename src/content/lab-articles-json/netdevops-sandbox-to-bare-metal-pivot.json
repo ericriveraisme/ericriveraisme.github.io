@@ -8,6 +8,18 @@
   "content": [
     {
       "type": "paragraph",
+      "text": "This week, I wanted to take a short detour and do something a little reflective. The Sovereign Lab didn't just appear out of nowhere. It came from an earlier version of me trying to build the kind of project I thought a modern infrastructure portfolio was supposed to have."
+    },
+    {
+      "type": "paragraph",
+      "text": "So this is a bit of a nostalgia tour — back to the project that, in a weird way, made the Sovereign Lab possible in the first place. Before the bare metal, before the routing problems, before I started turning old hardware into a proving ground, there was a containerized experiment that taught me a lot and irritated me even more."
+    },
+    {
+      "type": "paragraph",
+      "text": "And if I'm being completely honest, yes — part of this whole journey is about challenging myself and building something substantial enough to make potential employers stop scrolling for a second. But the bigger reason is simpler: I needed to figure out what kind of engineer I was actually trying to become."
+    },
+    {
+      "type": "paragraph",
       "text": "If you spend enough time looking at IT and Network Engineering portfolios, you start to see a pattern. It's the classic rite of passage project — someone fires up Cisco Packet Tracer or Modeling Labs, copy-pastes some garden-variety OSPF configs into a simulated router, and calls it a day. Sometimes literally the same day. The GitHub repository was created this morning."
     },
     {
