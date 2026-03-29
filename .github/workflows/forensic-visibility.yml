@@ -78,7 +78,7 @@ jobs:
           cat forensic/forensic-report.md >> "$GITHUB_STEP_SUMMARY"
 
       - name: Upload forensic report artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: forensic-report
           path: forensic/forensic-report.md
