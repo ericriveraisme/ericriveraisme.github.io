@@ -6,6 +6,7 @@ This folder contains project documentation and reference materials.
 
 - **[../README.md](../README.md)** - Main project documentation with setup and deployment info
 - **[../CHANGELOG.md](../CHANGELOG.md)** - Project version history and changes
+- **[../raw-articles/](../raw-articles/)** - Original longform/source drafts for selected published articles
 - **[PERFORMANCE_NOTES.md](PERFORMANCE_NOTES.md)** - Canvas performance history, benchmarks, and tuning roadmap
 - **[NICE_TO_HAVE.md](NICE_TO_HAVE.md)** - Future enhancement backlog (includes Lab Logs animation rollout plan)
 - **[../.github/copilot-instructions.md](../.github/copilot-instructions.md)** - AI coding-agent project instructions

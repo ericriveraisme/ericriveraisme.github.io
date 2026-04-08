@@ -35,6 +35,9 @@ Implemented and active:
 - Improved visual polish: shoulders/arms anatomy, beard/goatee continuity, title glow behavior
 - Centered and refined Lab Logs neon title rendering
 - Fixed snippet extraction in Lab Logs to support typed paragraph blocks and legacy strings
+- Improved Lab Article readability with stronger section hierarchy, styled lesson callouts, and clearer list/code formatting
+- Added a consistent article sign-off/footer treatment with author attribution and title
+- Published a full DR narrative article and preserved its original draft under `raw-articles/`
 
 ## Near-Term Roadmap
 

@@ -11,6 +11,29 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Reworked `README.md` for clearer project purpose, architecture, current status, and near-term roadmap
 - Clarified command usage and deployment expectations for contributors and future maintenance
 
+## [1.3.1] - 2026-04-08
+
+### Added
+- New Lab Logs article: `hubris-hardening-and-the-resurrection-of-the-sovereign-lab` (JSON content format)
+- Preserved original longform source draft in `raw-articles/Sovereign_Lab_DR_Chronicle_Draft.md`
+- Standardized article sign-off block at the end of article pages:
+  - *See you in the terminal.*
+  - Author name (from article metadata)
+  - *Sovereign Lab Architect (in training)*
+
+### Changed
+- Lab article detail rendering in `src/pages/LabArticlePage.jsx` to improve scannability and narrative flow:
+  - Distinct visual hierarchy for H2 vs H3 headings
+  - Section divider treatment before major act headings
+  - Styled lesson callouts for paragraphs beginning with `Lesson:`
+  - Improved list styling and spacing for faster visual parsing
+  - Enhanced uncaptioned code blocks with terminal-style header chrome
+- Updated article tone with conversational contractions for more natural voice
+- Restored emoji/personality markers across section headers, lesson callouts, and key narrative beats
+
+### Fixed
+- Removed duplicated closing line from article body so global sign-off renders once in a consistent location
+
 ## [1.3.0] - 2026-03-22
 
 ### Added
