@@ -150,32 +150,55 @@ const LabArticlePage = () => {
             </p>
           ) : null}
 
-          <div className="space-y-5 text-slate-300 leading-relaxed">
+          <div className="space-y-6 text-slate-300 leading-relaxed">
             {(article.contentBlocks || []).map((block, index) => (
               <React.Fragment key={index}>
-                {block.type === 'heading' ? (
-                  <h2 className="text-cyan-200 font-bold text-2xl" style={{ fontFamily: 'Cinzel, serif' }}>
+                {block.type === 'heading' && block.level === 3 ? (
+                  <h3 className="text-cyan-300/90 font-bold text-lg mt-6 mb-1 pl-3 border-l-2 border-cyan-500/40" style={{ fontFamily: 'Cinzel, serif' }}>
                     {block.text}
-                  </h2>
+                  </h3>
+                ) : null}
+                {block.type === 'heading' && block.level !== 3 ? (
+                  <div className="mt-10 mb-2 pt-8 border-t border-slate-700/60">
+                    <h2 className="text-cyan-200 font-bold text-2xl" style={{ fontFamily: 'Cinzel, serif' }}>
+                      {block.text}
+                    </h2>
+                  </div>
                 ) : null}
 
-                {block.type === 'paragraph' ? <p>{block.text}</p> : null}
+                {block.type === 'paragraph' && String(block.text).startsWith('Lesson:') ? (
+                  <div className="my-4 rounded-lg border border-amber-500/30 bg-amber-950/20 px-5 py-4">
+                    <p className="text-amber-200/90">
+                      <span className="font-bold uppercase tracking-wider text-xs text-amber-400 mr-2">⚑ Lesson</span>
+                      <br className="sm:hidden" />
+                      {String(block.text).replace(/^Lesson:\s*/, '')}
+                    </p>
+                  </div>
+                ) : null}
+                {block.type === 'paragraph' && !String(block.text).startsWith('Lesson:') ? <p>{block.text}</p> : null}
 
                 {block.type === 'list' ? (
-                  <ul className="list-disc pl-6 space-y-2">
+                  <ul className="pl-5 space-y-2 border-l-2 border-cyan-500/25 ml-1">
                     {(block.items || []).map((item) => (
-                      <li key={item}>{item}</li>
+                      <li key={item} className="pl-2 relative before:content-['▸'] before:absolute before:-left-1 before:text-cyan-500/60 before:text-sm">{item}</li>
                     ))}
                   </ul>
                 ) : null}
 
                 {block.type === 'code' ? (
-                  <figure>
+                  <figure className="my-6">
                     {block.caption ? (
                       <figcaption className="text-[11px] uppercase tracking-wider mb-0 px-3 py-2 rounded-t-lg border border-b-0 border-purple-400/45 text-slate-100 bg-gradient-to-r from-purple-500/30 to-slate-700/70">
                         {block.caption}{block.language ? ` (${block.language})` : ''}
                       </figcaption>
-                    ) : null}
+                    ) : (
+                      <div className="flex items-center gap-2 px-3 py-1.5 rounded-t-lg border border-b-0 border-indigo-400/25 bg-slate-800/60">
+                        <span className="w-2 h-2 rounded-full bg-red-400/70"></span>
+                        <span className="w-2 h-2 rounded-full bg-yellow-400/70"></span>
+                        <span className="w-2 h-2 rounded-full bg-green-400/70"></span>
+                        {block.language ? <span className="ml-auto text-[10px] uppercase tracking-wider text-slate-500">{block.language}</span> : null}
+                      </div>
+                    )}
                     <pre className="rounded-b-lg border border-indigo-400/35 border-t-0 p-4 overflow-x-auto shadow-[0_12px_28px_rgba(10,10,20,0.5)] bg-[radial-gradient(circle_at_top_right,rgba(255,121,198,0.2),transparent_38%),radial-gradient(circle_at_bottom_left,rgba(139,233,253,0.14),transparent_38%),#282a36]">
                       <code
                         className="text-[#f8f8f2]"
@@ -198,6 +221,14 @@ const LabArticlePage = () => {
               </React.Fragment>
             ))}
           </div>
+
+          <footer className="mt-12 pt-8 border-t border-slate-700/40">
+            <p className="italic text-slate-400 text-sm mb-4">See you in the terminal.</p>
+            <p className="italic text-cyan-200 font-semibold" style={{ fontFamily: 'Cinzel, serif' }}>
+              {article.author || 'Eric Rivera'}
+            </p>
+            <p className="italic text-slate-500 text-xs tracking-wide mt-1">Sovereign Lab Architect (in training)</p>
+          </footer>
         </article>
       </main>
     </div>

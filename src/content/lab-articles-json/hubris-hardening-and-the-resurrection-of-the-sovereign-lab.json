@@ -1,0 +1,310 @@
+{
+  "title": "Hubris, Hardening, and the Resurrection of the Sovereign Lab",
+  "slug": "hubris-hardening-and-the-resurrection-of-the-sovereign-lab",
+  "publishedAt": "2026-04-07",
+  "author": "Eric Rivera",
+  "summary": "After a power-loss killed the Proxmox OS drive, this DR operation proved why decoupled storage, local backup tiers, and host-level hardening turn catastrophe into a recoverable event.",
+  "tags": ["Proxmox", "Disaster Recovery", "HomeLab", "Networking", "LearningInPublic"],
+  "content": [
+    {
+      "type": "paragraph",
+      "text": "There's a specific kind of silence that happens when your hypervisor doesn't POST. It's not like a quiet room. It's the silence of every service you built, every container you configured, every late-night fix you documented, all of it holding its breath, waiting to find out if it still exists."
+    },
+    {
+      "type": "paragraph",
+      "text": "I heard that silence on a random Tuesday after an ungraceful power loss took out my Proxmox node. No UPS. No graceful shutdown. Just a hard cut to power, followed by a GRUB rescue prompt that might as well have said, \"You thought you were an engineer? Prove it.\""
+    },
+    {
+      "type": "paragraph",
+      "text": "This is the story of how a preventable hardware failure turned into a full-scale Disaster Recovery operation, and how the architectural decisions I made months earlier were the only reason it wasn't a total loss. It's a story about hubris, because I knew I needed a UPS and didn't buy one. It's a story about architecture, because the backup strategy I did build saved everything that mattered. And it's a story about hardening, because by the time I was done, the Sovereign Lab came back stronger than the version that went down."
+    },
+    {
+      "type": "paragraph",
+      "text": "If you're building a homelab and you think disaster recovery is something that happens to other people, this one's for you."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "⚡ Act I: The Catalyst — Layer 1 Fails First"
+    },
+    {
+      "type": "paragraph",
+      "text": "The first thing I saw after power came back was the Proxmox host dropping into a GRUB rescue shell."
+    },
+    {
+      "type": "code",
+      "language": "text",
+      "code": "error: unknown filesystem.\ngrub rescue>"
+    },
+    {
+      "type": "paragraph",
+      "text": "In my many years of help desk, I've seen plenty of boot failures. The instinct is to start searching for GRUB recovery commands. But something about the way the error appeared — no hesitation, no partial load, just an immediate wall — told me this wasn't a software problem."
+    },
+    {
+      "type": "paragraph",
+      "text": "I grabbed an Ubuntu Live USB, booted into a recovery environment, and pulled the kernel logs. What I found was not subtle."
+    },
+    {
+      "type": "code",
+      "language": "text",
+      "code": "Buffer I/O error on dev dm-0, logical block 0, async page read"
+    },
+    {
+      "type": "paragraph",
+      "text": "That's not a corrupted bootloader. That's the Linux kernel saying it tried to read physical data off the drive, and the drive said no. Block zero. The very first logical block. The foundation of the filesystem was gone."
+    },
+    {
+      "type": "paragraph",
+      "text": "The victim was a 120GB Patriot SSD hosting the Proxmox OS. And here's where it gets instructive: if you plugged that same drive into Windows and opened Diskpart, you'd see something dangerously misleading."
+    },
+    {
+      "type": "code",
+      "language": "text",
+      "code": "Disk 3    Online    120 GB\nVolume 7  Healthy   (FAT32)"
+    },
+    {
+      "type": "paragraph",
+      "text": "Healthy. Windows reported the drive as healthy because the FAT32 EFI boot partition at the front of the drive was still physically intact. But the LVM root partition — where Proxmox actually lives — was physically destroyed. The NAND flash cells that held the operating system had been wiped out by the power surge. It's what I call a Zombie Drive 🧟: it walks, it talks, Windows says it's alive, but the brain is gone."
+    },
+    {
+      "type": "paragraph",
+      "text": "Lesson: 🧪 High-level health indicators can lie. Disk Management can lie. Diskpart can lie. The kernel logs in dmesg tell the truth."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "🏗️ Act II: The Architectural Win — Why Decoupling Saved Everything"
+    },
+    {
+      "type": "paragraph",
+      "text": "When I built the Sovereign Lab, I made one key decision: decouple hypervisor OS storage from VM payload storage. Proxmox OS lived on the Patriot 120GB SSD. The VMs and containers lived on a separate 465GB SSD mounted as Sovereign_VMs."
+    },
+    {
+      "type": "paragraph",
+      "text": "That decision saved the entire lab. The OS drive was gone. But the VM data drive was untouched, including Core-Router, Sovereign-Ops, Technitium DNS, Netdata, and everything that made the lab functional."
+    },
+    {
+      "type": "paragraph",
+      "text": "I didn't have a spare SSD, so I repurposed a 160GB 2.5-inch laptop HDD and installed fresh Proxmox. Not ideal for performance, but dramatically better than no hypervisor."
+    },
+    {
+      "type": "paragraph",
+      "text": "Lesson: 🥚 Never put your OS and your data eggs on the same spindle. If the host is disposable and your payload is isolated, catastrophe becomes a controlled rebuild."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "🔧 Act III: Day 1 Operations — Hardening the Fresh Install"
+    },
+    {
+      "type": "paragraph",
+      "text": "Before restoring VMs, I hardened the new host foundation."
+    },
+    {
+      "type": "list",
+      "items": [
+        "Fixed repositories: disabled Enterprise repo and enabled No-Subscription repo.",
+        "Patched host: ran apt update and apt dist-upgrade.",
+        "Removed UX friction: disabled the recurring no-subscription modal in the web UI."
+      ]
+    },
+    {
+      "type": "code",
+      "language": "bash",
+      "caption": "Suppress no-subscription popup",
+      "code": "sed -i.bak \"s/data.status !== 'Active'/false/g\" /usr/share/javascript/proxmox-widget-toolkit/proxmoxlib.js && systemctl restart pveproxy.service"
+    },
+    {
+      "type": "paragraph",
+      "text": "Lesson: 🧹 During DR, don't sprint straight to restores. Spend the first thirty minutes hardening and removing friction from the host you're about to live in for the next several hours."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "🐔🥚 Act IV: The Chicken-and-Egg Network Paradox"
+    },
+    {
+      "type": "paragraph",
+      "text": "My backup tiers looked like this: Tier 1 was Proxmox snapshots on the now-dead OS drive, Tier 2 was a physically local HDD (Vault_Backups), and Tier 3 was an SMB share on my NAS (Bahamut)."
+    },
+    {
+      "type": "paragraph",
+      "text": "Tier 3 looked like the obvious move until reality hit: the virtualized Core-Router was down, so the internal network was down, which meant NAS backups were unreachable."
+    },
+    {
+      "type": "paragraph",
+      "text": "Tier 2 saved me. 💾 The local backup drive required no routing, no DNS, no gateway, just direct host access."
+    },
+    {
+      "type": "code",
+      "language": "bash",
+      "code": "mount /dev/sdc1 /mnt/Vault_Backups"
+    },
+    {
+      "type": "paragraph",
+      "text": "Lesson: 📦 Off-site and network-accessible backups are critical for day-to-day operations. But in a true DR scenario — where the infrastructure is the thing that's broken — your first recovery resource must be physically local. If your gateway's down, any backup that requires it might as well not exist."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "🌉 Act V: Rebuilding Layer 2 — The Bridge Nobody Remembers"
+    },
+    {
+      "type": "paragraph",
+      "text": "I restored the Core-Router container first. It started, but traffic did not flow. Guest config looked clean. The failure was on the host."
+    },
+    {
+      "type": "paragraph",
+      "text": "The restored container expected vmbr1 — the internal virtual bridge that serves as the backbone for inter-VLAN traffic. On the old Proxmox install, vmbr1 existed. On this fresh install, it didn't. The guest was plugged into a switch that wasn't there."
+    },
+    {
+      "type": "paragraph",
+      "text": "After recreating vmbr1 on the host, FRRouting resumed, NAT came back, and internal subnets recovered."
+    },
+    {
+      "type": "list",
+      "items": [
+        "10.0.10.0/24 restored",
+        "10.0.20.0/24 restored",
+        "Inter-VLAN traffic resumed"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Lesson: 🌐 Restoring a guest doesn't restore the host fabric it depends on. Document bridges, VLANs, and host network topology with the same rigor as guest configs."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "👻 Act VI: Ghosts in the Machine — Post-Restore Papercuts"
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "💿 Ghost 1: Phantom ISO"
+    },
+    {
+      "type": "paragraph",
+      "text": "One restored VM failed at boot with an ISO storage error."
+    },
+    {
+      "type": "code",
+      "language": "text",
+      "code": "content-type 'iso' is not available on storage 'local'"
+    },
+    {
+      "type": "paragraph",
+      "text": "The VM still referenced an installation ISO from the old host. Ejecting stale CD/DVD media in the hardware tab fixed it immediately."
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "🔍 Ghost 2: Proxmox DNS Override"
+    },
+    {
+      "type": "paragraph",
+      "text": "Technitium DNS restored, but local queries bypassed localhost and used external resolvers. The hypervisor was silently managing /etc/resolv.conf inside the LXC."
+    },
+    {
+      "type": "code",
+      "language": "bash",
+      "caption": "Stop Proxmox from overriding container resolv.conf",
+      "code": "touch /etc/.pve-ignore.resolv.conf\necho \"nameserver 127.0.0.1\" > /etc/resolv.conf"
+    },
+    {
+      "type": "paragraph",
+      "text": "Lesson: 🏠 In managed virtualization, the hypervisor is the silent landlord. Know where host policy ends and guest autonomy begins, especially for authoritative DNS."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "🔁 Act VII: The Chaos Test — Trust, but Verify"
+    },
+    {
+      "type": "paragraph",
+      "text": "Recovery isn't complete when services boot once. It's complete when they survive reboot and power-cycle without operator intervention."
+    },
+    {
+      "type": "code",
+      "language": "text",
+      "caption": "Persistent local backup mount",
+      "code": "UUID=[DRIVE_UUID] /mnt/Vault_Backups ext4 defaults 0 2"
+    },
+    {
+      "type": "paragraph",
+      "text": "I validated fstab with mount -a, set all critical workloads to Start at Boot, then hard-rebooted the physical host."
+    },
+    {
+      "type": "paragraph",
+      "text": "Everything recovered cleanly: Core-Router, FRRouting, Technitium DNS, Netdata, and user workloads."
+    },
+    {
+      "type": "paragraph",
+      "text": "I also validated asymmetric NAT behavior: outbound pings from VLAN 20 (10.0.20.x) worked through source NAT masquerading, while unsolicited inbound pings from the home LAN (192.168.0.x) were correctly dropped. The Core-Router was enforcing stateful NAT exactly as designed."
+    },
+    {
+      "type": "paragraph",
+      "text": "Lesson: 🧭 Not every failed ping is a defect. In DR, verify policy intent before you diagnose ghosts."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "🛡️ Act VIII: Day 2 Operations — Never Again"
+    },
+    {
+      "type": "paragraph",
+      "text": "Recovered and hardened aren't the same thing. The lab came back intact, but it came back with the same single point of failure it had before: no host-level configuration backup."
+    },
+    {
+      "type": "paragraph",
+      "text": "I completed three hardening moves: persistent SMB mount to Bahamut, Postfix alerting through Gmail SMTP with locked credentials, and automated host config backups with success/failure email notifications."
+    },
+    {
+      "type": "code",
+      "language": "bash",
+      "caption": "/usr/local/bin/pve-host-backup.sh",
+      "code": "#!/bin/bash\n\nDESTINATION=\"/mnt/Vault_Backups/pve-host-config-$(date +%F).tar.gz\"\nEMAIL=\"ericriveraisme@gmail.com\"\nHOSTNAME=$(hostname)\n\nif tar -czvf \"$DESTINATION\" /etc/pve /etc/network/interfaces /etc/fstab /etc/postfix /etc/vzdump.conf > /dev/null 2>&1; then\n  echo \"[$HOSTNAME] Host config backup SUCCESS: $DESTINATION\" | mail -s \"Sovereign Lab: Backup SUCCESS on $HOSTNAME\" \"$EMAIL\"\nelse\n  echo \"[$HOSTNAME] Host config backup FAILED\" | mail -s \"Sovereign Lab: Backup FAILED on $HOSTNAME\" \"$EMAIL\"\nfi"
+    },
+    {
+      "type": "code",
+      "language": "text",
+      "caption": "Nightly schedule",
+      "code": "0 3 * * * /usr/local/bin/pve-host-backup.sh"
+    },
+    {
+      "type": "paragraph",
+      "text": "Lesson: 🔐 Recovery is reactive. Hardening is proactive. Every config file not backed up is a future outage ticket assigned to yourself."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "🧠 Conclusion: The Moral of the Surge"
+    },
+    {
+      "type": "paragraph",
+      "text": "The root cause was preventable. A basic UPS would have provided graceful shutdown time and likely prevented the SSD corruption event entirely."
+    },
+    {
+      "type": "paragraph",
+      "text": "But the lab survived because of architecture: decoupled OS/data storage, a local dependency-light backup tier, and documented configurations that could be rebuilt under pressure."
+    },
+    {
+      "type": "list",
+      "items": [
+        "UPS purchased and pending deployment",
+        "Host-level config backups automated with alerting",
+        "Vault_Backups mount persisted in fstab",
+        "VM and LXC auto-start validated",
+        "DR runbook documented and operational"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Disaster recovery isn't a checkbox. It's iterative engineering: turn today's catastrophe into tomorrow's inconvenience."
+    },
+    {
+      "type": "paragraph",
+      "text": "The Sovereign Lab is back online, monitored, and hardened. This time, it's also plugged into a UPS. 🔋"
+    }
+  ]
+}
