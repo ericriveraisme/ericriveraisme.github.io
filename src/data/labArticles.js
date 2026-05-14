@@ -101,6 +101,7 @@ export const labArticles = context.keys().map((key) => {
 		author: article.author || '',
 		summary: article.summary || textContent[0] || '',
 		tags: Array.isArray(article.tags) ? article.tags.filter((tag) => typeof tag === 'string' && tag.trim().length > 0) : [],
+		tagline: typeof article.tagline === 'string' && article.tagline.trim() ? article.tagline.trim() : '',
 		content: textContent,
 		contentBlocks,
 		images: normalizeImages(article.images)

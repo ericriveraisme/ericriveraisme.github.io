@@ -73,6 +73,12 @@ const getTagClasses = (tag = '') => {
   if (normalized === 'entra id' || normalized === 'entra-id') return 'border-violet-400/50 text-violet-200 bg-violet-950/45';
   if (normalized === 'hybrid cloud' || normalized === 'hybrid-cloud') return 'border-fuchsia-400/50 text-fuchsia-200 bg-fuchsia-950/45';
   if (normalized === 'sysadmin') return 'border-teal-400/50 text-teal-200 bg-teal-950/45';
+  if (normalized === 'proxmox') return 'border-orange-400/50 text-orange-200 bg-orange-950/45';
+  if (normalized === 'disaster recovery') return 'border-red-400/50 text-red-200 bg-red-950/45';
+  if (normalized === 'homelab') return 'border-lime-400/50 text-lime-200 bg-lime-950/45';
+  if (normalized === 'learninginpublic') return 'border-purple-400/50 text-purple-200 bg-purple-950/45';
+  if (normalized === 'networking') return 'border-cyan-400/50 text-cyan-200 bg-cyan-950/40';
+  if (normalized === 'sovereignlab') return 'border-yellow-400/50 text-yellow-200 bg-yellow-950/45';
 
   return 'border-cyan-500/30 text-cyan-200 bg-cyan-950/20';
 };
@@ -223,7 +229,7 @@ const LabArticlePage = () => {
           </div>
 
           <footer className="mt-12 pt-8 border-t border-slate-700/40">
-            <p className="italic text-slate-400 text-sm mb-4">See you in the terminal.</p>
+            <p className="italic text-slate-400 text-sm mb-4">{article.tagline || 'See you in the terminal.'}</p>
             <p className="italic text-cyan-200 font-semibold" style={{ fontFamily: 'Cinzel, serif' }}>
               {article.author || 'Eric Rivera'}
             </p>
