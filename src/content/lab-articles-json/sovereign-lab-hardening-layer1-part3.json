@@ -1,0 +1,451 @@
+{
+  "slug": "sovereign-lab-hardening-layer1-part3",
+  "title": "Sovereign Lab: Hardening Layer 1 — Part 3: Ripping Out the GUI",
+  "publishedAt": "2026-05-18",
+  "author": "Eric Rivera",
+  "summary": "WinNUT's GUI-layer fragility is replaced with a native Windows Service under LocalSystem — then the third Chaos Test passes, only to be halted by a dead CR2032 CMOS battery that had been silently waiting for exactly this moment.",
+  "tags": ["Proxmox", "HomeLab", "Disaster Recovery", "Windows", "LearningInPublic", "SovereignLab"],
+  "tagline": "Learning in public, one dead CMOS battery at a time.",
+  "content": [
+    {
+      "type": "paragraph",
+      "text": "At the end of Part 2, the Chaos Test had technically passed. The cascade ran. Bahamut shut down at the right threshold. Proxmox survived to its Low Battery flag and halted cleanly. 48 minutes of runtime. Every VM came back up. WoL was configured as the solution for Bahamut's post-restore startup — but whether the magic packet would actually fire in the right window, following a real UPS power event, was still untested."
+    },
+    {
+      "type": "paragraph",
+      "text": "On paper, the architecture was working."
+    },
+    {
+      "type": "paragraph",
+      "text": "The problem was that \"working\" was doing a lot of heavy lifting in that sentence. Yes, the Chaos Test passed — after three rounds of debugging, two rounds of misconfigured GUI settings I didn't fully understand, a registry edit, and a 60-second PSU drain that I diagnosed by process of elimination. The software ran. The system was fragile."
+    },
+    {
+      "type": "paragraph",
+      "text": "And fragility in a disaster recovery architecture isn't just a quality-of-life problem. It's an existential one. The whole point of this build is that it works when I'm not there, when I'm asleep, when I'm at the office and can't run a second Chaos Test. The moment you introduce a component whose behavior depends on which checkboxes are ticked in a GUI that requires a logged-in user to function — you've introduced a single point of failure that will express itself at exactly the wrong time."
+    },
+    {
+      "type": "paragraph",
+      "text": "WinNUT had to go."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "⚡ The Case Against the GUI"
+    },
+    {
+      "type": "paragraph",
+      "text": "Let me be specific about what was wrong, because \"the GUI was bad\" isn't an architectural argument. The GUI was fine for what it was designed to do: give a home user a friendly interface to watch their UPS status and maybe configure a basic shutdown. That's a reasonable product."
+    },
+    {
+      "type": "paragraph",
+      "text": "The problem was what I was asking it to do, which was considerably more demanding."
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "Problem 1: User session dependency."
+    },
+    {
+      "type": "paragraph",
+      "text": "WinNUT-Client runs as a user-space application. It lives in the system tray. This means it only runs when someone is logged into Windows. If Bahamut reboots and nobody logs in — if it's sitting at the Windows lock screen — WinNUT isn't running. The NUT slave process doesn't exist. If the power cuts out in that state, Bahamut has no awareness of the UPS, no threshold logic, and no shutdown capability. It just keeps running until the UPS cuts the outlets and the PSU breaker trips again."
+    },
+    {
+      "type": "paragraph",
+      "text": "This is the exact failure mode that a DR architecture is supposed to prevent."
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "Problem 2: The GUI is a black box during troubleshooting."
+    },
+    {
+      "type": "paragraph",
+      "text": "When the Chaos Test failed in Part 2, I was staring at a GUI with settings that didn't behave the way their labels implied. The \"Runtime\" field measured remaining battery time, not elapsed time on battery — a distinction the interface doesn't explain. The \"Immediate stop action\" checkbox controlled whether percentage thresholds triggered actual shutdowns or just warnings — a behavior that isn't obvious from the checkbox label."
+    },
+    {
+      "type": "paragraph",
+      "text": "These weren't obscure edge cases. They were the primary configuration fields for the primary use case. And I only understood what they actually did after the test failed and I went looking for explanations in forum threads."
+    },
+    {
+      "type": "paragraph",
+      "text": "Troubleshooting a GUI application means reading the UI and guessing at the implementation. Troubleshooting a config file means reading the config file. One of those is a system you can reason about."
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "Problem 3: The shutdown command was wrong from the start, silently."
+    },
+    {
+      "type": "paragraph",
+      "text": "This one didn't surface until I dug into the underlying configuration files directly. The default SHUTDOWNCMD that NUT ships with — regardless of platform — is:"
+    },
+    {
+      "type": "code",
+      "language": "text",
+      "code": "SHUTDOWNCMD \"/sbin/shutdown -h +0\""
+    },
+    {
+      "type": "paragraph",
+      "text": "That's a Linux path. On Windows, this command does nothing. There's no /sbin/ directory. There's no shutdown binary at that path. Windows would quietly throw a \"File Not Found\" error, log nothing useful, and the machine would keep running while the battery drained."
+    },
+    {
+      "type": "paragraph",
+      "text": "The WinNUT GUI never surfaced this. It had its own shutdown mechanism layered on top, which masked the underlying misconfiguration entirely. The bug was there from the beginning — I just couldn't see it through the GUI abstraction."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "🔧 The Migration: From Tray Icon to Windows Service"
+    },
+    {
+      "type": "paragraph",
+      "text": "The replacement architecture removes the GUI entirely and runs the official NUT daemon directly as a Windows Service under LocalSystem. A Windows Service doesn't require a logged-in user. It starts at boot, runs in the background, and keeps running whether the machine is sitting at the lock screen or actively being used. LocalSystem gives it the authority to execute system-level operations — including forcing a shutdown — without Windows OS protections getting in the way."
+    },
+    {
+      "type": "paragraph",
+      "text": "The migration broke down into three steps."
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "Step 1: Establish the Underlying Connection"
+    },
+    {
+      "type": "paragraph",
+      "text": "First, I needed to confirm that the NUT daemon itself could authenticate to the Proxmox master and receive telemetry — independent of any GUI layer. I pulled the bahamut-client credentials directly from the Proxmox host's /etc/nut/upsd.users file and wrote a clean upsmon.conf at C:\\NUT\\etc\\upsmon.conf:"
+    },
+    {
+      "type": "code",
+      "language": "text",
+      "caption": "C:\\NUT\\etc\\upsmon.conf",
+      "code": "MONITOR ups@192.168.0.232 1 bahamut-client <PASSWORD> slave\nMINSUPPLIES 1\nSHUTDOWNCMD \"C:\\\\Windows\\\\System32\\\\shutdown.exe /s /t 0\"\nPOLLFREQ 5\nPOLLFREQALERT 5"
+    },
+    {
+      "type": "paragraph",
+      "text": "A few things worth noting here."
+    },
+    {
+      "type": "paragraph",
+      "text": "First — and this was genuinely a relief after everything that had gone wrong with the GUI — the config file syntax is identical to what I'd already written on the Linux side. The same directives, the same structure, the same MONITOR line format. NUT is NUT, regardless of which OS is running it. After two rounds of fighting WinNUT's GUI abstractions, opening a plain text file and seeing familiar syntax was like switching from a badly translated instruction manual back to the original. I already knew how to do this. I'd already done it on Proxmox."
+    },
+    {
+      "type": "paragraph",
+      "text": "Second, the credentials come from the server side — upsd.users on Proxmox — not the client. If you're ever confused about where NUT passwords originate, the master defines them; the slave just has to know them."
+    },
+    {
+      "type": "paragraph",
+      "text": "Third, the SHUTDOWNCMD is explicitly set to the Windows absolute path. This is the fix for the silent bug described above. There's no ambiguity, no cross-platform path assumption, no way for this to quietly do nothing. C:\\Windows\\System32\\shutdown.exe /s /t 0. If NUT tells Bahamut to shut down, Windows shuts down."
+    },
+    {
+      "type": "paragraph",
+      "text": "I verified the connection by running the daemon in foreground mode before touching the service configuration:"
+    },
+    {
+      "type": "code",
+      "language": "cmd",
+      "code": "C:\\NUT\\bin\\nut.exe -N"
+    },
+    {
+      "type": "paragraph",
+      "text": "The output confirmed a clean handshake with the Proxmox master and live telemetry. OL. On Line. The daemon was working."
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "Step 2: Register the Service"
+    },
+    {
+      "type": "paragraph",
+      "text": "This is where the config file familiarity ended and Windows reasserted itself."
+    },
+    {
+      "type": "paragraph",
+      "text": "NUT's documentation describes a -i flag on nut.exe for self-registering as a Windows service. I dropped into PowerShell, navigated to C:\\NUT\\bin\\, and ran it:"
+    },
+    {
+      "type": "code",
+      "language": "powershell",
+      "code": ".\\nut.exe -i"
+    },
+    {
+      "type": "paragraph",
+      "text": "Error. The flag wasn't recognized. This build of nut.exe didn't implement it."
+    },
+    {
+      "type": "paragraph",
+      "text": "Fine — try the foreground flag to at least verify the binary runs:"
+    },
+    {
+      "type": "code",
+      "language": "powershell",
+      "code": ".\\nut.exe -N"
+    },
+    {
+      "type": "paragraph",
+      "text": "Also an error. The service didn't exist yet, so the daemon had no context to run against. PowerShell gave me an unhelpful message and stopped."
+    },
+    {
+      "type": "paragraph",
+      "text": "This is the Windows OS layer in action. On Linux, if a daemon binary exists, you can generally run it directly and it will tell you what it needs. On Windows, a service binary expects to be invoked by the Service Control Manager — it's not designed to run standalone in the same way. The binary works fine, but the OS has a specific handshake protocol for how services are started, and running the executable directly from a terminal doesn't satisfy that handshake."
+    },
+    {
+      "type": "paragraph",
+      "text": "The solution was to stop trying to use NUT's own tooling and go directly to the Windows Service Control Manager:"
+    },
+    {
+      "type": "code",
+      "language": "cmd",
+      "code": "sc.exe create \"NUT\" binPath= \"C:\\NUT\\bin\\nut.exe\" start= auto DisplayName= \"Network UPS Tools\""
+    },
+    {
+      "type": "paragraph",
+      "text": "sc.exe is the command-line interface to the Service Control Manager — the same underlying system that manages every other Windows service. Registering nut.exe this way is functionally identical to what the -i flag would have done internally, just done manually instead of automatically. The service name is NUT, it points to the binary, it's set to start automatically at boot, and it runs under LocalSystem by default."
+    },
+    {
+      "type": "paragraph",
+      "text": "One syntax detail that matters and is easy to miss: there's a required space after binPath= and start=. The sc.exe parser is unforgiving about this. Leave out the space and the command accepts your input silently but maps it incorrectly. Keep it, and it works."
+    },
+    {
+      "type": "paragraph",
+      "text": "This whole detour — the failed -i flag, the failed -N flag, the pivot to sc.exe, the syntax space — is the reason the management plane in this lab lives on Linux. On Proxmox, systemctl enable nut-server && systemctl start nut-server and you're done. The service model, the config files, the tooling — it all fits together in a way you can reason about with a single mental model."
+    },
+    {
+      "type": "paragraph",
+      "text": "That's not an argument for abandoning Windows. Bahamut isn't going anywhere. It's an i7-10700KF with an RX 7800 XT and it's going to keep doing exactly what it's good at: heavy compute, rendering, workloads that need the hardware. What this build clarified is the division of responsibility between them — Linux handles the server and management layer, Windows handles the workstation and compute layer, and they communicate across that boundary the same way they would in any enterprise environment. Linux servers, Windows endpoints, a network in between that neither OS fully controls alone."
+    },
+    {
+      "type": "paragraph",
+      "text": "That's the lab I'm building. And NUT is, unexpectedly, the first service in it that had to work across both sides simultaneously."
+    },
+    {
+      "type": "paragraph",
+      "text": "Start the service:"
+    },
+    {
+      "type": "code",
+      "language": "cmd",
+      "code": "sc.exe start NUT"
+    },
+    {
+      "type": "paragraph",
+      "text": "Verify it's running:"
+    },
+    {
+      "type": "code",
+      "language": "cmd",
+      "code": "sc.exe query NUT"
+    },
+    {
+      "type": "paragraph",
+      "text": "Look for STATE: 4 RUNNING. If it shows STOPPED with an error code, check the Windows Event Viewer under Application logs — NUT will write startup errors there."
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "Step 3: Verify Live Telemetry"
+    },
+    {
+      "type": "paragraph",
+      "text": "With the service running, I verified the connection using the NUT command-line tools directly:"
+    },
+    {
+      "type": "code",
+      "language": "cmd",
+      "code": "C:\\NUT\\bin\\upsc.exe amazon-ups@192.168.0.232"
+    },
+    {
+      "type": "paragraph",
+      "text": "The output came back clean: battery charge, load percentage, runtime estimate, and the status flag I was looking for: ups.status: OL. The native service was communicating with the Proxmox master without the GUI in the loop at all."
+    },
+    {
+      "type": "paragraph",
+      "text": "At this point, something important changed. Every setting that controls Bahamut's behavior is now in a plain text configuration file at C:\\NUT\\etc\\upsmon.conf. No checkboxes. No labels that might mean something different than what they say. No GUI abstraction between me and the actual logic. If something goes wrong, I read the config. If I need to change the threshold, I edit the file. The behavior is exactly what the file says it is."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "💤 Verifying the WoL Link"
+    },
+    {
+      "type": "paragraph",
+      "text": "Before running the full Chaos Test again, I wanted to confirm the WoL mechanism in isolation — separate from the full power event sequence. From Tiamat, I SSH'd directly into the Proxmox shell and manually fired the magic packet at Bahamut's MAC address while the machine was powered off:"
+    },
+    {
+      "type": "code",
+      "language": "bash",
+      "code": "/usr/sbin/etherwake <BAHAMUT_MAC>"
+    },
+    {
+      "type": "paragraph",
+      "text": "Bahamut posted and booted into Windows. Clean. The WoL mechanism itself worked exactly as configured."
+    },
+    {
+      "type": "paragraph",
+      "text": "That's an important distinction: the mechanism was verified. The integration — whether Proxmox would reliably fire that packet in the 45-second window after its own boot, following a full UPS power cut — hadn't been tested yet. Those are two different things, and Chaos Test Three was about to make that distinction very clear."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "⚔️ The Chaos Test, Attempt Three"
+    },
+    {
+      "type": "paragraph",
+      "text": "With the native service confirmed, I ran the third Chaos Test."
+    },
+    {
+      "type": "paragraph",
+      "text": "The plug came out of the wall."
+    },
+    {
+      "type": "paragraph",
+      "text": "The UPS alarm sounded. Proxmox detected OB and fired the alert email — same as before. But this time, the Bahamut side of the equation was running under LocalSystem with no GUI, no user session dependency, and an explicit SHUTDOWNCMD that pointed at a real Windows binary."
+    },
+    {
+      "type": "paragraph",
+      "text": "At 10% battery, Proxmox broadcasted the Forced Shutdown (FSD) signal to all connected slaves. The upsmon service on Bahamut received it, evaluated it against the configured logic, and executed:"
+    },
+    {
+      "type": "code",
+      "language": "cmd",
+      "code": "C:\\Windows\\System32\\shutdown.exe /s /t 0"
+    },
+    {
+      "type": "paragraph",
+      "text": "Bahamut shut down. Gracefully. Without a dialog box. Without a tray icon. Without a user session. Just a service doing its job at 3 AM the way a service is supposed to."
+    },
+    {
+      "type": "paragraph",
+      "text": "Proxmox followed shortly after, halting all VMs and LXCs and powering down before the UPS killed the outlets."
+    },
+    {
+      "type": "paragraph",
+      "text": "The shutdown side of the equation was clean. No ambiguity. No second-guessing what the GUI might be doing behind the scenes. The recovery side was about to demonstrate that the hardware had its own opinion about the timeline."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "💀 Then the Hardware Reminded Me Who's in Charge"
+    },
+    {
+      "type": "paragraph",
+      "text": "I plugged the UPS back in."
+    },
+    {
+      "type": "paragraph",
+      "text": "The UPS clicked. Power restored to the outlets. I waited for the familiar sound of the Proxmox host spinning up."
+    },
+    {
+      "type": "paragraph",
+      "text": "Instead, I got a black screen and a message:"
+    },
+    {
+      "type": "code",
+      "language": "text",
+      "code": "\"UEFI Defaults have been loaded. Press F1 to Continue.\""
+    },
+    {
+      "type": "paragraph",
+      "text": "Not a boot failure. Not a kernel panic. Just the BIOS, very calmly, telling me it had forgotten everything."
+    },
+    {
+      "type": "paragraph",
+      "text": "And because Proxmox was parked at a BIOS prompt waiting on human input, the @reboot cron job that fires the WoL magic packet never executed. Proxmox wasn't done booting. Bahamut stayed in S5 — dark, unresponsive, exactly the outcome the whole architecture was designed to prevent."
+    },
+    {
+      "type": "paragraph",
+      "text": "This is what a dead CR2032 CMOS battery looks like in practice. The CMOS battery's job is to maintain the BIOS configuration — boot order, power settings, memory timings, all of it — when the system is completely unpowered. Under normal circumstances, when the machine is plugged in, the PSU provides a small standby voltage to the motherboard that keeps the CMOS alive even when the system is \"off.\" The CMOS battery only matters when that standby voltage disappears entirely."
+    },
+    {
+      "type": "paragraph",
+      "text": "The UPS killpower sequence cuts the outlets completely. No wall power means no standby voltage to the motherboard. For a machine with a healthy CMOS battery, this is fine — the battery takes over and maintains the configuration. For a 12-year-old AsRock Z77 Extreme4 whose CR2032 battery had quietly died at some point in the past year, the moment standby power disappeared, the BIOS state evaporated."
+    },
+    {
+      "type": "paragraph",
+      "text": "The \"Restore on AC Power Loss\" setting — the entire foundation of Proxmox's automatic boot-on-power-restore behavior — was gone. The machine came up, found no valid configuration, loaded defaults, and stopped to ask for human input."
+    },
+    {
+      "type": "paragraph",
+      "text": "Which it wasn't going to get, because the whole point of this architecture is that it runs without human input."
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "The Immediate Fix"
+    },
+    {
+      "type": "paragraph",
+      "text": "Pressing F1 continued into the BIOS. I reconfigured the necessary settings:"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Restore on AC Power Loss → Always On",
+        "Wait for F1 If Error (Halt On) → Disabled"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "The second setting is as important as the first. It tells the BIOS to stop asking for confirmation on error conditions and just boot. If a USB peripheral drops during the killpower sequence and the BIOS sees it as an error, without this setting disabled, you get another F1 prompt. The whole recovery stalls again."
+    },
+    {
+      "type": "paragraph",
+      "text": "Save. Reboot. Proxmox came up automatically."
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "The Permanent Fix"
+    },
+    {
+      "type": "paragraph",
+      "text": "The immediate fix is to replace the CR2032 battery. It costs less than a dollar. A new battery means the BIOS state survives a complete power cut, and this failure mode disappears permanently."
+    },
+    {
+      "type": "paragraph",
+      "text": "But the real lesson is what the failure revealed: the Chaos Test exposed a hardware defect that normal operations would never surface. The CMOS battery had probably been dead for months. During that time, every time the machine lost power and came back up on its own — which it did constantly because it was always plugged in — the standby voltage kept the BIOS alive. The CMOS battery's failure was completely invisible in normal operation."
+    },
+    {
+      "type": "paragraph",
+      "text": "It only became visible the first time the machine experienced a complete, total, unambiguous power loss. Which is exactly what a Chaos Test is designed to produce."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "🧠 What Running the Test Three Times Actually Means"
+    },
+    {
+      "type": "paragraph",
+      "text": "There's a version of this story where I run the Chaos Test once, it works perfectly, and I write a clean article about the architecture. That version is less useful to anyone who's actually trying to build this."
+    },
+    {
+      "type": "paragraph",
+      "text": "The real version is three test runs across two parts of this series — each one surfacing a different layer of failure that the previous test couldn't reach. The first test found the WinNUT configuration bugs. The second found the PSU breaker behavior and the WoL gap. The third found the dead CMOS battery that had been silently waiting for exactly this moment."
+    },
+    {
+      "type": "paragraph",
+      "text": "Not everything failed, though. Every single time I pulled the power — Chaos Test One, Two, and Three — the alerting pipeline fired without hesitation. The UPS went on battery, Proxmox detected OB, and an email hit my inbox within seconds. That part of the architecture has been consistent across the entire series, under real load, under real conditions. At this point it's the most battle-tested component in the stack, and it's earned that status."
+    },
+    {
+      "type": "paragraph",
+      "text": "That's what iterative testing actually looks like. You don't test to confirm everything works. You test to find out what breaks, fix it, and test again. And you take note of what never breaks — because that's the foundation everything else gets built on."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "📋 Where the Architecture Stands"
+    },
+    {
+      "type": "code",
+      "language": "text",
+      "code": "Component                  | Previous State                                    | Current State\n---------------------------|---------------------------------------------------|------------------------------------------------------------------------\nBahamut NUT client         | WinNUT GUI (user-space, session-dependent)        | Native Windows Service (LocalSystem, session-independent)\nShutdown command           | GUI-managed, hidden from direct inspection        | Explicit shutdown.exe /s /t 0 in upsmon.conf\nProxmox auto-boot          | BIOS setting present, CMOS battery dead           | BIOS setting re-applied; CR2032 replacement pending\nWoL configuration          | Configured; not yet tested under real power event | Manually verified (Tiamat → Proxmox → Bahamut); blocked by CMOS failure"
+    },
+    {
+      "type": "paragraph",
+      "text": "The software is clean. The shutdown cascade works. But the recovery half of the architecture has a hardware blocker that has to be resolved before the full end-to-end test can pass: the CR2032 battery on Proxmox needs to be replaced, or every full power cut will end with a BIOS prompt and a Bahamut that never wakes up."
+    },
+    {
+      "type": "paragraph",
+      "text": "That's Part 4."
+    }
+  ]
+}
