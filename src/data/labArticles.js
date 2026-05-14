@@ -114,4 +114,7 @@ export const labArticles = context.keys().map((key) => {
 		contentBlocks,
 		images: normalizeImages(article.images)
 	};
-}).filter((article) => typeof article.publishedAt === 'string' && article.publishedAt <= todayLocalISO);
+}).filter((article) => {
+	if (process.env.NODE_ENV === 'development') return true;
+	return typeof article.publishedAt === 'string' && article.publishedAt <= todayLocalISO;
+});
