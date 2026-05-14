@@ -86,6 +86,14 @@ const normalizeImages = (images = []) =>
 		}))
 		.filter((image) => image.src);
 
+const todayLocalISO = (() => {
+	const d = new Date();
+	const yyyy = d.getFullYear();
+	const mm = String(d.getMonth() + 1).padStart(2, '0');
+	const dd = String(d.getDate()).padStart(2, '0');
+	return `${yyyy}-${mm}-${dd}`;
+})();
+
 export const labArticles = context.keys().map((key) => {
 	const raw = context(key);
 	const article = raw && raw.default ? raw.default : raw;
@@ -106,4 +114,4 @@ export const labArticles = context.keys().map((key) => {
 		contentBlocks,
 		images: normalizeImages(article.images)
 	};
-});
+}).filter((article) => typeof article.publishedAt === 'string' && article.publishedAt <= todayLocalISO);
