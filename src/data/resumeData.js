@@ -53,16 +53,16 @@ export const resumeData = {
   // Work Experience / Adventure Log
   experience: [
     {
-      title: "Technical Support Specialist",
+      title: "Technical Support Specialist → NOC Technician I (Network Analyst)",
       company: "Irby Utilities (ISP)",
       startDate: "Sept 2025",
       endDate: "Present",
-      context: "Current role — supporting regional ISP infrastructure with a focus on uptime and reliability.",
-      description: "Serve as a technical advisor for regional ISP infrastructure, supporting NOC services for electrical co-ops.",
+      context: "Promoted internally in April 2026 from frontline broadband support to the 24/7 Network Operations Center team.",
+      description: "Moved from troubleshooting subscriber ONT/AP connectivity to monitoring and supporting ISP core and backhaul networks serving regional electric cooperatives.",
       achievements: [
-        "Administer and troubleshoot enterprise ONT/AP platforms (Calix, DZS, Zyxel) across fiber and Wi-Fi environments",
-        "Execute complex Tier 1/2 troubleshooting to maintain consistent service availability",
-        "Provide escalation-ready diagnostics and clear customer-impact communication"
+        "Monitor critical transport circuits and isolate network faults across Juniper and multi-vendor infrastructure, using CLI diagnostics, BGP checks, route tracing, and packet analysis",
+        "Support MikroTik, A10 Networks CGNAT, and DZS MXK platforms; coordinate carrier escalations for fiber, optics, and routing incidents",
+        "Use Linux tools and Bash pipelines to correlate syslog/SNMP events, coordinate incident response and field dispatch, and document root causes"
       ]
     },
     {
