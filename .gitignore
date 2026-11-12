@@ -44,3 +44,7 @@ lerna-debug.log*
 *.tmp
 *.temp
 .cache/
+
+# Local resumes
+/Eric Rivera - IT Support Specialist Resume (Manufacturing).docx
+/Eric Rivera - NOC Technician Resume 11.2026.docx
